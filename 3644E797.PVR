@@ -1,0 +1,12 @@
+z1000-Zeidon    3644E797 TZWDVORO 01/09/25   10:48:53 1.0a2    
+eViewObjRef 1
+aZKey      910485399
+aNextZKeyToAssign 910485399
+aName      mQryRptLST
+
+eLOD       2
+aZKey      910464240
+aName      mQryRpt
+aDesc      Report maintenance object
+aDLL_Name  mQryRpt
+

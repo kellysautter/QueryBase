@@ -1,0 +1,14 @@
+z1000-Zeidon    3644E235 TZWDVORO 01/09/25   10:48:40 1.0a2    
+eViewObjRef 1
+aZKey      910484021
+aNextZKeyToAssign 910484021
+aName      zqSQueryLST
+
+eLOD       2
+aZKey      910470822
+aName      zqSQuery
+aDesc      Query - Stored Query
+aDLL_Name  LODOPS2
+aActivateConstraint Y
+aCommitConstraint Y
+

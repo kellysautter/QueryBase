@@ -1,0 +1,136 @@
+/*************************************************************************************************
+**
+**    OPERATION: dCurrentDateTime
+**
+**
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dCurrentDateTime( VIEW wXferO BASED ON LOD wXferO,
+                  STRING ( 32 ) InternalEntityStructure,
+                  STRING ( 32 ) InternalAttribStructure,
+                  SHORT GetOrSetFlag )
+
+   STRING (  18  ) szDateTime
+
+   CASE GetOrSetFlag
+      OF zDERIVED_GET:
+         SysGetDateTime( szDateTime )
+         StoreStringInRecord ( wXferO,
+                               InternalEntityStructure, InternalAttribStructure, szDateTime )
+      /* end zDERIVED_GET */
+      OF zDERIVED_SET:
+
+      /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: dCurrentDate
+**
+**
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dCurrentDate( VIEW wXferO BASED ON LOD wXferO,
+              STRING ( 32 ) InternalEntityStructure,
+              STRING ( 32 ) InternalAttribStructure,
+              SHORT GetOrSetFlag )
+   STRING (  8  ) szDate
+
+   CASE GetOrSetFlag
+      OF zDERIVED_GET:
+         szDate = wXferO.Root.dCurrentDateTime
+         StoreStringInRecord ( wXferO,
+                               InternalEntityStructure, InternalAttribStructure, szDate )
+      /* end zDERIVED_GET */
+      OF zDERIVED_SET:
+
+      /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: dCurrentTime
+**
+**
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dCurrentTime( VIEW wXferO BASED ON LOD wXferO,
+              STRING ( 32 ) InternalEntityStructure,
+              STRING ( 32 ) InternalAttribStructure,
+              SHORT GetOrSetFlag )
+   STRING (  18  ) szTime
+
+   CASE GetOrSetFlag
+      OF zDERIVED_GET:
+         szTime = wXferO.Root.dCurrentDateTime
+         StoreStringInRecord ( wXferO,
+                               InternalEntityStructure, InternalAttribStructure, szTime )
+      /* end zDERIVED_GET */
+      OF zDERIVED_SET:
+
+      /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: dQueryObjectCmbName
+**    
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dQueryObjectDisplName( VIEW wXferO BASED ON LOD wXferO,
+                       STRING ( 32 ) InternalEntityStructure,
+                       STRING ( 32 ) InternalAttribStructure,
+                       SHORT GetOrSetFlag )
+                     
+   STRING ( 254 ) szDisplayName
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+      IF wXferO.QueryObject.ExternalName = "" AND wXferO.QueryObject.ObjectName = ""
+          szDisplayName = ""
+      ELSE
+          szDisplayName = wXferO.QueryObject.ExternalName + " / " + wXferO.QueryObject.ObjectName  
+      END
+      //wXferO.QueryObject.ObjectExternalCombinedName = wXferO.QueryObject.ObjectName + " / " + wXferO.QueryObject.ExternalName  
+      StoreStringInRecord ( wXferO,
+                            InternalEntityStructure, InternalAttribStructure, szDisplayName )
+                    
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetUpAllQueryValues
+**    
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+SetUpAllQueryValues( VIEW wXferO BASED ON LOD wXferO )
+
+   // Set up the necessary QueryObject entries in wXferO for the Reports and Mailing interfaces.
+   IF wXferO.QueryValues DOES NOT EXIST
+      CREATE ENTITY wXferO.QueryValues   
+   END
+   
+   SET CURSOR FIRST wXferO.QueryObject WHERE wXferO.QueryObject.ExternalName = "People"
+   IF RESULT < zCURSOR_SET
+      CREATE ENTITY wXferO.QueryObject
+      wXferO.QueryObject.ExternalName    = "People"
+      wXferO.QueryObject.ObjectName      = "qPerson"
+   END
+   wXferO.QueryObject.DisplayEntityName    = "Person"
+   wXferO.QueryObject.DisplayAttributeName = "dFullName"
+
+END

@@ -1,0 +1,185 @@
+z1000-Zeidon    SAPPMGR  TZZOLODO 01/09/25   10:46:49 1.0a2    
+eLOD       1
+aZKey      910464958
+aNextZKeyToAssign 910464971
+aName      sAppMgr
+
+eLOD_EntityParent 2
+aName      SplitWindow
+aIndentName SplitWindow
+aIndentLvl 0
+aZKey      910464959
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      FunctionalArea
+aIndentName    FunctionalArea
+aIndentLvl 3
+aZKey      910464962
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      FunctionalSubArea
+aIndentName       FunctionalSubArea
+aIndentLvl 6
+aZKey      910464967
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      910464968
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      FunctionalSubAreaName
+aZKey      910464969
+
+eDomainRec 7
+aZKey      910381615
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      910464970
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      dFunctionalSubAreaTr
+aZKey      910464971
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      910464963
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      FunctionalAreaName
+aZKey      910464964
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464965
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      dFunctionalAreaTr
+aZKey      910464966
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      910464960
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      WindowName
+aZKey      910464961
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i9         6
+i12        6
+i15        6
+i18        6
+i19        1
+i20        16
+i21        17
+i22        6
+i23        2
+i24        10
+i25        11
+i26        6
+i27        13
+i28        14
+i29        6
+i30        3
+i31        4
+i32        5
+i33        6
+i34        7
+i35        8
+i36        6

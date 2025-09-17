@@ -1,0 +1,184 @@
+z1000-Zeidon    ZGLOBALJ TZOGSRCO 01/09/25   10:44:26 1.0a2    
+eGlobalOperationGroup 1
+aZKey      910442639
+aNextZKeyToAssign 910442665
+aName      ZGLOBALJ
+aExtension Java
+aLanguageType J
+aDomainAndGlobalOpGroupName ZGLOBALJ
+
+eOperation 2
+aName      CreateSOApplicationRptXLS
+aZKey      910442640
+aType      G
+aThrowsException Y
+
+eParameter 3
+aShortDesc lTranscript
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442641
+
+eOperation 2
+aName      ConvertFileToPDF
+aZKey      910442642
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc OutputDirectoryFileName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442643
+
+eParameter 3
+aShortDesc FileType
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442644
+
+eOperation 2
+aName      PrintAttendanceMultiple
+aZKey      910442645
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442646
+
+eOperation 2
+aName      CreateHESAEngagementRptXLS
+aZKey      910442647
+aType      G
+aReturnDataType N
+aThrowsException Y
+
+eParameter 3
+aShortDesc wHESARpt
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442648
+
+eParameter 3
+aShortDesc fReport2
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442649
+
+eOperation 2
+aName      PrintRostersMultiple
+aZKey      910442650
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442651
+
+eOperation 2
+aName      PrintSurveysMultiple
+aZKey      910442652
+aDesc      Print class surveys for multiple classes
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442653
+
+eOperation 2
+aName      CreateCompletionRptXLS
+aZKey      910442654
+aType      G
+aReturnDataType N
+aThrowsException Y
+
+eParameter 3
+aShortDesc qStuDTrk
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442655
+
+eOperation 2
+aName      CreateTranscriptRptXLS
+aZKey      910442656
+aType      G
+aThrowsException Y
+
+eParameter 3
+aShortDesc lTrnscpt
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442657
+
+eOperation 2
+aName      DeleteFiles
+aZKey      910442658
+aDesc      Delete files with full directory path that are separated by a semi-colon - ";" Currently created to delete files that are sent as attachments to emails.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc FileList
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442659
+
+eOperation 2
+aName      GetUserTimeContext
+aZKey      910442660
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc TimeFormat
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442661
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442662
+
+eOperation 2
+aName      GetUserDateContext
+aZKey      910442663
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc DateFormat
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442664
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442665
+

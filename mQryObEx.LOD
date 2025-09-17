@@ -1,0 +1,253 @@
+z1000-Zeidon    MQRYOBEX TZZOLODO 01/09/25   10:46:39 1.0a2    
+eLOD       1
+aZKey      910463906
+aNextZKeyToAssign 910463919
+aName      mQryObEx
+aDesc      Query Object Extension entity for holding a Query Object Extension object as a blob.
+
+eLOD_EntityParent 2
+aName      QueryObjectExtension
+aIndentName QueryObjectExtension
+aIndentLvl 0
+aZKey      910463907
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDesc      Holds the zqObjExt object blob containing a Query Object Extension
+
+eLOD_EntityChild 3
+aName      QueryNameUsingExtension
+aIndentName    QueryNameUsingExtension
+aIndentLvl 3
+aZKey      910463915
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      910463916
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Name
+aZKey      910463917
+
+eDomainRec 6
+aZKey      910381615
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910463918
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Description
+aZKey      910463919
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      910463908
+
+eER_AttributeRec 4
+aName      ID
+aZKey      910370752
+aNotNull   Y
+
+eDomainRec 5
+aZKey      910381608
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910463909
+
+eER_AttributeRec 4
+aName      ObjectName
+aZKey      910370753
+
+eDomainRec 5
+aZKey      910382312
+aName      ZeidonMetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      Zeidon Meta  Name
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910463910
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      ExtensionName
+aZKey      910370754
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910463911
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      ExtensionDescription
+aZKey      910370755
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910463912
+
+eER_AttributeRec 4
+aName      QueryExtensionBlob
+aZKey      910370756
+
+eDomainRec 5
+aZKey      910382017
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910463913
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wSelected
+aZKey      910463914
+
+eDomainRec 5
+aZKey      910382007
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eER_EntityRec 3
+aName      QueryObjectExtension
+aZKey      910370751
+aPurpose   F
+aDesc      Holds the zqObjExt object blob containing a Query Object Extension
+aER_DiagramPosX 3
+aER_DiagramPosY 67
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i8         5
+i17        5
+i20        5
+i28        1
+i29        9
+i30        10
+i31        11
+i32        12
+i33        13
+i34        14
+i35        15
+i36        16
+i37        5
+i38        18
+i39        19
+i40        5
+i41        21
+i42        22
+i43        23
+i44        24
+i45        25
+i46        26
+i47        27
+i48        2
+i49        3
+i50        4
+i51        5
+i52        6
+i53        7
+i54        5

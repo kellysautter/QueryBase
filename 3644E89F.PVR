@@ -1,0 +1,12 @@
+z1000-Zeidon    3644E89F TZWDVORO 01/09/25   10:48:56 1.0a2    
+eViewObjRef 1
+aZKey      910485663
+aNextZKeyToAssign 910485663
+aName      zqFrame2
+
+eLOD       2
+aZKey      910470060
+aName      zqFrame
+aDesc      Query frame for specifying query parameters
+aDLL_Name  LODOPS2
+

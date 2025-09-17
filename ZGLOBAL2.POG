@@ -1,0 +1,1512 @@
+z1000-Zeidon    ZGLOBAL2 TZOGSRCO 01/09/25   10:44:22 1.0a2    
+eGlobalOperationGroup 1
+aZKey      910442285
+aNextZKeyToAssign 910442503
+aName      ZGLOBAL2
+aDesc      VML Operations
+aExtension VML
+aLanguageType V
+aDomainAndGlobalOpGroupName ZGLOBAL1
+
+eOperation 2
+aName      ActivateDomain
+aZKey      910442286
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc DomainT
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      910442287
+
+eParameter 3
+aShortDesc DomainName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442288
+
+eParameter 3
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442289
+
+eOperation 2
+aName      RetrieveCommaDeliminatedValue
+aZKey      910442290
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedValue
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442291
+
+eParameter 3
+aShortDesc szLine
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442292
+
+eParameter 3
+aShortDesc ParameterNumber
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442293
+
+eOperation 2
+aName      AddDelayedEmail
+aZKey      910442294
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442295
+
+eParameter 3
+aShortDesc FromEmail
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442296
+
+eParameter 3
+aShortDesc ToEmail
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442297
+
+eParameter 3
+aShortDesc CCEmail
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442298
+
+eParameter 3
+aShortDesc BCCEmail
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442299
+
+eParameter 3
+aShortDesc EmailSubject
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442300
+
+eParameter 3
+aShortDesc EmailBody
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442301
+
+eParameter 3
+aShortDesc HoursToDelay
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442302
+
+eParameter 3
+aShortDesc FunctionSendingFrom
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442303
+
+eOperation 2
+aName      AddToQualificationForLanguage
+aZKey      910442304
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442305
+
+eParameter 3
+aShortDesc vQual
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442306
+
+eParameter 3
+aShortDesc QualEntity
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442307
+
+eParameter 3
+aShortDesc QualAttribute
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442308
+
+eParameter 3
+aShortDesc SearchString
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442309
+
+eParameter 3
+aShortDesc TranslationEntity
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442310
+
+eParameter 3
+aShortDesc TranslationAttribute
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442311
+
+eOperation 2
+aName      SendSecureEmail
+aZKey      910442312
+aDesc      Creates and sends the email tracking and sends the email to the individual.
+aType      G
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442313
+
+eParameter 3
+aShortDesc EmailSubject
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442314
+
+eParameter 3
+aShortDesc EmailBody
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442315
+
+eParameter 3
+aShortDesc ContentType
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442316
+
+eParameter 3
+aShortDesc EmailPersonIDTo
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442317
+
+eParameter 3
+aShortDesc FromEmail
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442318
+
+eParameter 3
+aShortDesc DaysOfAccess
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442319
+
+eParameter 3
+aShortDesc DownloadFilename
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442320
+
+eOperation 2
+aName      GetDomainLength
+aZKey      910442321
+aDesc      This gets the domain length from the xdm.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc DOMAINT
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442322
+
+eOperation 2
+aName      GetIPEDS_Ethnicity
+aZKey      910442323
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc AnyPersonView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442324
+
+eParameter 3
+aShortDesc ReturnedEthnicity
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442325
+
+eOperation 2
+aName      GetAgeAtDate
+aZKey      910442326
+aType      G
+aReturnDesc Age
+aReturnDataType L
+
+eParameter 3
+aShortDesc DateView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442327
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442328
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442329
+
+eParameter 3
+aShortDesc DateView2
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442330
+
+eParameter 3
+aShortDesc EntityName2
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442331
+
+eParameter 3
+aShortDesc AttributeName2
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442332
+
+eOperation 2
+aName      GetUserLanguage
+aZKey      910442333
+aDesc      Get the default language for the user.
+aType      G
+
+eParameter 3
+aShortDesc Language
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442334
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442335
+
+eOperation 2
+aName      CLEAN_ForLogout
+aZKey      910442336
+aType      G
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442337
+
+eOperation 2
+aName      ClearWebErrorMessage
+aZKey      910442338
+aType      G
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442339
+
+eParameter 3
+aShortDesc szMessage
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442340
+
+eOperation 2
+aName      SetWebErrorMessage
+aZKey      910442341
+aType      G
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442342
+
+eParameter 3
+aShortDesc szMessage
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442343
+
+eOperation 2
+aName      DeleteCheckOI_ForUpdate
+aZKey      910442344
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ObjectView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442345
+
+eParameter 3
+aShortDesc ObjectName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442346
+
+eParameter 3
+aShortDesc ObjectID
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442347
+
+eParameter 3
+aShortDesc UserName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442348
+
+eOperation 2
+aName      SetCheckOI_ForUpdate
+aZKey      910442349
+aDesc      Checks an OI for locking and sets it if OK.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ObjectView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442350
+
+eParameter 3
+aShortDesc ObjectName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442351
+
+eParameter 3
+aShortDesc ObjectID
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442352
+
+eParameter 3
+aShortDesc UserName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442353
+
+eOperation 2
+aName      GetPersonFullNameSalutation
+aZKey      910442354
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedString
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442355
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442356
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442357
+
+eOperation 2
+aName      GetPersonNameMrOrMs
+aZKey      910442358
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedString
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442359
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442360
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442361
+
+eOperation 2
+aName      GetPersonGreetingSalutation
+aZKey      910442362
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedString
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442363
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442364
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442365
+
+eOperation 2
+aName      GetCurrentAgeFromDate
+aZKey      910442366
+aType      G
+aReturnDesc Age
+aReturnDataType L
+
+eParameter 3
+aShortDesc DateView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442367
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442368
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442369
+
+eOperation 2
+aName      GetPersonCombinedNameLFM
+aZKey      910442370
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442371
+
+eParameter 3
+aShortDesc qPerson
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442372
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442373
+
+eOperation 2
+aName      SetIPEDS_Ethnicity
+aZKey      910442374
+aDesc      Set the IPEDS_Ethnicity attribute in the Demographics entity from other Demographics data.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc mViewContainingDemographics
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442375
+
+eOperation 2
+aName      GetPersonGreetingMrOrMs
+aZKey      910442376
+aType      G
+aReturnDesc Return Code
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedString
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442377
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442378
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442379
+
+eOperation 2
+aName      SetCL_PositionalValue
+aZKey      910442380
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442381
+
+eParameter 3
+aShortDesc szOutputLine
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442382
+
+eParameter 3
+aShortDesc szValueIn
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442383
+
+eParameter 3
+aShortDesc Length
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442384
+
+eParameter 3
+aShortDesc DataType
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442385
+
+eOperation 2
+aName      SetAttributeByCL_PositionalValue
+aZKey      910442386
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442387
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442388
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442389
+
+eParameter 3
+aShortDesc szLine
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442390
+
+eParameter 3
+aShortDesc StartPosition
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442391
+
+eParameter 3
+aShortDesc Length
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442392
+
+eParameter 3
+aShortDesc szDataType
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442393
+
+eOperation 2
+aName      SetAttributeByCommaDelimitValue
+aZKey      910442394
+aDesc      Set an Attribute from a value in a comma delimited file.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442395
+
+eParameter 3
+aShortDesc szEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442396
+
+eParameter 3
+aShortDesc szAttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442397
+
+eParameter 3
+aShortDesc szLine
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442398
+
+eParameter 3
+aShortDesc ValueCommaPos
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910442399
+
+eOperation 2
+aName      CreateSecuritySubSection
+aZKey      910442400
+aType      L
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442401
+
+eParameter 3
+aShortDesc Dialog Name
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442402
+
+eParameter 3
+aShortDesc Window Name
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442403
+
+eParameter 3
+aShortDesc Tab Control Name
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442404
+
+eParameter 3
+aShortDesc AllowAccess
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      910442405
+
+eOperation 2
+aName      CREATE_SecuritySubSections_G
+aZKey      910442406
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442407
+
+eParameter 3
+aShortDesc AllowAccess
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      910442408
+
+eOperation 2
+aName      CREATE_MenuSecuritySubSection
+aZKey      910442409
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc mUGroups
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442410
+
+eParameter 3
+aShortDesc szSubSectionName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442411
+
+eParameter 3
+aShortDesc nInitAllowAccess
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      910442412
+
+eOperation 2
+aName      GetTimeDifferenceInMinutes
+aZKey      910442413
+aDesc      Return the time difference for two Time attributes in minutes
+aType      G
+aReturnDesc DifferenceInMinutes
+aReturnDataType L
+
+eParameter 3
+aShortDesc StartTimeView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442414
+
+eParameter 3
+aShortDesc StartTimeEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442415
+
+eParameter 3
+aShortDesc StartTimeAttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442416
+
+eParameter 3
+aShortDesc EndTimeView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442417
+
+eParameter 3
+aShortDesc EndTimeEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442418
+
+eParameter 3
+aShortDesc EndTimeAttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442419
+
+eOperation 2
+aName      GetPersonFullNameLFM
+aZKey      910442420
+aType      G
+
+eParameter 3
+aShortDesc ReturnedFullName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442421
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442422
+
+eParameter 3
+aShortDesc szEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442423
+
+eOperation 2
+aName      SetUpAndStartEmailClientForListR
+aZKey      910442424
+aDesc      Reusable routine
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc mConList
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442425
+
+eParameter 3
+aShortDesc szIncludeEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442426
+
+eParameter 3
+aShortDesc szCreateItemEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442427
+
+eParameter 3
+aShortDesc szEmailEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442428
+
+eParameter 3
+aShortDesc szEmailAttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442429
+
+eParameter 3
+aShortDesc szAlternateEmailEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442430
+
+eParameter 3
+aShortDesc szSelectedEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442431
+
+eParameter 3
+aShortDesc szAllEntriesFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442432
+
+eParameter 3
+aShortDesc BlindCopyFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442433
+
+eParameter 3
+aShortDesc SubjectLine
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442434
+
+eParameter 3
+aShortDesc Body
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442435
+
+eOperation 2
+aName      SetDateFromLegacyDate
+aZKey      910442436
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc TargetView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442437
+
+eParameter 3
+aShortDesc TargetEntity
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442438
+
+eParameter 3
+aShortDesc TargetAttribute
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442439
+
+eParameter 3
+aShortDesc SourceView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442440
+
+eParameter 3
+aShortDesc SourceEntity
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442441
+
+eParameter 3
+aShortDesc SourceAttribute
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442442
+
+eOperation 2
+aName      SetUpAndStartEmailClientForList
+aZKey      910442443
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442444
+
+eParameter 3
+aShortDesc szIncludeEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442445
+
+eParameter 3
+aShortDesc szEmailEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442446
+
+eParameter 3
+aShortDesc szAllEntriesFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442447
+
+eOperation 2
+aName      GetPersonCombinedNameRanking
+aZKey      910442448
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedRanking
+aDataType  L
+aPFlag     Y
+aUFlag     N
+aZKey      910442449
+
+eParameter 3
+aShortDesc Salutation
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442450
+
+eOperation 2
+aName      GetPersonCombinedNameSalutation
+aZKey      910442451
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedCombinedName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442452
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442453
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442454
+
+eOperation 2
+aName      GetPersonCombinedGreetingMrMrs
+aZKey      910442455
+aDesc      Get Person combined greeting using Mr. and  Mrs.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedGreeting
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442456
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442457
+
+eParameter 3
+aShortDesc szEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442458
+
+eOperation 2
+aName      GetPersonCombinedGreetingFirst
+aZKey      910442459
+aDesc      Get Person greeting string using first names
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedGreeting
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442460
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442461
+
+eParameter 3
+aShortDesc szEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442462
+
+eOperation 2
+aName      GetPersonCombinedNameMrAndMrs
+aZKey      910442463
+aDesc      Get combined name using Mr. and Mrs.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedCombinedName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442464
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442465
+
+eParameter 3
+aShortDesc szEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442466
+
+eOperation 2
+aName      GetPersonCombinedNameWithFirst
+aZKey      910442467
+aDesc      Get combined name using first names
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedCombinedName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442468
+
+eParameter 3
+aShortDesc vOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442469
+
+eParameter 3
+aShortDesc szEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442470
+
+eOperation 2
+aName      BuildFamilyRole
+aZKey      910442471
+aDesc      Builds the FamilyRole subobject for any Person object that has the derived path.
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc xPerson
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442472
+
+eOperation 2
+aName      SetAddressLongitudeLatitude
+aZKey      910442473
+aDesc      Set the Longitude and Latitude values in an Address entity.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc OI_View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442474
+
+eParameter 3
+aShortDesc AddressEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442475
+
+eParameter 3
+aShortDesc ZipCode
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442476
+
+eOperation 2
+aName      InitializeDynamicDomain
+aZKey      910442477
+aDesc      Initialize Domain Values from static values for a Domain
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc DOMAINT
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442478
+
+eOperation 2
+aName      GetPersonFullName
+aZKey      910442479
+aDesc      Combines FirstName, MiddleName and LastName to create wFullName for any entity.
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedFullName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442480
+
+eParameter 3
+aShortDesc ViewObject2
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442481
+
+eParameter 3
+aShortDesc szEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442482
+
+eOperation 2
+aName      OperatorWebPrompt
+aZKey      910442483
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442484
+
+eParameter 3
+aShortDesc Title
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442485
+
+eParameter 3
+aShortDesc Message
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442486
+
+eOperation 2
+aName      OperatorErrorResponse
+aZKey      910442487
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442488
+
+eParameter 3
+aShortDesc Title
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442489
+
+eParameter 3
+aShortDesc Message
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442490
+
+eOperation 2
+aName      InitializeDynamicDomains
+aZKey      910442491
+aDesc      Initialize Dynamic Domains
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442492
+
+eOperation 2
+aName      GenerateSeasonalAddresses
+aZKey      910442493
+aDesc      Generate seasonal addresses for a Result Set
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc ResultSetView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442494
+
+eParameter 3
+aShortDesc wXferO
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442495
+
+eParameter 3
+aShortDesc ObjectViewName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442496
+
+eOperation 2
+aName      GetZipLatLong
+aZKey      910442497
+aDesc      Get Zip code Latitude and Logitude
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc szZipCode
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442498
+
+eParameter 3
+aShortDesc zViewAny
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442499
+
+eParameter 3
+aShortDesc dLatitude
+aDataType  M
+aPFlag     Y
+aUFlag     N
+aZKey      910442500
+
+eParameter 3
+aShortDesc dLongitude
+aDataType  M
+aPFlag     Y
+aUFlag     N
+aZKey      910442501
+
+eOperation 2
+aName      GetDaysInMonth
+aZKey      910442502
+aType      G
+aReturnDesc Days on Month
+aReturnDataType L
+
+eParameter 3
+aShortDesc szDateIn
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442503
+

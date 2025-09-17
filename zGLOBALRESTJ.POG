@@ -1,0 +1,165 @@
+z1000-Zeidon    ZGLOBALRETZOGSRCO 01/09/25   10:44:29 1.0a2    
+eGlobalOperationGroup 1
+aZKey      910442969
+aNextZKeyToAssign 910442992
+aName      zGLOBALRESTJ
+aDesc      REST java calls
+aExtension Java
+aLanguageType J
+aDomainAndGlobalOpGroupName zGLBLRTJ
+
+eOperation 2
+aName      TestRest
+aZKey      910442970
+aType      G
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442971
+
+eOperation 2
+aName      RESTBankTest
+aZKey      910442972
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442973
+
+eParameter 3
+aShortDesc webAddress
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442974
+
+eParameter 3
+aShortDesc Service
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442975
+
+eParameter 3
+aShortDesc Username
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442976
+
+eParameter 3
+aShortDesc Password
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442977
+
+eParameter 3
+aShortDesc sJSON
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910442978
+
+eOperation 2
+aName      SendRESTProposedCourseList
+aZKey      910442979
+aType      G
+
+eParameter 3
+aShortDesc ViewToSend
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442980
+
+eParameter 3
+aShortDesc ViewReceived
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      910442981
+
+eOperation 2
+aName      ActivateRESTClassList
+aZKey      910442982
+aDesc      This is an operation for testing connection with another server.
+aType      G
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442983
+
+eParameter 3
+aShortDesc YearSemester
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442984
+
+eParameter 3
+aShortDesc ReturnView
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      910442985
+
+eOperation 2
+aName      SendObjectToServer
+aZKey      910442986
+aDesc      Send an object to another server and run code off of this.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Sending View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910442987
+
+eParameter 3
+aShortDesc Object Name
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442988
+
+eParameter 3
+aShortDesc TargetServerAddress
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442989
+
+eParameter 3
+aShortDesc SourceServerAddress
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442990
+
+eParameter 3
+aShortDesc Action
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910442991
+
+eParameter 3
+aShortDesc Return Message View
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      910442992
+

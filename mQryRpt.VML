@@ -1,0 +1,32 @@
+
+/*************************************************************************************************
+**    
+**    OPERATION: ActivateUserReportList
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+ActivateUserReportList( VIEW mQryRptLST BASED ON LOD mQryRpt,
+                        VIEW mUser      BASED ON LOD mUser )
+
+   INTEGER nRC
+   INTEGER Count
+   
+   // Activate the list of Query Reports based on the authority of the User.
+   // If the User is Admin or has Query Admin Authority, activate ALL Query Reports.
+   // Otherwise activate whatever Query Reports are associated with any UserGroup for the User.
+   
+   IF mUser.User.UserName = "Admin" OR mUser.User.QueryAdminAuthority = "Y"
+      ACTIVATE mQryRptLST Multiple
+   ELSE
+      IF mUser.UserGroup DOES NOT EXIST
+         // If the User isn't an Administrator and has no UserGroups, we return an error
+         RETURN -2
+      ELSE 
+         ACTIVATE mQryRptLST Multiple WHERE mQryRptLST.AssignedToUserGroupUser.ID = mUser.User.ID 
+      END
+   END
+   NAME VIEW mQryRptLST "mQryRptLST" 
+   OrderEntityForView( mQryRptLST, "QueryReport", "Name A" )
+   SET CURSOR FIRST mQryRptLST.QueryReport 
+
+END

@@ -1,0 +1,11 @@
+z1000-Zeidon    3644E2B6 TZWDVORO 01/09/25   10:48:41 1.0a2    
+eViewObjRef 1
+aZKey      910484150
+aNextZKeyToAssign 910484150
+aName      zResultSet
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      910471180
+aName      zResultSet
+

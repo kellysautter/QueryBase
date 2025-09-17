@@ -1,0 +1,110 @@
+/*************************************************************************************************
+**    
+**    OPERATION: BuildQueryObjectList
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+BuildQueryObjectList( VIEW mQryObj BASED ON LOD mQryObj,
+                      VIEW AnyView )
+
+   VIEW wXferO     REGISTERED AS wXferO
+   VIEW mUser      REGISTERED AS mCurrentUser
+   VIEW mQryObjLST BASED ON LOD  mQryObj
+   VIEW vQualObject
+   INTEGER      nRC
+   INTEGER      Count
+   
+   // Activate the list of Query Objects based on the authority of the User.
+   // If the User is Admin, activate ALL Query Objects.
+   // Otherwise activate whatever Query Objects are associated with any UserGroup for the User.
+   
+   // Make wXferO.QueryValues exists and if it does, remove any current QueryObject entries.
+   IF wXferO.QueryValues EXISTS
+      DELETE ENTITY wXferO.QueryValues  
+   END
+   CREATE ENTITY wXferO.QueryValues 
+      
+   // Build the list of Queries that are valid for the User based on the authority of the User.
+   IF mUser.User.UserName = "Admin"
+      // Anyone with Administrative authority gets all of them.
+      ACTIVATE mQryObjLST MULTIPLE 
+      IF RESULT >= 0
+         NAME VIEW mQryObjLST "mQryObjLST" 
+      END
+   ELSE
+      IF mUser.UserGroup DOES NOT EXIST
+         // If the User isn't "Admin" and has no UserGroups, we return an error.
+         MessageSend( AnyView, "", "", "The User has no User Group entries.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         RETURN -2
+      ELSE 
+         // Activate all Query Objects tied to this User through their UserGroup entries.
+         ACTIVATE mQryObjLST Multiple WHERE mQryObjLST.User.ID = mUser.User.ID 
+         NAME VIEW mQryObjLST "mQryObjLST"
+         
+         // Activate all Query Objects tied to any of the User's UserGroup entries.
+         /*Count = 0
+         CREATE ENTITY vQualObject.QualAttrib
+         vQualObject.QualAttrib.Oper = "("
+         FOR EACH mUser.UserGroup 
+            Count = Count + 1
+            // Add an OR entry for each UserGroup except the first.
+            IF Count > 1
+               CREATE ENTITY vQualObject.QualAttrib
+               vQualObject.QualAttrib.Oper  = "OR"
+            END
+            CREATE ENTITY vQualObject.QualAttrib
+            vQualObject.QualAttrib.EntityName    = "UserGroup"
+            vQualObject.QualAttrib.AttributeName = "GroupName"
+            vQualObject.QualAttrib.Value = mQryObj.UserGroup.GroupName 
+            vQualObject.QualAttrib.Oper  = "="
+         END
+         vQualObject.QualAttrib.Oper = ")"
+         
+         ActivateObjectInstance( mQryObjLST, "mQryObj", AnyView, vQualObject, zMULTIPLE )
+         NAME VIEW mQryObjLST "mQryObjLST"*/
+      END
+   END
+   
+   // It's an error if the User has no authority to any Query Groups.
+   IF mQryObjLST.QueryObject DOES NOT EXIST
+      DropObjectInstance( mQryObjLST )
+      MessageSend( AnyView, "", "", "The User has no authority to any Query Objects.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -2
+   END
+   
+   // Build wXferO.QueryObject entries from mQryObjLST.
+   FOR EACH mQryObjLST.QueryObject 
+      CREATE ENTITY wXferO.QueryObject 
+      SetMatchingAttributesByName( wXferO, "QueryObject", mQryObjLST, "QueryObject", zSET_ALL )
+   END
+   SET CURSOR FIRST wXferO.QueryObject
+   //DropObjectInstance( mQryObjLST )
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CreateQueryEntry
+**    
+*************************************************************************************************/
+LOCAL OPERATION
+CreateQueryEntry( VIEW wXferO BASED ON LOD wXferO,
+                  STRING ( 32 ) szObjectName,
+                  STRING ( 50 ) szName,
+                  STRING ( 1 )  szContactListType,
+                  STRING ( 32 ) szCL_IncludeEntityName,
+                  STRING ( 32 ) szCL_CreateEntityName )
+
+   // Create the Query Object entry in wXferO, if it isn't already there.
+   SET CURSOR FIRST wXferO.QueryObject WHERE wXferO.QueryObject.ExternalName = szName
+   IF RESULT < ZCURSOR_SET
+      CREATE ENTITY wXferO.QueryObject 
+      wXferO.QueryObject.ObjectName                   = szObjectName
+      wXferO.QueryObject.ExternalName                 = szName
+      wXferO.QueryObject.ContactListType              = szContactListType
+      wXferO.QueryObject.ContactListIncludeEntityName = szCL_IncludeEntityName
+      wXferO.QueryObject.ContactListCreateEntityName  = szCL_CreateEntityName
+   END 
+
+END
+

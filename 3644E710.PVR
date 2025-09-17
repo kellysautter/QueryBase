@@ -1,0 +1,13 @@
+z1000-Zeidon    3644E710 TZWDVORO 01/09/25   10:48:52 1.0a2    
+eViewObjRef 1
+aZKey      910485264
+aNextZKeyToAssign 910485264
+aName      mQryRpt
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      910464240
+aName      mQryRpt
+aDesc      Report maintenance object
+aDLL_Name  mQryRpt
+

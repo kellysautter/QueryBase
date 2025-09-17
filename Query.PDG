@@ -1,0 +1,778 @@
+z1000-Zeidon    QUERY    TZDGSRCO 01/09/25   10:47:04 1.0a2    
+eDomainGroup 1
+aZKey      910382299
+aNextZKeyToAssign 910382438
+aName      Query
+aDesc      Query Domains
+aExtension C
+
+eDomain    2
+aZKey      910382300
+aName      DashboardEntryDefinitionType
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 20
+aContextRestriction N
+
+eContext   3
+aZKey      910382301
+aName      DashboardEntryDefinitionType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382302
+aExternalValue List
+aInternalValue List
+
+eTableEntry 4
+aZKey      910382303
+aExternalValue Pie Chart
+aInternalValue Pie
+
+eTableEntry 4
+aZKey      910382304
+aExternalValue Simple Bar
+aInternalValue SimpleBar
+
+eDomain    2
+aZKey      910382433
+aName      QueryObjExtDisplayCriteriaType
+aDesc      Selection Criteria for Extension Display options
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 15
+aContextRestriction N
+
+eContext   3
+aZKey      910382434
+aName      QueryObjExtDisplayCriteriaType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382435
+aExternalValue Single Value
+aInternalValue Single Value
+
+eTableEntry 4
+aZKey      910382436
+aExternalValue Discrete Set
+aInternalValue Discrete Set
+
+eTableEntry 4
+aZKey      910382437
+aExternalValue Numeric Range
+aInternalValue Numeric Range
+
+eTableEntry 4
+aZKey      910382438
+aExternalValue Date Range
+aInternalValue Date Range
+
+eDomain    2
+aZKey      910382427
+aName      QueryObjSummaryCriteriaType
+aDesc      Distinct or Range, etc.
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 20
+aContextRestriction N
+
+eContext   3
+aZKey      910382428
+aName      QueryObjSummaryCriteriaType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382429
+aExternalValue Distinct Value
+aInternalValue Distinct
+
+eTableEntry 4
+aZKey      910382430
+aExternalValue Numeric Range
+aInternalValue Range
+
+eTableEntry 4
+aZKey      910382431
+aExternalValue Date Range
+aInternalValue DateRange
+
+eTableEntry 4
+aZKey      910382432
+aExternalValue Discrete Set
+aInternalValue Discrete
+
+eDomain    2
+aZKey      910382419
+aName      QueryObjSummaryAttributeType
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 20
+aContextRestriction N
+
+eContext   3
+aZKey      910382420
+aName      QueryObjSummaryAttributeType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382421
+aExternalValue Sum
+aInternalValue Sum
+
+eTableEntry 4
+aZKey      910382422
+aExternalValue Count
+aInternalValue Count
+
+eTableEntry 4
+aZKey      910382423
+aExternalValue Average
+aInternalValue Average
+
+eTableEntry 4
+aZKey      910382424
+aExternalValue Max
+aInternalValue Max
+
+eTableEntry 4
+aZKey      910382425
+aExternalValue Min
+aInternalValue Min
+
+eTableEntry 4
+aZKey      910382426
+aExternalValue Range Count
+aInternalValue RangeCount
+
+eDomain    2
+aZKey      910382417
+aName      QueryComboUpd
+aDomainType T
+aJavaClass com.quinsoft.AD_Test.DynamicTableQueryDomain
+aDataType  S
+aMaxStringLth 200
+aContextRestriction N
+
+eContext   3
+aZKey      910382418
+aName      QueryComboUpd
+aIsDefault Y
+
+eDomain    2
+aZKey      910382408
+aName      QuerySubgroupSelectType
+aDesc      Query subgroup select type (eg., SUM, AVG, ALL)
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 5
+aContextRestriction N
+
+eContext   3
+aZKey      910382409
+aName      QuerySubgroupSelectType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382410
+aExternalValue SUM
+aInternalValue SUM
+
+eTableEntry 4
+aZKey      910382411
+aExternalValue AVG
+aInternalValue AVG
+
+eTableEntry 4
+aZKey      910382412
+aExternalValue MAX
+aInternalValue MAX
+
+eTableEntry 4
+aZKey      910382413
+aExternalValue MIN
+aInternalValue MIN
+
+eTableEntry 4
+aZKey      910382414
+aExternalValue COUNT
+aInternalValue COUNT
+
+eTableEntry 4
+aZKey      910382415
+aExternalValue ANY
+aInternalValue ANY
+
+eTableEntry 4
+aZKey      910382416
+aExternalValue ALL
+aInternalValue ALL
+
+eDomain    2
+aZKey      910382404
+aName      SortOrderAscendingType
+aDesc      Asc - Sorting is in ascending order; Des - Sorting is in descending order.
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      910382405
+aName      SortOrderAscendingType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382406
+aExternalValue Asc
+aInternalValue A
+
+eTableEntry 4
+aZKey      910382407
+aExternalValue Desc
+aInternalValue D
+
+eDomain    2
+aZKey      910382400
+aName      QueryPivotFunction
+aDesc      Query Pivot Function (SUM, AVG, etc.)
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 5
+aContextRestriction N
+
+eContext   3
+aZKey      910382401
+aName      QueryPivotFunction
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382402
+aExternalValue SUM
+aInternalValue SUM
+
+eTableEntry 4
+aZKey      910382403
+aExternalValue AVG
+aInternalValue AVG
+
+eDomain    2
+aZKey      910382395
+aName      QueryBreakpointType
+aDesc      Type of Breadkpoint (ex., Page, Paragraph)
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      910382396
+aName      QueryBreakpointType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382397
+aExternalValue Page
+aInternalValue P
+
+eTableEntry 4
+aZKey      910382398
+aExternalValue Paragraph
+aInternalValue H
+
+eTableEntry 4
+aZKey      910382399
+aExternalValue Report
+aInternalValue R
+
+eDomain    2
+aZKey      910382387
+aName      QueryBreakpointSummationType
+aDesc      Type of summation for the selected Attribute (SUM, AVG, etc.)
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 5
+aContextRestriction N
+
+eContext   3
+aZKey      910382388
+aName      QueryBreakpointSummationType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382389
+aExternalValue Sum
+aInternalValue SUM
+
+eTableEntry 4
+aZKey      910382390
+aExternalValue Average
+aInternalValue AVG
+
+eTableEntry 4
+aZKey      910382391
+aExternalValue Max Value
+aInternalValue MAX
+
+eTableEntry 4
+aZKey      910382392
+aExternalValue Min Value
+aInternalValue MIN
+
+eTableEntry 4
+aZKey      910382393
+aExternalValue Entity Count
+aInternalValue COUNT
+
+eTableEntry 4
+aZKey      910382394
+aExternalValue Not Null Count
+aInternalValue NNULL
+
+eDomain    2
+aZKey      910382384
+aName      QueryLanguageConversion
+aDesc      Translates Advanced Query display attributes for displaying query results in lists, reports,  documents and dashboards.
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 10000
+aContextRestriction N
+
+eContext   3
+aZKey      910382385
+aName      QueryLanguageConversion
+aIsDefault Y
+
+eContext   3
+aZKey      910382386
+aName      UpdateInterface
+
+eDomain    2
+aZKey      910382363
+aName      QueryResultType
+aDesc      Type of result to be formatted by a Query
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      910382364
+aName      GeneralQuery
+
+eTableEntry 4
+aZKey      910382365
+aExternalValue Printed Report
+aInternalValue P
+
+eTableEntry 4
+aZKey      910382366
+aExternalValue CSV File Full
+aInternalValue F
+
+eTableEntry 4
+aZKey      910382367
+aExternalValue CSV File Sparse
+aInternalValue S
+
+eTableEntry 4
+aZKey      910382368
+aExternalValue Result Set List
+aInternalValue L
+
+eContext   3
+aZKey      910382369
+aName      mAnalDResultSetOptions
+
+eTableEntry 4
+aZKey      910382370
+aExternalValue CSV File Full
+aInternalValue F
+
+eTableEntry 4
+aZKey      910382371
+aExternalValue CSV File Sparse
+aInternalValue S
+
+eTableEntry 4
+aZKey      910382372
+aExternalValue XML Document
+aInternalValue X
+
+eContext   3
+aZKey      910382373
+aName      QueryResultType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382374
+aExternalValue Printed Report
+aInternalValue P
+
+eTableEntry 4
+aZKey      910382375
+aExternalValue Preview Report
+aInternalValue R
+
+eTableEntry 4
+aZKey      910382376
+aExternalValue CSV File Full
+aInternalValue F
+
+eTableEntry 4
+aZKey      910382377
+aExternalValue CSV File Sparse
+aInternalValue S
+
+eTableEntry 4
+aZKey      910382378
+aExternalValue Result Set List
+aInternalValue L
+
+eTableEntry 4
+aZKey      910382379
+aExternalValue XML Document
+aInternalValue X
+
+eTableEntry 4
+aZKey      910382380
+aExternalValue Graphics
+aInternalValue GR
+
+eContext   3
+aZKey      910382381
+aName      ResultSetOptions
+
+eTableEntry 4
+aZKey      910382382
+aExternalValue CSV File Full
+aInternalValue F
+
+eTableEntry 4
+aZKey      910382383
+aExternalValue CSV File Sparse
+aInternalValue S
+
+eDomain    2
+aZKey      910382335
+aName      QuerySearchType
+aDesc      Query Search Type (eg., contains, <>, >=)
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 10
+aContextRestriction N
+
+eContext   3
+aZKey      910382336
+aName      FinAidContext
+
+eTableEntry 4
+aZKey      910382337
+aExternalValue between
+aInternalValue between
+
+eTableEntry 4
+aZKey      910382338
+aExternalValue Exists
+aInternalValue exists
+
+eTableEntry 4
+aZKey      910382339
+aExternalValue Does Not Exist
+aInternalValue notexist
+
+eTableEntry 4
+aZKey      910382340
+aExternalValue >
+aInternalValue >
+
+eTableEntry 4
+aZKey      910382341
+aExternalValue >=
+aInternalValue >=
+
+eTableEntry 4
+aZKey      910382342
+aExternalValue <
+aInternalValue <
+
+eTableEntry 4
+aZKey      910382343
+aExternalValue <=
+aInternalValue <=
+
+eTableEntry 4
+aZKey      910382344
+aExternalValue <>
+aInternalValue <>
+
+eTableEntry 4
+aZKey      910382345
+aExternalValue =
+aInternalValue =
+
+eContext   3
+aZKey      910382346
+aName      LimitedSearchType
+
+eTableEntry 4
+aZKey      910382347
+aExternalValue <>
+aInternalValue <>
+
+eTableEntry 4
+aZKey      910382348
+aExternalValue =
+aInternalValue =
+
+eTableEntry 4
+aZKey      910382349
+aExternalValue >
+aInternalValue >
+
+eTableEntry 4
+aZKey      910382350
+aExternalValue >=
+aInternalValue >=
+
+eTableEntry 4
+aZKey      910382351
+aExternalValue <
+aInternalValue <
+
+eTableEntry 4
+aZKey      910382352
+aExternalValue <=
+aInternalValue <=
+
+eContext   3
+aZKey      910382353
+aName      QuerySearchType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382354
+aExternalValue contains
+aInternalValue contains
+
+eTableEntry 4
+aZKey      910382355
+aExternalValue subselect
+aInternalValue subselect
+
+eTableEntry 4
+aZKey      910382356
+aExternalValue is in list
+aInternalValue is in list
+
+eTableEntry 4
+aZKey      910382357
+aExternalValue <>
+aInternalValue <>
+
+eTableEntry 4
+aZKey      910382358
+aExternalValue =
+aInternalValue =
+
+eTableEntry 4
+aZKey      910382359
+aExternalValue >
+aInternalValue >
+
+eTableEntry 4
+aZKey      910382360
+aExternalValue >=
+aInternalValue >=
+
+eTableEntry 4
+aZKey      910382361
+aExternalValue <
+aInternalValue <
+
+eTableEntry 4
+aZKey      910382362
+aExternalValue <=
+aInternalValue <=
+
+eDomain    2
+aZKey      910382316
+aName      QueryReportType
+aDesc      Type of Query Report
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 10
+aContextRestriction N
+
+eContext   3
+aZKey      910382317
+aName      QueryReportType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382318
+aExternalValue ODT Document Template
+aInternalValue ODT_T
+
+eTableEntry 4
+aZKey      910382319
+aExternalValue DOCX Document Template
+aInternalValue DOCX_T
+
+eTableEntry 4
+aZKey      910382320
+aExternalValue RTF Document Template
+aInternalValue RTF_T
+
+eTableEntry 4
+aZKey      910382321
+aExternalValue HTML Document Template
+aInternalValue HTML_T
+
+eTableEntry 4
+aZKey      910382322
+aExternalValue Email Text Template
+aInternalValue EMAIL_T
+
+eTableEntry 4
+aZKey      910382323
+aExternalValue CSV Sparse File
+aInternalValue CSV_S
+
+eTableEntry 4
+aZKey      910382324
+aExternalValue CSV Full File
+aInternalValue CSV_F
+
+eTableEntry 4
+aZKey      910382325
+aExternalValue Extension Summary
+aInternalValue QOE_SUMM
+
+eContext   3
+aZKey      910382326
+aName      ShortDescription
+
+eTableEntry 4
+aZKey      910382327
+aExternalValue ODT
+aInternalValue ODT_T
+
+eTableEntry 4
+aZKey      910382328
+aExternalValue DOCX
+aInternalValue DOCX_T
+
+eTableEntry 4
+aZKey      910382329
+aExternalValue RTF
+aInternalValue RTF_T
+
+eTableEntry 4
+aZKey      910382330
+aExternalValue HTML
+aInternalValue HTML_T
+
+eTableEntry 4
+aZKey      910382331
+aExternalValue Email Txt
+aInternalValue EMAIL_T
+
+eTableEntry 4
+aZKey      910382332
+aExternalValue CSV Sparse
+aInternalValue CSV_S
+
+eTableEntry 4
+aZKey      910382333
+aExternalValue CSV Full
+aInternalValue CSV_F
+
+eTableEntry 4
+aZKey      910382334
+aExternalValue Ext Sum
+aInternalValue QOE_SUMM
+
+eDomain    2
+aZKey      910382314
+aName      ZeidonEntityName
+aDesc      Zeidon Entity/Attribute Name
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      910382315
+aName      ZeidonEntityName
+aIsDefault Y
+
+eDomain    2
+aZKey      910382312
+aName      ZeidonMetaName
+aDesc      Zeidon Meta  Name
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      910382313
+aName      ZeidonMetaName
+aIsDefault Y
+
+eDomain    2
+aZKey      910382305
+aName      MergeDocumentType
+aDesc      internal or external
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      910382306
+aName      MergeDocumentType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382307
+aExternalValue HTML Email
+aInternalValue H
+
+eTableEntry 4
+aZKey      910382308
+aExternalValue TXT Email
+aInternalValue T
+
+eTableEntry 4
+aZKey      910382309
+aExternalValue ODT Document
+aInternalValue O
+
+eTableEntry 4
+aZKey      910382310
+aExternalValue DOCX Document
+aInternalValue D
+
+eTableEntry 4
+aZKey      910382311
+aExternalValue RTF Document
+aInternalValue R
+

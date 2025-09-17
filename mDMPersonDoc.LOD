@@ -1,0 +1,468 @@
+z1000-Zeidon    MDMPERSONTZZOLODO 01/09/25   10:46:33 1.0a2    
+eLOD       1
+aZKey      910463362
+aNextZKeyToAssign 910463379
+aName      mDMPersonDoc
+
+eLOD_EntityParent 2
+aName      DMPersonDoc
+aIndentName DMPersonDoc
+aIndentLvl 0
+aZKey      910463363
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      Person
+aIndentName    Person
+aIndentLvl 3
+aZKey      910463371
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator H
+
+eLOD_AttributeRec 4
+aZKey      910463372
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370696
+aNotNull   Y
+aDesc      system generated id
+
+eDomainRec 6
+aZKey      910381608
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910463373
+
+eER_AttributeRec 5
+aName      LastName
+aZKey      910370697
+aDesc      Contact's last Name
+aPromptPaintLit Last Name
+aListPaintLit Last Name
+
+eDomainRec 6
+aZKey      910382144
+aName      GeneralName_Address
+aDomainType E
+aDataType  S
+aMaxStringLth 50
+aDesc      General Text (names, streets, cities, etc.)
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910463374
+
+eER_AttributeRec 5
+aName      FirstName
+aZKey      910370698
+aDesc      Contact first Name
+aPromptPaintLit First Name
+aListPaintLit First Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463375
+
+eER_AttributeRec 5
+aName      MiddleName
+aZKey      910370699
+aDesc      Contact middle name or initial
+aPromptPaintLit Middle
+aListPaintLit Middle
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463376
+
+eER_AttributeRec 5
+aName      Suffix
+aZKey      910370700
+aDesc      suffix (Jr. III etc.)
+aPromptPaintLit Suffix
+aListPaintLit Suffix
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      Person
+aZKey      910370695
+aPurpose   F
+aER_DiagramPosX 26
+aER_DiagramPosY 18
+
+eER_RelLinkRec 4
+aName      for
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      910370874
+aCardMin   0
+aCardMax   1
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 5
+aZKey      910370872
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 33
+aER_DiagramE1PosY 23
+aER_DiagramE2PosX 33
+aER_DiagramE2PosY 55
+
+eLOD_EntityChild 3
+aName      UserDocOwner
+aIndentName    UserDocOwner
+aIndentLvl 3
+aZKey      910463377
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aDesc      user of the system
+
+eLOD_AttributeRec 4
+aZKey      910463378
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370794
+aNotNull   Y
+aDesc      system generated user id
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463379
+
+eER_AttributeRec 5
+aName      UserName
+aZKey      910370795
+aNotNull   Y
+aDesc      user's logon name
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      User
+aZKey      910370793
+aPurpose   F
+aDesc      user of the system
+aER_DiagramPosX 30
+aER_DiagramPosY 36
+
+eER_RelLinkRec 4
+aName      was created by
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      910370877
+aCardMin   0
+aCardMax   1
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 5
+aZKey      910370875
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 34
+aER_DiagramE1PosY 41
+aER_DiagramE2PosX 34
+aER_DiagramE2PosY 55
+
+eLOD_AttributeRec 3
+aZKey      910463364
+
+eER_AttributeRec 4
+aName      ID
+aZKey      910370613
+aNotNull   Y
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910463365
+
+eER_AttributeRec 4
+aName      DocumentTitle
+aZKey      910370614
+aLth       100
+
+eDomainRec 5
+aZKey      910381615
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910463366
+
+eER_AttributeRec 4
+aName      DocumentFileName
+aZKey      910370615
+aLth       100
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910463367
+
+eER_AttributeRec 4
+aName      DocumentGUID
+aZKey      910370616
+aLth       256
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910463368
+
+eER_AttributeRec 4
+aName      CreatedBy
+aZKey      910370617
+aLth       50
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910463369
+
+eER_AttributeRec 4
+aName      CreatedDateTime
+aZKey      910370618
+
+eDomainRec 5
+aZKey      910381914
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910463370
+
+eER_AttributeRec 4
+aName      Note
+aZKey      910370619
+
+eDomainRec 5
+aZKey      910381612
+aName      Note
+aDomainType E
+aDataType  S
+aMaxStringLth 10000
+aDesc      10000 byte string
+aContextRestriction N
+
+eER_EntityRec 3
+aName      DMPersonDoc
+aZKey      910370612
+aPurpose   F
+aER_DiagramPosX 29
+aER_DiagramPosY 56
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+i11        8
+i14        8
+i17        8
+i24        5
+i27        8
+i33        5
+i39        36
+i42        36
+i45        36
+i53        1
+i54        31
+i55        32
+i56        5
+i57        34
+i58        35
+i59        36
+i60        37
+i61        38
+i62        36
+i63        40
+i64        41
+i65        36
+i66        43
+i67        44
+i68        36
+i69        46
+i70        47
+i71        48
+i72        49
+i73        50
+i74        51
+i75        52
+i76        2
+i77        3
+i78        4
+i79        5
+i80        6
+i81        7
+i82        8
+i83        9
+i84        10
+i85        8
+i86        12
+i87        13
+i88        8
+i89        15
+i90        16
+i91        8
+i92        18
+i93        19
+i94        20
+i95        21
+i96        22
+i97        23
+i98        5
+i99        25
+i100       26
+i101       8
+i102       28
+i103       29
+i104       30

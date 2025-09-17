@@ -1,0 +1,81 @@
+z1000-Zeidon    DOMAINC  TZDGSRCO 01/09/25   10:46:58 1.0a2    
+eDomainGroup 1
+aZKey      910382444
+aNextZKeyToAssign 910382454
+aName      DomainC
+aExtension C
+
+eDomain    2
+aZKey      910382446
+aName      Revenue
+aDesc      Dollar amounts, etc.
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aDataType  M
+aContextRestriction N
+aDecimalFormat 2
+
+eContext   3
+aZKey      910382447
+aName      Revenue
+aDecimalFormat 2
+aJavaEditString #,###.00
+aIsDefault Y
+
+eContext   3
+aZKey      910382448
+aName      RevenueText
+aDecimalFormat 2
+aJavaEditString TextForCheckAmount
+
+eContext   3
+aZKey      910382449
+aName      RevenueWithDollarSign
+aDecimalFormat 2
+aJavaEditString $#,###.00
+
+eContext   3
+aZKey      910382450
+aName      RevenueWithDollarSignCR
+aDecimalFormat 2
+aJavaEditString $#,###.00CR
+
+eSelectedOperation 3
+aName      RevenueText
+aZKey      910382445
+aType      M
+
+eDomain    2
+aZKey      910382451
+aName      SocialSecurityNumber
+aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.SSNDomain
+aDataType  S
+aMaxStringLth 9
+aContextRestriction N
+
+eContext   3
+aZKey      910382452
+aName      SocialSecurityNumber
+aEditString 999-99-9999
+aJavaEditString 999-99-9999
+aIsDefault Y
+
+eContext   3
+aZKey      910382453
+aName      SSN_NoDashes
+aEditString 999999999
+aJavaEditString 999999999
+
+eContext   3
+aZKey      910382454
+aName      SSN_SecurityDisplay
+aEditString 999999999
+aJavaEditString *****9999
+
+eSelectedOperation 3
+
+eOperation 2
+
+i11        6
+i12        6

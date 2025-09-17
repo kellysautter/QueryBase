@@ -1,0 +1,56 @@
+z1000-Zeidon    TESTOPER TZOGSRCO 01/09/25   10:44:19 1.0a2    
+eGlobalOperationGroup 1
+aZKey      910441948
+aNextZKeyToAssign 910441955
+aName      TestOper
+aExtension VML
+aLanguageType V
+aDomainAndGlobalOpGroupName TestOper
+
+eOperation 2
+aName      TestOperation1
+aZKey      910441949
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc Parm1
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910441950
+
+eParameter 3
+aShortDesc Parm2
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      910441951
+
+eOperation 2
+aName      TestOperation2
+aZKey      910441952
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910441953
+
+eParameter 3
+aShortDesc Parm2
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910441954
+
+eParameter 3
+aShortDesc Parm3
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910441955
+

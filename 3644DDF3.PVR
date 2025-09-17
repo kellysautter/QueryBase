@@ -1,0 +1,13 @@
+z1000-Zeidon    3644DDF3 TZWDVORO 01/09/25   10:48:29 1.0a2    
+eViewObjRef 1
+aZKey      910482931
+aNextZKeyToAssign 910482931
+aName      wXferO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      910465830
+aName      wXferO
+aDesc      Transfer Work Area
+aDLL_Name  LODOPSYS
+

@@ -1,0 +1,29 @@
+
+/*************************************************************************************************
+**    
+**    OPERATION: TestOperation1
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+TestOperation1( STRING ( 32 ) Parm1,
+                INTEGER Parm2 )
+
+   // This is a Test only.
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: TestOperation2
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+TestOperation2( VIEW AnyView,
+                STRING ( 32 ) Parm2,
+                STRING ( 32 ) Parm3 )
+
+   // This is another Test
+   GetStringFromAttribute( Parm2, AnyView, "EntityName", Parm3 )
+
+END

@@ -1,0 +1,91 @@
+z1000-Zeidon    GENKEYWO TZZOLODO 01/09/25   10:46:17 1.0a2    
+eLOD       1
+aZKey      910461791
+aNextZKeyToAssign 910461794
+aName      GENKEYWO
+aDesc      Zeidon Genkey Object
+
+eLOD_EntityParent 2
+aName      ZeidonGenkeyTable
+aIndentName ZeidonGenkeyTable
+aZKey      910461792
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDesc      Used for System Generated Keys
+
+eLOD_AttributeRec 3
+aZKey      910461793
+
+eER_AttributeRec 4
+aName      CurrentGenkey
+aZKey      910371038
+
+eDomainRec 5
+aZKey      910381608
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910461794
+
+eER_AttributeRec 4
+aName      TableName
+aZKey      910371039
+aLth       32
+aNotNull   Y
+
+eDomainRec 5
+aZKey      910381618
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eER_EntityRec 3
+aName      ZeidonGenkeyTable
+aZKey      910371037
+aPurpose   F
+aDesc      Used for System Generated Keys
+aER_DiagramPosX 2
+aER_DiagramPosY 83
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+i9         1
+i10        2
+i11        3
+i12        4
+i13        5
+i14        6
+i15        7
+i16        8

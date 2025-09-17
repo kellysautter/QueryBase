@@ -1,0 +1,12 @@
+z1000-Zeidon    3644E687 TZWDVORO 01/09/25   10:48:51 1.0a2    
+eViewObjRef 1
+aZKey      910485127
+aNextZKeyToAssign 910485127
+aName      mQryObEx
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      910463906
+aName      mQryObEx
+aDesc      Query Object Extension entity for holding a Query Object Extension object as a blob.
+

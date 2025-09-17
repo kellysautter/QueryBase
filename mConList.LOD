@@ -1,0 +1,1689 @@
+z1000-Zeidon    MCONLIST TZZOLODO 08/12/25   14:47:21 1.0a2    
+eLOD       1
+aZKey      910462646
+aNextZKeyToAssign 910462745
+aName      mConList
+aDesc      Contact List
+aActivateConstraint Y
+aDLL_Name  LODOPS_A
+
+eLOD_EntityParent 2
+aName      ContactList
+aIndentName ContactList
+aIndentLvl 0
+aZKey      910462677
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDesc      list of prospects to be called from a list
+
+eLOD_EntityChild 3
+aName      User
+aIndentName    User
+aIndentLvl 3
+aZKey      910462694
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator H
+aDesc      user of the system
+
+eLOD_AttributeRec 4
+aZKey      910462695
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370794
+aNotNull   Y
+aDesc      system generated user id
+
+eDomainRec 6
+aZKey      910381608
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462696
+
+eER_AttributeRec 5
+aName      UserName
+aZKey      910370795
+aNotNull   Y
+aDesc      user's logon name
+
+eDomainRec 6
+aZKey      910382144
+aName      GeneralName_Address
+aDomainType E
+aDataType  S
+aMaxStringLth 50
+aDesc      General Text (names, streets, cities, etc.)
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462697
+
+eER_AttributeRec 5
+aName      Active
+aZKey      910370799
+aDesc      is this user currently active(Y) or inactive(N)
+
+eDomainRec 6
+aZKey      910382007
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462698
+
+eER_AttributeRec 5
+aName      SenderUserEmailAddress
+aZKey      910370804
+aDesc      When the User sends an Email through the ICA system and desigates the sender is the User, this will be the Sender Email Address
+
+eDomainRec 6
+aZKey      910381615
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462699
+
+eER_AttributeRec 5
+aName      SenderHostEmailAddress
+aZKey      910370805
+aDesc      When the User sends an Email through the ICA system and desigates the sender is the Host, this will be the Sender Email Address
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      User
+aZKey      910370793
+aPurpose   F
+aDesc      user of the system
+aER_DiagramPosX 30
+aER_DiagramPosY 36
+
+eER_RelLinkRec 4
+aName      is is assigned to
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      910370841
+aCardMin   0
+aCardMax   1
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 5
+aZKey      910370839
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 8
+aER_DiagramBendPosY 38
+aER_DiagramE1PosX 29
+aER_DiagramE1PosY 38
+aER_DiagramE2PosX 8
+aER_DiagramE2PosY 10
+
+eLOD_EntityChild 3
+aName      ContactListItem
+aIndentName    ContactListItem
+aIndentLvl 3
+aZKey      910462700
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator H
+
+eLOD_EntityChild 4
+aName      Person
+aIndentName       Person
+aIndentLvl 6
+aZKey      910462712
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator H
+
+eLOD_AttributeRec 5
+aZKey      910462713
+
+eER_AttributeRec 6
+aName      ID
+aZKey      910370696
+aNotNull   Y
+aDesc      system generated id
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462714
+
+eER_AttributeRec 6
+aName      LastName
+aZKey      910370697
+aDesc      Contact's last Name
+aPromptPaintLit Last Name
+aListPaintLit Last Name
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462715
+
+eER_AttributeRec 6
+aName      FirstName
+aZKey      910370698
+aDesc      Contact first Name
+aPromptPaintLit First Name
+aListPaintLit First Name
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462716
+
+eER_AttributeRec 6
+aName      MiddleName
+aZKey      910370699
+aDesc      Contact middle name or initial
+aPromptPaintLit Middle
+aListPaintLit Middle
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462717
+
+eER_AttributeRec 6
+aName      Suffix
+aZKey      910370700
+aDesc      suffix (Jr. III etc.)
+aPromptPaintLit Suffix
+aListPaintLit Suffix
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462718
+
+eER_AttributeRec 6
+aName      Prefix
+aZKey      910370719
+aDesc      title (Dr. Ms. Mr. etc)
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462719
+
+eER_AttributeRec 6
+aName      DateOfBirth
+aZKey      910370701
+aDesc      Date of Birth
+aPromptPaintLit Date of Birth
+aListPaintLit Date of Birth
+
+eDomainRec 7
+aZKey      910381872
+aName      Date
+aDomainType A
+aDataType  T
+aDesc      This domain manipulates the date portion of DateTime
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      910462720
+
+eER_AttributeRec 6
+aName      eMailAddress
+aZKey      910370702
+aDesc      email address
+aPromptPaintLit Email Address
+aListPaintLit Email Address
+
+eDomainRec 7
+aZKey      910382149
+aName      EMailAddress
+aDomainType E
+aDataType  S
+aMaxStringLth 128
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      910462721
+
+eER_AttributeRec 6
+aName      Gender
+aZKey      910370705
+aDesc      Gender (M/F) 
+
+eDomainRec 7
+aZKey      910382151
+aName      Gender
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      (Male/Female)
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      910462722
+aUpdate    Y
+
+eER_AttributeRec 6
+aName      PreferredEmail
+aZKey      910370703
+aPromptPaintLit Preferred Email
+aListPaintLit Preferred Email
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462723
+
+eER_AttributeRec 6
+aName      HomePhone
+aZKey      910370706
+aDesc      Direct phone number
+aPromptPaintLit Home Phone
+aListPaintLit Home Phone
+
+eDomainRec 7
+aZKey      910382155
+aName      PhoneNumber
+aDomainType F
+aDataType  S
+aMaxStringLth 30
+aDesc      Any phone number.  Requires flexible format for foreign numbers.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      910462724
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      dFullNameLFM
+aZKey      910462725
+aPromptPaintLit Full Name
+
+eDomainRec 7
+
+eLOD_AttrDerivationOperRec 6
+aName      dFullPersonNameLFM
+aClass     0
+aZKey      910462653
+aType      A
+aReturnDataType N
+
+eSourceFileForDARec 7
+aZKey      910462647
+aName      mConList
+aLanguageType V
+aExtension VML
+
+eER_EntityRec 5
+aName      Person
+aZKey      910370695
+aPurpose   F
+aER_DiagramPosX 26
+aER_DiagramPosY 18
+
+eER_RelLinkRec 5
+aName      for
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      910370847
+aCardMin   0
+aCardMax   1
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 6
+aZKey      910370845
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 30
+aER_DiagramBendPosY 7
+aER_DiagramE1PosX 30
+aER_DiagramE1PosY 17
+aER_DiagramE2PosX 29
+aER_DiagramE2PosY 7
+
+eLOD_AttributeRec 4
+aZKey      910462701
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370581
+aNotNull   Y
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462702
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      wSelected
+aZKey      910462703
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462704
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DisplayName
+aZKey      910462705
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462706
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      dContentCount
+aZKey      910462707
+
+eDomainRec 6
+
+eLOD_AttrDerivationOperRec 5
+aName      dContentCount
+aClass     0
+aZKey      910462648
+aDesc      No. of Persons, Students, etc. in this Contact  List.
+aType      A
+aReturnDataType N
+
+eSourceFileForDARec 6
+
+eLOD_AttributeRec 4
+aZKey      910462708
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      dFullNameLFM
+aZKey      910462709
+aPromptPaintLit Full Name
+aListPaintLit Full Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462710
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      dPreferredEmail
+aZKey      910462711
+
+eDomainRec 6
+
+eLOD_AttrDerivationOperRec 5
+aName      dPreferredEmail
+aClass     0
+aZKey      910462663
+aType      A
+aReturnDataType N
+
+eSourceFileForDARec 6
+
+eER_EntityRec 4
+aName      ContactListItem
+aZKey      910370580
+aPurpose   A
+aER_DiagramPosX 20
+aER_DiagramPosY 5
+
+eER_RelLinkRec 4
+aName      has
+aAutoSeq   Y
+aHangingForeignKeyEntity N
+aZKey      910370838
+aCardMin   0
+aCardMax   m
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 5
+aZKey      910370836
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 19
+aER_DiagramE1PosY 7
+aER_DiagramE2PosX 13
+aER_DiagramE2PosY 7
+
+eLOD_EntityChild 3
+aName      SelectedUser
+aIndentName    SelectedUser
+aIndentLvl 3
+aZKey      910462730
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      user of the system
+aSeqNo     0
+aWorkString SelectedUser JOIN = N
+
+eLOD_AttributeRec 4
+aZKey      910462731
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462732
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eER_EntityRec 4
+
+eLOD_EntityChild 3
+aName      DynamicCL_StoredQuery
+aIndentName    DynamicCL_StoredQuery
+aIndentLvl 3
+aZKey      910462733
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eLOD_AttributeRec 4
+aZKey      910462734
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370772
+aNotNull   Y
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462735
+
+eER_AttributeRec 5
+aName      Name
+aZKey      910370773
+aLth       64
+aDesc      Stored Query Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462736
+
+eER_AttributeRec 5
+aName      CreatedDateTime
+aZKey      910370775
+aDesc      date and time the activity was created in the sytem
+
+eDomainRec 6
+aZKey      910381914
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462737
+
+eER_AttributeRec 5
+aName      ModifiedDateTime
+aZKey      910370776
+aDesc      date this record was modified
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462738
+
+eER_AttributeRec 5
+aName      ReportTitle
+aZKey      910370777
+aDesc      If not blank, is used instead of Query Name to generate Report Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462739
+
+eER_AttributeRec 5
+aName      Description
+aZKey      910370778
+
+eDomainRec 6
+aZKey      910381612
+aName      Note
+aDomainType E
+aDataType  S
+aMaxStringLth 10000
+aDesc      10000 byte string
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462740
+
+eER_AttributeRec 5
+aName      Type
+aZKey      910370779
+aLth       1
+aDesc      195
+G - This is a general query and will appear on the normal list of  stored queries
+S - This is a special query that is used for specific application functionality and is tied to a non-query LOD. 
+
+eDomainRec 6
+aZKey      910381618
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462741
+
+eER_AttributeRec 5
+aName      QueryBlob
+aZKey      910370780
+
+eDomainRec 6
+aZKey      910382017
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462742
+
+eER_AttributeRec 5
+aName      ObjectName
+aZKey      910370781
+
+eDomainRec 6
+aZKey      910382312
+aName      ZeidonMetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      Zeidon Meta  Name
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462743
+
+eER_AttributeRec 5
+aName      AttributeBlob
+aZKey      910370782
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462744
+
+eER_AttributeRec 5
+aName      QueryExtensionBlob
+aZKey      910370783
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462745
+
+eER_AttributeRec 5
+aName      BooleanExpression
+aZKey      910370788
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      StoredQuery
+aZKey      910370771
+aPurpose   F
+aER_DiagramPosX 67
+aER_DiagramPosY 54
+
+eER_RelLinkRec 4
+aName      has dynamic definition
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      910370843
+aCardMin   0
+aCardMax   1
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 5
+aZKey      910370842
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 6
+aER_DiagramBendPosY 54
+aER_DiagramE1PosX 6
+aER_DiagramE1PosY 10
+aER_DiagramE2PosX 66
+aER_DiagramE2PosY 54
+
+eLOD_AttributeRec 3
+aZKey      910462678
+
+eER_AttributeRec 4
+aName      ID
+aZKey      910370568
+aNotNull   Y
+aDesc      system generated key
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462679
+
+eER_AttributeRec 4
+aName      Type
+aZKey      910370569
+aLth       1
+aNotNull   Y
+aDesc      P - Person
+
+eDomainRec 5
+aZKey      910382019
+aName      ContactListType
+aDomainType T
+aDataType  S
+aMaxStringLth 20
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910462680
+
+eER_AttributeRec 4
+aName      ListName
+aZKey      910370570
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462681
+
+eER_AttributeRec 4
+aName      DateGenerated
+aZKey      910370571
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462682
+
+eER_AttributeRec 4
+aName      DateLastGeneratedRecurring
+aZKey      910370572
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462683
+
+eER_AttributeRec 4
+aName      FindCriteria
+aZKey      910370573
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462684
+
+eER_AttributeRec 4
+aName      Note
+aZKey      910370574
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462685
+
+eER_AttributeRec 4
+aName      CreatedDateTime
+aZKey      910370575
+aDesc      date and time the activity was created in the sytem
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462686
+
+eER_AttributeRec 4
+aName      DynamicFlag
+aZKey      910370576
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462687
+
+eER_AttributeRec 4
+aName      SaveFindFlag
+aZKey      910370577
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462688
+
+eER_AttributeRec 4
+aName      SentFlag
+aZKey      910370578
+aDesc      If 'Y', this Contact List was created by being sent from another User, who is identified in SentByName.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462689
+
+eER_AttributeRec 4
+aName      SentByName
+aZKey      910370579
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462690
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wSelected
+aZKey      910462691
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462692
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      dContentCount
+aZKey      910462693
+
+eDomainRec 5
+
+eLOD_AttrDerivationOperRec 4
+
+eSourceFileForDARec 5
+
+eER_EntityRec 3
+aName      ContactList
+aZKey      910370567
+aPurpose   F
+aDesc      list of prospects to be called from a list
+aER_DiagramPosX 4
+aER_DiagramPosY 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 12
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 13
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 14
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_AttrDerivationOper 4
+
+eSourceFileForDA 5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_AttrDerivationOper 4
+
+eSourceFileForDA 5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_AttrDerivationOper 4
+
+eSourceFileForDA 5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 12
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_AttrDerivationOper 4
+
+eSourceFileForDA 5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 12
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      910462649
+
+eParameter 4
+aShortDesc Internal Entity Structure
+aDataType  S
+aZKey      910462650
+
+eParameter 4
+aShortDesc Internal Attrib Structure
+aDataType  S
+aZKey      910462651
+
+eParameter 4
+aShortDesc Get Or Set Flag
+aDataType  N
+aZKey      910462652
+
+eOperation 3
+
+eParameter 4
+aShortDesc mConList
+aDataType  V
+aZKey      910462654
+
+eParameter 4
+aShortDesc InternalEntityStructure
+aDataType  S
+aZKey      910462655
+
+eParameter 4
+aShortDesc InternalAttribStructure
+aDataType  S
+aZKey      910462656
+
+eParameter 4
+aShortDesc GetOrSetFlag
+aDataType  N
+aZKey      910462657
+
+eOperation 3
+aName      dIsRecurring
+aZKey      910462658
+aType      A
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      910462659
+
+eParameter 4
+aShortDesc Internal Entity Structure
+aDataType  S
+aZKey      910462660
+
+eParameter 4
+aShortDesc Internal Attrib Structure
+aDataType  S
+aZKey      910462661
+
+eParameter 4
+aShortDesc Get Or Set Flag
+aDataType  N
+aZKey      910462662
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      910462664
+
+eParameter 4
+aShortDesc Internal Entity Structure
+aDataType  S
+aZKey      910462665
+
+eParameter 4
+aShortDesc Internal Attrib Structure
+aDataType  S
+aZKey      910462666
+
+eParameter 4
+aShortDesc Get Or Set Flag
+aDataType  N
+aZKey      910462667
+
+eOperation 3
+aName      GetConListName
+aZKey      910462668
+aType      T
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc View To Instance
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      910462669
+
+eParameter 4
+aShortDesc szMainViewName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      910462670
+
+eParameter 4
+aShortDesc szPotentialListName
+aDataType  S
+aZKey      910462671
+
+eParameter 4
+aShortDesc szReturnString
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      910462672
+
+eOperation 3
+aName      GetConListNameDefault
+aZKey      910462673
+aType      T
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc szMainViewName
+aDataType  S
+aZKey      910462674
+
+eParameter 4
+aShortDesc szPotentialListName
+aDataType  S
+aZKey      910462675
+
+eParameter 4
+aShortDesc szFinalListName
+aDataType  S
+aZKey      910462676
+
+i17        14
+i25        5
+i28        8
+i31        8
+i34        8
+i37        8
+i40        8
+i52        46
+i58        14
+i66        5
+i69        11
+i72        14
+i75        5
+i77        60
+i80        14
+i83        14
+i85        60
+i91        4
+i92        5
+i94        7
+i95        8
+i96        18
+i100       5
+i103       14
+i109       106
+i112       14
+i127       121
+i130       121
+i133       115
+i139       5
+i145       8
+i148       43
+i151       43
+i154       115
+i157       115
+i160       106
+i163       11
+i166       11
+i169       11
+i172       8
+i175       11
+i178       5
+i179       76
+i180       60
+i182       1
+i183       137
+i184       138
+i185       5
+i186       140
+i187       141
+i188       142
+i189       143
+i190       144
+i191       8
+i192       146
+i193       147
+i194       43
+i195       149
+i196       150
+i197       43
+i198       152
+i199       153
+i200       115
+i201       155
+i202       156
+i203       115
+i204       158
+i205       159
+i206       106
+i207       161
+i208       162
+i209       11
+i210       164
+i211       165
+i212       11
+i213       167
+i214       168
+i215       11
+i216       170
+i217       171
+i218       8
+i219       173
+i220       174
+i221       11
+i222       176
+i223       177
+i224       5
+i225       76
+i226       60
+i227       181
+i228       2
+i229       3
+i230       4
+i231       5
+i232       6
+i233       7
+i234       8
+i235       9
+i236       10
+i237       11
+i238       12
+i239       13
+i240       14
+i241       15
+i242       16
+i243       14
+i244       18
+i245       19
+i246       20
+i247       21
+i248       64
+i249       65
+i250       5
+i251       67
+i252       68
+i253       11
+i254       70
+i255       71
+i256       14
+i257       73
+i258       74
+i259       5
+i260       76
+i261       60
+i262       78
+i263       79
+i264       14
+i265       81
+i266       82
+i267       14
+i268       84
+i269       60
+i270       86
+i271       87
+i272       88
+i273       22
+i274       23
+i275       24
+i276       5
+i277       26
+i278       27
+i279       8
+i280       29
+i281       30
+i282       8
+i283       32
+i284       33
+i285       8
+i286       35
+i287       36
+i288       8
+i289       38
+i290       39
+i291       8
+i292       41
+i293       42
+i294       43
+i295       44
+i296       45
+i297       46
+i298       47
+i299       48
+i300       49
+i301       50
+i302       51
+i303       46
+i304       53
+i305       54
+i306       55
+i307       56
+i308       57
+i309       14
+i310       59
+i311       60
+i312       61
+i313       62
+i314       63
+i315       89
+i316       90
+i317       4
+i318       5
+i319       93
+i320       7
+i321       8
+i322       18
+i323       97
+i324       98
+i325       99
+i326       5
+i327       101
+i328       102
+i329       14
+i330       104
+i331       105
+i332       106
+i333       107
+i334       108
+i335       106
+i336       110
+i337       111
+i338       14
+i339       113
+i340       114
+i341       115
+i342       116
+i343       117
+i344       118
+i345       119
+i346       120
+i347       121
+i348       122
+i349       123
+i350       124
+i351       125
+i352       126
+i353       121
+i354       128
+i355       129
+i356       121
+i357       131
+i358       132
+i359       115
+i360       134
+i361       135
+i362       136
+i363       60
+i364       76
+i369       59
+i379       84

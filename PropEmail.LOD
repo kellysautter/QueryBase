@@ -1,0 +1,702 @@
+z1000-Zeidon    PROPEMAILTZZOLODO 01/09/25   10:46:47 1.0a2    
+eLOD       1
+aZKey      910464765
+aNextZKeyToAssign 910464795
+aName      PropEmail
+aDesc      Proposed Email
+
+eLOD_EntityParent 2
+aName      SentEmail
+aIndentName SentEmail
+aIndentLvl 0
+aZKey      910464766
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDesc      An instance of this entity is created each time that a User sends an email through the ICA system.
+
+eLOD_EntityChild 3
+aName      User
+aIndentName    User
+aIndentLvl 3
+aZKey      910464774
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator H
+aDesc      user of the system
+
+eLOD_AttributeRec 4
+aZKey      910464775
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370794
+aNotNull   Y
+aDesc      system generated user id
+
+eDomainRec 6
+aZKey      910381608
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910464776
+
+eER_AttributeRec 5
+aName      UserName
+aZKey      910370795
+aNotNull   Y
+aDesc      user's logon name
+
+eDomainRec 6
+aZKey      910382144
+aName      GeneralName_Address
+aDomainType E
+aDataType  S
+aMaxStringLth 50
+aDesc      General Text (names, streets, cities, etc.)
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910464777
+
+eER_AttributeRec 5
+aName      eMailPassword
+aZKey      910371067
+
+eDomainRec 6
+aZKey      910381612
+aName      Note
+aDomainType E
+aDataType  S
+aMaxStringLth 10000
+aDesc      10000 byte string
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910464778
+
+eER_AttributeRec 5
+aName      eMailUserName
+aZKey      910370796
+
+eDomainRec 6
+aZKey      910381615
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910464779
+
+eER_AttributeRec 5
+aName      eMailAddress
+aZKey      910370797
+
+eDomainRec 6
+aZKey      910382149
+aName      EMailAddress
+aDomainType E
+aDataType  S
+aMaxStringLth 128
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910464780
+
+eER_AttributeRec 5
+aName      SenderUserEmailAddress
+aZKey      910370804
+aDesc      When the User sends an Email through the ICA system and desigates the sender is the User, this will be the Sender Email Address
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464781
+
+eER_AttributeRec 5
+aName      SenderHostEmailAddress
+aZKey      910370805
+aDesc      When the User sends an Email through the ICA system and desigates the sender is the Host, this will be the Sender Email Address
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      User
+aZKey      910370793
+aPurpose   F
+aDesc      user of the system
+aER_DiagramPosX 30
+aER_DiagramPosY 36
+
+eER_RelLinkRec 4
+aName      for
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      910370934
+aCardMin   0
+aCardMax   1
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 5
+aZKey      910370932
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 21
+aER_DiagramBendPosY 36
+aER_DiagramE1PosX 29
+aER_DiagramE1PosY 36
+aER_DiagramE2PosX 21
+aER_DiagramE2PosY 32
+
+eLOD_EntityChild 3
+aName      Person
+aIndentName    Person
+aIndentLvl 3
+aZKey      910464782
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator H
+
+eLOD_AttributeRec 4
+aZKey      910464783
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370696
+aNotNull   Y
+aDesc      system generated id
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464784
+
+eER_AttributeRec 5
+aName      LastName
+aZKey      910370697
+aDesc      Contact's last Name
+aPromptPaintLit Last Name
+aListPaintLit Last Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464785
+
+eER_AttributeRec 5
+aName      FirstName
+aZKey      910370698
+aDesc      Contact first Name
+aPromptPaintLit First Name
+aListPaintLit First Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464786
+
+eER_AttributeRec 5
+aName      MiddleName
+aZKey      910370699
+aDesc      Contact middle name or initial
+aPromptPaintLit Middle
+aListPaintLit Middle
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464787
+
+eER_AttributeRec 5
+aName      Suffix
+aZKey      910370700
+aDesc      suffix (Jr. III etc.)
+aPromptPaintLit Suffix
+aListPaintLit Suffix
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464788
+
+eER_AttributeRec 5
+aName      eMailAddress
+aZKey      910370702
+aDesc      email address
+aPromptPaintLit Email Address
+aListPaintLit Email Address
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464789
+
+eER_AttributeRec 5
+aName      PreferredEmail
+aZKey      910370703
+aPromptPaintLit Preferred Email
+aListPaintLit Preferred Email
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464790
+
+eER_AttributeRec 5
+aName      WorkEmail
+aZKey      910370704
+aPromptPaintLit Work Email Address
+aListPaintLit Work Email Address
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      Person
+aZKey      910370695
+aPurpose   F
+aER_DiagramPosX 26
+aER_DiagramPosY 18
+
+eER_RelLinkRec 4
+aName      for
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      910370892
+aCardMin   0
+aCardMax   1
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 5
+aZKey      910370890
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 21
+aER_DiagramBendPosY 20
+aER_DiagramE1PosX 25
+aER_DiagramE1PosY 20
+aER_DiagramE2PosX 21
+aER_DiagramE2PosY 26
+
+eLOD_EntityChild 3
+aName      PotentialRecipient
+aIndentName    PotentialRecipient
+aIndentLvl 3
+aZKey      910464791
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      910464792
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Name
+aZKey      910464793
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910464794
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      EmailAddress
+aZKey      910464795
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      910464767
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      ID
+aZKey      910370764
+aNotNull   Y
+aDesc      system generated user id
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910464768
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      SenderType
+aZKey      910370765
+
+eDomainRec 5
+aZKey      910382159
+aName      EmailSenderType
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910464769
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      RecipientEmailAddress
+aZKey      910370766
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910464770
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      SenderEmailAddress
+aZKey      910370767
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910464771
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      EmailAttachmentFileName
+aZKey      910370768
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910464772
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      SubjectText
+aZKey      910370769
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910464773
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      BodyText
+aZKey      910370770
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      SentEmail
+aZKey      910370763
+aPurpose   F
+aDesc      An instance of this entity is created each time that a User sends an email through the ICA system.
+aER_DiagramPosX 17
+aER_DiagramPosY 27
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i20        14
+i23        14
+i30        5
+i33        8
+i36        8
+i39        8
+i42        8
+i45        17
+i48        17
+i51        17
+i58        14
+i61        17
+i64        5
+i70        17
+i73        17
+i76        14
+i79        14
+i82        14
+i84        1
+i85        62
+i86        63
+i87        5
+i88        65
+i89        66
+i90        67
+i91        68
+i92        69
+i93        17
+i94        71
+i95        72
+i96        17
+i97        74
+i98        75
+i99        14
+i100       77
+i101       78
+i102       14
+i103       80
+i104       81
+i105       14
+i106       83
+i107       2
+i108       3
+i109       4
+i110       5
+i111       6
+i112       7
+i113       8
+i114       9
+i115       10
+i116       11
+i117       12
+i118       13
+i119       14
+i120       15
+i121       16
+i122       17
+i123       18
+i124       19
+i125       14
+i126       21
+i127       22
+i128       14
+i129       24
+i130       25
+i131       26
+i132       27
+i133       28
+i134       29
+i135       5
+i136       31
+i137       32
+i138       8
+i139       34
+i140       35
+i141       8
+i142       37
+i143       38
+i144       8
+i145       40
+i146       41
+i147       8
+i148       43
+i149       44
+i150       17
+i151       46
+i152       47
+i153       17
+i154       49
+i155       50
+i156       17
+i157       52
+i158       53
+i159       54
+i160       55
+i161       56
+i162       57
+i163       14
+i164       59
+i165       60
+i166       17

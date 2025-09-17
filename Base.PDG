@@ -1,0 +1,87 @@
+z1000-Zeidon    BASE     TZDGSRCO 01/09/25   10:38:24 1.0a2    
+eDomainGroup 1
+aZKey      910382006
+aNextZKeyToAssign 910382020
+aName      Base
+aExtension C
+
+eDomain    2
+aZKey      910382007
+aName      Y/N
+aDesc      Yes or No
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      910382008
+aName      Default
+
+eTableEntry 4
+aZKey      910382009
+aExternalValue Default
+aInternalValue Y
+
+eTableEntry 4
+aZKey      910382010
+aInternalValue N
+
+eContext   3
+aZKey      910382011
+aName      Y/N
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382012
+aExternalValue Y
+aInternalValue Y
+
+eTableEntry 4
+aZKey      910382013
+aExternalValue N
+aInternalValue N
+
+eContext   3
+aZKey      910382014
+aName      Yes/No
+
+eTableEntry 4
+aZKey      910382015
+aExternalValue Yes
+aInternalValue Y
+
+eTableEntry 4
+aZKey      910382016
+aExternalValue No
+aInternalValue N
+
+eDomain    2
+aZKey      910382019
+aName      ContactListType
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.DynamicTableDomain
+aDataType  S
+aMaxStringLth 20
+aContextRestriction N
+
+eContext   3
+aZKey      910382020
+aName      ContactListType
+aIsDefault Y
+
+eDomain    2
+aZKey      910382017
+aName      Blob
+aDesc      A do nothing domain for blobs
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.BlobDomain
+aDataType  B
+aContextRestriction N
+
+eContext   3
+aZKey      910382018
+aName      BLOB
+aIsDefault Y
+

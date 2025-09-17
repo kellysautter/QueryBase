@@ -1,0 +1,76 @@
+z1000-Zeidon    WQUERYWK TZZOLODO 01/09/25   10:46:54 1.0a2    
+eLOD       1
+aZKey      910465475
+aNextZKeyToAssign 910465479
+aName      wQueryWk
+
+eLOD_EntityParent 2
+aName      QueryWork
+aIndentName QueryWork
+aIndentLvl 0
+aZKey      910465476
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      DerivedAttribute
+aIndentName    DerivedAttribute
+aIndentLvl 3
+aZKey      910465477
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      910465478
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      AttributeName
+aZKey      910465479
+
+eDomainRec 6
+aZKey      910381615
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i6         1
+i7         2
+i8         3
+i9         4
+i10        5

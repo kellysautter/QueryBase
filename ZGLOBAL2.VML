@@ -1,0 +1,2835 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: GetDaysInMonth
+**
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetDaysInMonth( STRING ( 32 ) szDate )
+
+   INTEGER nDays
+   INTEGER nLeapYear
+   STRING (  10  ) szMonth
+
+   UfFormatDateTime( szMonth, szDate, "M" )
+
+   IF szMonth = "4" OR szMonth = "6" OR szMonth = "9" OR szMonth = "11"
+      nDays = 30
+      RETURN nDays
+   END
+   IF szMonth = "1" OR szMonth = "3" OR szMonth = "5" OR szMonth = "7"
+         OR szMonth = "8" OR szMonth = "10" OR szMonth = "12"
+      nDays = 31
+      RETURN nDays
+   END
+   IF szMonth = "2"
+      nLeapYear = zDateIsLeapYear( szDate )
+      IF nLeapYear > 0
+         nDays = 29
+         RETURN nDays
+      ELSE
+         nDays = 28
+         RETURN nDays
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetZipLatLong
+**
+**    Get Zip code Latitude and Logitude
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetZipLatLong( STRING ( 32 ) szZipCode,
+               VIEW  zAny,
+               DECIMAL dLatitude,
+               DECIMAL dLongitude )
+               
+/*   VIEW sZipFind  BASED ON LOD sZipFind
+   STRING ( 3 ) szZipCode3
+   STRING ( 4 ) szZipCode4
+   ACTIVATE  sZipFind  WHERE sZipFind.ZipCodeLookUpTable.ZipCode = szZipCode
+   IF RESULT < 0
+      DropObjectInstance( sZipFind )
+      szZipCode3 = szZipCode
+      szZipCode4 = szZipCode3 + "%"
+      ACTIVATE sZipFind Multiple WHERE sZipFind.ZipCodeLookUpTable.ZipCode LIKE szZipCode4
+      OrderEntityForView( sZipFind, "ZipCodeLookUpTable", "ZipCode A" )
+      SET CURSOR LAST sZipFind.ZipCodeLookUpTable WHERE sZipFind.ZipCodeLookUpTable.ZipCode < szZipCode
+      IF sZipFind.ZipCodeLookUpTable EXISTS
+         RESULT = 0
+      ELSE
+         RESULT = 2
+      END
+   END
+   IF RESULT >= 0
+      dLatitude = sZipFind.ZipCodeLookUpTable.Latitude
+      dLongitude = sZipFind.ZipCodeLookUpTable.Longitude
+   END
+   DropObjectInstance( sZipFind )
+*/
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateSeasonalAddresses
+**
+**    Generate seasonal addresses for a Result Set
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GenerateSeasonalAddresses( VIEW vResultSet,
+                           VIEW wXferO BASED ON LOD wXferO,
+                           STRING ( 32 ) ObjectViewName )
+
+   STRING ( 32 ) RootEntityName
+   STRING ( 32 ) AddressEntityName
+   STRING ( 32 ) PrimaryAddressEntityName
+   STRING ( 8 )  szSeasonalDate
+   STRING ( 4 )  szSeasonalMonthDay
+   STRING ( 4 )  szFromMonthDay
+   STRING ( 4 )  szToMonthDay
+   SHORT nRC
+
+   // Generate the derived entity CurrentMailingAddress for query objects that have that entity defined in the LOD.
+   // It is expected that the object has the Address entity named "Address" and the Primary Address named "PrimaryAddress",
+   // unless it is identified as an exception below, as for qDonor and qDonate.
+   
+   // Exist if the object does not have a CurrentMailingAddress entity.
+   nRC = LodContainsEntity( vResultSet, "CurrentMailingAddress" )
+   IF nRC < 0
+      RETURN 
+   END
+   
+   // Determine the Address/Primary address entity names for those objects that aren't using the standard Address and
+   // PrimaryAddress entity names.
+   IF ObjectViewName = "qProspct"
+      AddressEntityName        = "Address"
+      PrimaryAddressEntityName = "AllAddress"
+   ELSE
+      IF ObjectViewName = "qDonor" OR ObjectViewName = "qDonate" OR ObjectViewName = "qDonCmb"
+         AddressEntityName        = "DonorPersonAddress"
+         PrimaryAddressEntityName = "DonorPersonPrimaryAddress"
+      ELSE
+         AddressEntityName        = "Address"
+         PrimaryAddressEntityName = "PrimaryAddress"
+      END
+   END
+
+   // A Current Mailing address is always generated depending on the following two rules.
+   // 1. If an address exists with a date range that includes the SeasonalAddressDate sent
+   //    to this operation, then include that address.
+   // 2. Otherwise, include the PrimaryAddress as the CurrentMailingAddress.
+   // Note that if no SeasonalAddressDate exists, we always include the PrimaryAddress as the CurrentMailingAddress.
+
+   IF wXferO.Root.SeasonalAddressDate = ""
+      szSeasonalDate = wXferO.Root.dCurrentDate
+   ELSE
+      szSeasonalDate = wXferO.Root.SeasonalAddressDate
+   END
+   szSeasonalMonthDay = szSeasonalDate[5:4]
+   
+   // Loop through each root entity and create CurrentMailingAddress entity.
+   zGetFirstEntityNameForView( vResultSet, RootEntityName )
+   nRC = SetCursorFirstEntity( vResultSet, RootEntityName, "" )
+   LOOP WHILE nRC >= zCURSOR_SET
+   
+      IF szSeasonalDate != ""
+         // A Seasonal Date has been specified, so process each Address entry.
+         nRC = SetCursorFirstEntity( vResultSet, AddressEntityName, "" )
+         LOOP WHILE nRC >= zCURSOR_SET
+            GetStringFromAttribute( szFromMonthDay, vResultSet, AddressEntityName, "ValidFromMonthDay" )
+            GetStringFromAttribute( szToMonthDay, vResultSet, AddressEntityName, "ValidToMonthDay" )
+            
+            // There are two different situations for the compare:
+            // 1. The FromMonthDay is less than the ToMonthDay, meaning both dates will be for the same year.
+            // 2. The FromMonthDay is greater than the ToMonthDay, meaning the two dates are for different years.
+            // In the first case, we do a simple compare of the two values to szSeasonalMonthDay.
+            // In the second case, we will have to do two compares, the first involving the period from FromMonthDay to 12/31
+            // and the second involving the period from 01/01 to ToMonthDay.
+            // Skip the code if either szFromMonthDay or szToMonthDay are null
+            IF szFromMonthDay != "" AND szToMonthDay != ""
+               IF szFromMonthDay < szToMonthDay
+                  // Simple single compare
+                  IF szSeasonalMonthDay >= szFromMonthDay AND 
+                     szSeasonalMonthDay <= szToMonthDay
+                  
+                     IF vResultSet.CurrentMailingAddress DOES NOT EXIST
+                        IncludeSubobjectFromSubobject( vResultSet, "CurrentMailingAddress",
+                                                       vResultSet, AddressEntityName, zPOS_AFTER )
+                     END
+                  END
+               ELSE
+                  // More complex double compare
+                  IF ( szSeasonalMonthDay >= szFromMonthDay AND szSeasonalMonthDay <= "1231" ) OR
+                     ( szSeasonalMonthDay >= "0101"        AND szSeasonalMonthDay <=  szToMonthDay )
+         
+                     IF vResultSet.CurrentMailingAddress DOES NOT EXIST
+                        IncludeSubobjectFromSubobject( vResultSet, "CurrentMailingAddress",
+                                                       vResultSet, AddressEntityName, zPOS_AFTER )
+                     END
+                  END
+               END
+            END
+            nRC = SetCursorNextEntity( vResultSet, AddressEntityName, "" )
+         END
+      END
+   
+      // Include Primary Address if we didn't get a seasonal match above.
+      IF vResultSet.CurrentMailingAddress DOES NOT EXIST
+         nRC = CheckExistenceOfEntity( vResultSet, PrimaryAddressEntityName )
+         IF nRC >= zCURSOR_SET
+            IncludeSubobjectFromSubobject( vResultSet, "CurrentMailingAddress",
+                                           vResultSet, PrimaryAddressEntityName, zPOS_AFTER )
+         ELSE
+            // If that fails, include Address.
+            nRC = CheckExistenceOfEntity( vResultSet, AddressEntityName )
+             IF nRC >= zCURSOR_SET
+                IncludeSubobjectFromSubobject( vResultSet, "CurrentMailingAddress",
+                                               vResultSet, AddressEntityName, zPOS_AFTER )
+            END
+         END
+      END
+   
+      nRC = SetCursorNextEntity( vResultSet, RootEntityName, "" )
+   END
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: GetDomainLength
+**
+**    Initialize Domain Values from static values for a Domain
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetDomainLength( VIEW DOMAINT BASED ON LOD DOMAINT )
+
+   VIEW vXDM
+   VIEW  sHost REGISTERED AS sHost
+   STRING ( 400 ) szFileName
+   INTEGER iDomainLength
+
+   // Load the xdm and 
+
+   // Activate the XDM object.
+   GetApplDirectoryFromView( szFileName, DOMAINT, zAPPL_DIR_OBJECT, 400 )
+   szFileName = szFileName + "/zeidon.xdm"
+   ActivateOI_FromFile( vXDM, "TZDMXGPO", DOMAINT, szFileName, zSingle )
+   NAME VIEW vXDM "XDM"
+   SET CURSOR FIRST vXDM.Domain WHERE vXDM.Domain.Name = DOMAINT.Domain.Name
+   iDomainLength = vXDM.Domain.MaxStringLth
+   DOMAINT.Domain.MaxLength = iDomainLength
+   RETURN iDomainLength
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: InitializeDynamicDomain
+**
+**    Initialize Domain Values from static values for a Domain
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+InitializeDynamicDomain( VIEW DOMAINT BASED ON LOD DOMAINT )
+
+   VIEW vXDM
+   VIEW  sHost REGISTERED AS sHost
+   STRING ( 400 ) szFileName
+
+   // Initialize all Dynamic Domains with the values specified in the static Domain definition.
+
+   // Activate the XDM object.
+   GetApplDirectoryFromView( szFileName, DOMAINT, zAPPL_DIR_OBJECT, 400 )
+   szFileName = szFileName + "/zeidon.xdm"
+   ActivateOI_FromFile( vXDM, "TZDMXGPO", DOMAINT, szFileName,zSingle )
+   NAME VIEW vXDM "XDM"
+   SET CURSOR FIRST vXDM.Domain WHERE vXDM.Domain.Name = DOMAINT.Domain.Name
+
+   // Merge in any DomainValue entries that are not already there.
+   FOR EACH vXDM.TableEntry WHERE vXDM.TableEntry.InternalValue != ""
+      SET CURSOR FIRST DOMAINT.DomainValue
+                 WHERE DOMAINT.DomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+      IF RESULT < zCURSOR_SET
+         SET CURSOR LAST DOMAINT.DomainValue
+         CREATE ENTITY DOMAINT.DomainValue
+         DOMAINT.DomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+         DOMAINT.DomainValue.ExternalDescription = vXDM.TableEntry.ExternalValue
+      END
+   END
+   SET CURSOR FIRST DOMAINT.DomainValue
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: InitializeDynamicDomains
+**
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+InitializeDynamicDomains( VIEW AnyView )
+
+   VIEW vXDM
+   VIEW DOMAINT  BASED ON LOD DOMAINT
+   VIEW DOMAINT2 BASED ON LOD DOMAINT
+      VIEW  sHost REGISTERED AS sHost
+   STRING ( 400 ) szFileName
+
+   // Initialize all Dynamic Domains with the values specified in the static Domain definition.
+
+   // Activate the XDM object.
+   GetApplDirectoryFromView( szFileName, AnyView, zAPPL_DIR_OBJECT, 400 )
+   szFileName = szFileName + "/zeidon.xdm"
+   ActivateOI_FromFile( vXDM, "TZDMXGPO", AnyView, szFileName, zSingle )
+   NAME VIEW vXDM "XDM"
+
+   // Loop through each Dynamic Domain in the XDM, activating the Dynamic Domain and
+   // merging the values in the XDM.
+   FOR EACH vXDM.Domain
+      IF vXDM.Domain.OperName != "" AND vXDM.TableEntry EXISTS
+         ACTIVATE DOMAINT WHERE DOMAINT.Domain.Name = vXDM.Domain.Name
+         IF RESULT < 0
+            ACTIVATE DOMAINT EMPTY
+            CREATE ENTITY DOMAINT.Domain
+            DOMAINT.Domain.Name = vXDM.Domain.Name
+         END
+         CreateViewFromView( DOMAINT2, DOMAINT )
+
+         SET CURSOR FIRST DOMAINT2.Domain
+         OrderEntityForView( DOMAINT2, "DomainValue", "ExternalDescription A" )
+
+         FOR EACH vXDM.TableEntry WHERE vXDM.TableEntry.InternalValue != ""
+            SET CURSOR FIRST DOMAINT.DomainValue
+                       WHERE DOMAINT.DomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+            IF RESULT < zCURSOR_SET
+               CREATE ENTITY DOMAINT.DomainValue
+               DOMAINT.DomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+               DOMAINT.DomainValue.ExternalDescription = vXDM.TableEntry.ExternalValue
+            END
+         END
+         COMMIT DOMAINT
+         DropObjectInstance( DOMAINT )
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonFullName
+**
+**    Combines FirstName, MiddleName and LastName to create szFullName for any entity.
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonFullName( STRING ( 100 ) szFullName,
+                   VIEW           vOI,
+                   STRING ( 32 )  szEntityName )
+
+   STRING ( 30 )  szFirstName
+   STRING ( 30 )  szMiddleName
+   STRING ( 30 )  szLastName
+   STRING ( 10 )  szSuffix
+
+   szFullName = ""
+   GetStringFromAttribute( szFirstName, vOI, szEntityName, "FirstName" )
+   IF szFirstName != ""
+      szFullName = szFirstName
+   END
+   GetStringFromAttribute( szMiddleName, vOI, szEntityName, "MiddleName" )
+   IF szMiddleName != ""
+      IF szFullName != ""
+         szFullName = szFullName + " "
+      END
+      szFullName = szFullName + szMiddleName
+   END
+   GetStringFromAttribute( szLastName, vOI, szEntityName, "LastName" )
+   GetStringFromAttribute( szSuffix, vOI, szEntityName, "Suffix" )
+   IF szSuffix != ""
+      szLastName = szLastName + " " + szSuffix
+   END
+   IF szLastName != ""
+      IF szFullName != ""
+         szFullName = szFullName + " "
+      END
+      szFullName = szFullName + szLastName
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonFullNameLFM
+**
+**    Combines FirstName, MiddleName and LastName to create szFullName for any entity.
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonFullNameLFM( STRING ( 100 ) szFullName,
+                      VIEW           vOI,
+                      STRING ( 32 )  szEntityName )
+
+   STRING ( 30 )  szFirstName
+   STRING ( 30 )  szMiddleName
+   STRING ( 30 )  szLastName
+   STRING ( 10 )  szSuffix
+
+   
+   GetStringFromAttribute( szLastName, vOI, szEntityName, "LastName" )
+   GetStringFromAttribute( szSuffix, vOI, szEntityName, "Suffix" )
+   IF szSuffix != ""
+      szLastName = szLastName + " " + szSuffix
+   END
+   IF szLastName != "" 
+      szFullName = szLastName + ","
+   END
+   GetStringFromAttribute( szFirstName, vOI, szEntityName, "FirstName" )
+   IF szFirstName != ""
+      szFullName = szFullName + " " + szFirstName
+   END
+   GetStringFromAttribute( szMiddleName, vOI, szEntityName, "MiddleName" )
+   IF szMiddleName != ""
+      szFullName = szFullName + " " + szMiddleName
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonCombinedNameLFM
+**
+**    Combines wife and husband
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonCombinedNameLFM( STRING ( 100 ) szFullName,
+                          VIEW qPerson,
+                          STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 50 )  szHusbandFirstName
+   STRING ( 50 )  szWifeFirstName
+   
+   // Format husband and wife as either.
+   //     Baker, Donald & Mary 
+   //     Baker, Donald if no spouse.
+   CreateViewFromView( qPerson2, qPerson )
+   szWifeFirstName    = ""
+   szHusbandFirstName = ""
+   GetStringFromAttribute( szLastName, qPerson2, szEntityName, "LastName" )
+   SET CURSOR FIRST qPerson2.HusbandOrParentRole 
+              WHERE qPerson2.HusbandOrParentRole.Role = "S"
+   IF RESULT >= zCURSOR_SET AND qPerson2.HusbandOrParent.Deceased != "Y"
+      GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "PreferedFirstName" )
+      IF szWifeFirstName = ""
+         GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "FirstName" )
+      END
+      szHusbandFirstName = qPerson2.HusbandOrParent.PreferedFirstName 
+      IF szHusbandFirstName = ""
+         szHusbandFirstName = qPerson2.HusbandOrParent.FirstName 
+      END
+   ELSE
+      SET CURSOR FIRST qPerson2.WifeOrChildRole 
+                 WHERE qPerson2.WifeOrChildRole.Role = "S" AND qPerson2.WifeOrChild.Deceased != "Y"
+      IF RESULT >= zCURSOR_SET
+         szWifeFirstName    = qPerson2.WifeOrChild.PreferedFirstName 
+         IF szWifeFirstName = ""
+            szWifeFirstName    = qPerson2.WifeOrChild.FirstName 
+         END
+         GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "PreferedFirstName" )
+         IF szHusbandFirstName = ""
+            GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "FirstName" )
+         END
+      END
+   END
+   
+   IF szWifeFirstName != "" AND szHusbandFirstName != ""
+      //szFullName = szHusbandFirstName + " & " + szWifeFirstName + " " + szLastName 
+      szFullName =  szLastName + ", " + szHusbandFirstName + " & " + szWifeFirstName
+   ELSE
+      GetStringFromAttribute( szFirstName, qPerson2, szEntityName, "PreferedFirstName" )
+      IF szFirstName = ""
+         GetStringFromAttribute( szFirstName, qPerson2, szEntityName, "FirstName" )
+      END
+      szFullName = szLastName + ", " + szFirstName
+   END
+   DropView( qPerson2 )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonCombinedNameWithFirst
+**
+**    Combines wife and husband
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonCombinedNameWithFirst( STRING ( 100 ) szFullName,
+                                VIEW qPerson,
+                                STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 50 )  szHusbandFirstName
+   STRING ( 50 )  szWifeFirstName
+   STRING ( 50 )  szHusbandLastName
+   STRING ( 50 )  szWifeLastName
+   
+   // Format husband and wife as either.
+   //     Donald & Mary Baker
+   //     Donald Baker, if no spouse.
+   //     Donald Baker & Mary Jones-Baker, if their last names are different.
+   CreateViewFromView( qPerson2, qPerson )
+   szWifeFirstName    = ""
+   szHusbandFirstName = ""
+   GetStringFromAttribute( szLastName, qPerson2, szEntityName, "LastName" )
+   GetStringFromAttribute( szHusbandLastName, qPerson2, szEntityName, "LastName" )
+   GetStringFromAttribute( szWifeLastName, qPerson2, szEntityName, "LastName" )
+   SET CURSOR FIRST qPerson2.HusbandOrParentRole 
+              WHERE qPerson2.HusbandOrParentRole.Role = "S"
+   IF RESULT >= zCURSOR_SET AND qPerson2.HusbandOrParent.Deceased != "Y"
+      GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "PreferedFirstName" )
+      IF szWifeFirstName = ""
+         GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "FirstName" )
+      END
+      szHusbandFirstName = qPerson2.HusbandOrParent.PreferedFirstName 
+      IF szHusbandFirstName = ""
+         szHusbandFirstName = qPerson2.HusbandOrParent.FirstName 
+         szHusbandLastName  = qPerson2.HusbandOrParent.LastName
+      END
+   ELSE
+      SET CURSOR FIRST qPerson2.WifeOrChildRole 
+                 WHERE qPerson2.WifeOrChildRole.Role = "S" AND qPerson2.WifeOrChild.Deceased != "Y"
+      IF RESULT >= zCURSOR_SET
+         szWifeFirstName    = qPerson2.WifeOrChild.PreferedFirstName 
+         IF szWifeFirstName = ""
+            szWifeFirstName = qPerson2.WifeOrChild.FirstName 
+         END
+         szWifeLastName  = qPerson2.WifeOrChild.LastName
+         GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "PreferedFirstName" )
+         IF szHusbandFirstName = ""
+            GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "FirstName" )
+         END
+      END
+   END
+   
+   IF szWifeFirstName != "" AND szHusbandFirstName != ""
+      IF szWifeLastName = szHusbandLastName
+         szFullName = szHusbandFirstName + " & " + szWifeFirstName + " " + szLastName
+      ELSE
+         szFullName = szHusbandFirstName + " " + szHusbandLastName + " & " + szWifeFirstName + " " +  szWifeLastName
+      END
+   ELSE
+      GetStringFromAttribute( szFirstName, qPerson2, szEntityName, "PreferedFirstName" )
+      IF szFirstName = ""
+         GetStringFromAttribute( szFirstName, qPerson2, szEntityName, "FirstName" )
+      END
+      szFullName = szFirstName + " " + szLastName 
+   END
+   DropView( qPerson2 ) 
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonCombinedGreetingFirst
+**
+**    Combines wife and husband
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonCombinedGreetingFirst( STRING ( 100 ) szFullName,
+                                VIEW qPerson,
+                                STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   STRING ( 50 )  szHusbandFirstName
+   STRING ( 50 )  szWifeFirstName
+   
+   // Format husband and wife as either.
+   //     Donald & Mary, if both names exist.
+   //     Donald, if no spouse.
+
+   CreateViewFromView( qPerson2, qPerson )
+   szWifeFirstName    = ""
+   szHusbandFirstName = ""
+   SET CURSOR FIRST qPerson2.HusbandOrParentRole 
+              WHERE qPerson2.HusbandOrParentRole.Role = "S"
+   IF RESULT >= zCURSOR_SET AND qPerson2.HusbandOrParent.Deceased != "Y"
+      GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "PreferedFirstName" )
+      IF szWifeFirstName = ""
+         GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "FirstName" )
+      END
+      szHusbandFirstName = qPerson2.HusbandOrParent.PreferedFirstName 
+      IF szHusbandFirstName = ""
+         szHusbandFirstName = qPerson2.HusbandOrParent.FirstName 
+      END
+   ELSE
+      SET CURSOR FIRST qPerson2.WifeOrChildRole 
+                 WHERE qPerson2.WifeOrChildRole.Role = "S" AND qPerson2.WifeOrChild.Deceased != "Y"
+      IF RESULT >= zCURSOR_SET
+         szWifeFirstName    = qPerson2.WifeOrChild.PreferedFirstName 
+         IF szWifeFirstName = ""
+            szWifeFirstName    = qPerson2.WifeOrChild.FirstName 
+         END
+         GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "PreferedFirstName" )
+         IF szHusbandFirstName = ""
+            GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "FirstName" )
+         END
+      END
+   END
+   
+   IF szWifeFirstName != "" AND szHusbandFirstName != ""
+      szFullName = szHusbandFirstName + " & " + szWifeFirstName
+   ELSE
+      GetStringFromAttribute( szFullName, qPerson, szEntityName, "PreferedFirstName" )
+      IF szFullName = ""
+         GetStringFromAttribute( szFullName, qPerson, szEntityName, "FirstName" )
+      END
+   END
+   DropView( qPerson2 )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetPersonCombinedNameRanking
+**    
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonCombinedNameRanking( INTEGER ReturnedRanking,
+                              STRING ( 32 ) szSalutation )
+
+   IF szSalutation = "Mr." OR
+      szSalutation = "Mrs." OR
+      szSalutation = "Ms." OR
+      szSalutation = "Miss"
+      
+      ReturnedRanking = 1
+   ELSE
+                  
+      IF szSalutation = "Hon."
+         ReturnedRanking = 5
+      ELSE
+         IF szSalutation = "Dr." OR szSalutation = "Rev. Dr."
+            ReturnedRanking = 4
+         ELSE
+            IF szSalutation = "Rev." OR
+               szSalutation = "Prof." OR
+               szSalutation = "Rabbi"
+               
+               ReturnedRanking = 3
+            ELSE
+               IF szSalutation = "Capt." OR
+                  szSalutation = "Col." OR
+                  szSalutation = "Lcdr." OR
+                  szSalutation = "Lt." OR
+                  szSalutation = "Ltc." OR
+                  szSalutation = "Sgt."
+                  
+                  ReturnedRanking = 3
+               END
+            END
+         END
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonCombinedNameSalutation
+**
+**    Combines FirstName and LastName with Salutation to create szFullName for any entity.
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonCombinedNameSalutation( STRING ( 100 ) szFullName,
+                                 VIEW qPerson,
+                                 STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   INTEGER        HusbandRanking
+   INTEGER        WifeRanking
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 50 )  szOnlyLastName
+   STRING ( 10 )  szMainSuffix
+   STRING ( 10 )  szHusbandSuffix
+   STRING ( 10 )  szWifeSuffix
+   STRING ( 50 )  szHusbandFirstName
+   STRING ( 50 )  szWifeFirstName
+   STRING ( 50 )  szHusbandLastName
+   STRING ( 50 )  szWifeLastName
+   STRING ( 10 )  szSalutation
+   STRING ( 10 )  szHusbandSalutation
+   STRING ( 10 )  szWifeSalutation
+   STRING ( 10 )  szCombinedSalutation
+   STRING ( 1 )   szGender
+   
+   CreateViewFromView( qPerson2, qPerson )
+   szWifeFirstName      = ""
+   szHusbandFirstName   = ""
+   szHusbandSuffix = ""
+   
+   // Get first names and salutations.
+   GetStringFromAttributeByContext( szSalutation, qPerson2, szEntityName, "Salutation", "", 10 )
+   GetStringFromAttribute( szLastName, qPerson2, szEntityName, "LastName" )
+   
+   SET CURSOR FIRST qPerson2.HusbandOrParentRole 
+              WHERE qPerson2.HusbandOrParentRole.Role = "S"
+   IF RESULT >= zCURSOR_SET AND qPerson2.HusbandOrParent.Deceased != "Y"
+      // This is the case where the Wife record is on top and the Husband is underneath.
+      GetStringFromAttribute( szWifeLastName, qPerson2, szEntityName, "LastName" )
+      GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "FirstName" )
+      GetStringFromAttribute( szWifeSuffix, qPerson2, szEntityName, "Suffix" )
+      GetStringFromAttributeByContext( szWifeSalutation, qPerson2, szEntityName, "Salutation", "", 10 )
+      szHusbandLastName        = qPerson2.HusbandOrParent.LastName
+      szHusbandFirstName       = qPerson2.HusbandOrParent.FirstName
+      szHusbandSuffix          = qPerson2.HusbandOrParent.Suffix 
+      GetStringFromAttributeByContext( szHusbandSalutation, qPerson2, "HusbandOrParent", "Salutation", "", 10 )
+   ELSE
+      SET CURSOR FIRST qPerson2.WifeOrChildRole 
+                 WHERE qPerson2.WifeOrChildRole.Role = "S" AND qPerson2.WifeOrChild.Deceased != "Y"
+      IF RESULT >= zCURSOR_SET
+         // This is the case where the Husband record is on top and the Wife is underneath.
+         szWifeLastName        = qPerson2.WifeOrChild.LastName 
+         szWifeFirstName       = qPerson2.WifeOrChild.FirstName
+         szWifeSuffix          = qPerson2.WifeOrChild.Suffix 
+         GetStringFromAttributeByContext( szWifeSalutation, qPerson2, "WifeOrChild", "Salutation", "", 10 )
+         GetStringFromAttribute( szHusbandLastName,  qPerson2, szEntityName, "LastName" )
+         GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "FirstName" )
+         GetStringFromAttribute( szHusbandSuffix, qPerson2, szEntityName, "Suffix" )
+         GetStringFromAttributeByContext( szHusbandSalutation, qPerson2, szEntityName, "Salutation", "", 10 )
+      END
+   END
+   IF szHusbandSalutation = ""
+      szHusbandSalutation = "Mr."
+   END
+   IF szWifeSalutation = ""
+      szWifeSalutation = "Mrs."
+   END
+   
+   // Get Suffix set up.
+   GetStringFromAttribute( szMainSuffix, qPerson2, szEntityName, "Suffix" )
+   IF szHusbandFirstName != "" AND szWifeFirstName != ""
+
+      // Both husband and wife are to be combined.
+      
+      // Note that if a salutation is either Dr. or Rev., then the only suffixes we will use are Jr, I, II, III, IV.
+      IF szHusbandSalutation[1:2] = "Dr" OR szHusbandSalutation[1:3] = "Rev"
+         IF szHusbandSuffix[1:2] != "Jr" AND szHusbandSuffix != "I" AND szHusbandSuffix != "II" AND szHusbandSuffix != "III" AND szHusbandSuffix != "IV"
+            szHusbandSuffix = ""
+         END
+      END
+      IF szWifeSalutation[1:2] = "Dr" OR szWifeSalutation[1:3] = "Rev"
+         IF szWifeSuffix[1:2] != "Jr" AND szWifeSuffix != "I" AND szWifeSuffix != "II" AND szWifeSuffix != "III" AND szWifeSuffix != "IV"
+            szWifeSuffix = ""
+         END
+      END
+      
+      // Suffixes for combined husband and wife name.
+      IF szWifeLastName != szHusbandLastName OR szWifeSuffix != ""
+         // Wife and husband have different last names or wife has suffix, so treat their names separately.
+         IF szHusbandSuffix != ""
+            szHusbandLastName = szHusbandLastName + " " + szHusbandSuffix
+         END
+         IF szWifeSuffix != ""
+            szWifeLastName = szWifeLastName + " " + szWifeSuffix
+         END
+      ELSE
+         // Wife and husband have same last name, so use husband suffix.
+         IF szMainSuffix != ""
+            szLastName = szLastName + " " + szHusbandSuffix
+         END
+      END
+   ELSE
+      // Suffix for no combined name.
+      
+      // Note that if a salutation is either Dr. or Rev., then the only suffixes we will use are Jr, I, II, III, IV.
+      IF szSalutation[1:2] = "Dr" OR szSalutation[1:3] = "Rev"
+         IF szMainSuffix[1:2] != "Jr" AND szMainSuffix != "I" AND szMainSuffix != "II" AND szMainSuffix != "III" AND szMainSuffix != "IV"
+            szMainSuffix = ""
+         END
+      END
+      
+      IF szMainSuffix != ""
+         szLastName = szLastName + " " + szMainSuffix
+      END
+   END
+   
+   IF szHusbandFirstName != "" AND szWifeFirstName != ""
+      // COMBINED SALUTATION
+      // There is both a husband and wife name, so create combination.
+      GetPersonCombinedNameRanking( HusbandRanking, szHusbandSalutation )
+      GetPersonCombinedNameRanking( WifeRanking, szWifeSalutation )
+      
+      IF WifeRanking = 1 AND HusbandRanking > 1
+         // Husband "outranks" wife and wife salutation is on the first level.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szHusbandSalutation + " & " + szWifeSalutation + " " + szHusbandFirstName + " " + szLastName
+         ELSE
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " " + szHusbandLastName + " & " + szWifeSalutation +
+                         " " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      ELSE
+      IF WifeRanking > 1 AND HusbandRanking > WifeRanking
+         // Husband "outranks" wife and wife salutation is above first level.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " & " + 
+                         szWifeSalutation + " " + szWifeFirstName + " " +  szLastName
+         ELSE
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         szWifeSalutation + " " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      ELSE
+      IF WifeRanking > HusbandRanking 
+         // Wife "outranks" husband.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szWifeSalutation + " " + szWifeFirstName + " & " + 
+                         szHusbandSalutation + " " + szHusbandFirstName + " " +  szLastName
+         ELSE
+            szFullName = szWifeSalutation + " " + szWifeFirstName + " " +  szWifeLastName + " & " + 
+                         szHusbandSalutation + " " + szHusbandFirstName + " " + szHusbandLastName 
+                         
+         END
+      
+      ELSE
+      IF WifeRanking = HusbandRanking AND WifeRanking > 1 AND szHusbandSalutation = szWifeSalutation
+         // Salutations are the same and above first level.
+         IF szHusbandSalutation = "Hon."
+            szCombinedSalutation = "Hons."
+         ELSE
+         IF szHusbandSalutation = "Dr."
+            szCombinedSalutation = "Drs."
+         ELSE
+         IF szHusbandSalutation = "Rev."
+            szCombinedSalutation = "Revs."
+         ELSE
+         IF szHusbandSalutation = "Prof."
+            szCombinedSalutation = "Profs."
+         ELSE
+            szCombinedSalutation = szHusbandSalutation
+         END
+         END
+         END
+         END
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szCombinedSalutation + " " + szHusbandFirstName + " & " + szWifeFirstName + " " + szLastName
+         ELSE
+            szFullName = szSalutation + " " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         szSalutation + " " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      ELSE
+      IF szHusbandSalutation = szWifeSalutation AND WifeRanking > 1
+         // Ranks are even and above first level, but are not the same salutation.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " & " + 
+                         szWifeSalutation + " " + szWifeFirstName + " " +  szLastName
+         ELSE
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         szWifeSalutation + " " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      ELSE
+         // The default must be Ranks are even and at first level.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = "Mr. & Mrs. " + szHusbandFirstName + " " + szLastName
+         ELSE
+            szFullName = "Mr. " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         "Mrs. " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      END
+      END
+      END
+      END
+      END
+      
+
+   ELSE
+      // SINGLE SALUTATION
+      // There is only a single name, so set up a single salution.
+      
+      GetStringFromAttribute( szFirstName, qPerson2, szEntityName, "FirstName" )
+      GetStringFromAttribute( szGender, qPerson2, szEntityName, "Gender" )
+      IF szSalutation = ""
+         IF szGender = "F"
+            szSalutation = "Ms."
+         ELSE
+            IF szGender = "M"
+               szSalutation = "Mr."
+            END
+         END 
+      END
+      IF szSalutation != ""
+         szFullName = szSalutation + " " + szFirstName + " " + szLastName
+      ELSE
+         szFullName = szFirstName + " " + szLastName
+      END
+   END
+   DropView( qPerson2 )
+   
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonCombinedNameSalErr
+**
+**    Combines FirstName and LastName with Salutation to create szFullName for any entity.
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonCombinedNameSalErr( STRING ( 100 ) szFullName,
+                             VIEW qPerson,
+                             STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   INTEGER        HusbandRanking
+   INTEGER        WifeRanking
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 50 )  szOnlyLastName
+   STRING ( 10 )  szMainSuffix
+   STRING ( 10 )  szHusbandSuffix
+   STRING ( 50 )  szHusbandFirstName
+   STRING ( 50 )  szWifeFirstName
+   STRING ( 50 )  szHusbandLastName
+   STRING ( 50 )  szWifeLastName
+   STRING ( 10 )  szSalutation
+   STRING ( 10 )  szHusbandSalutation
+   STRING ( 10 )  szWifeSalutation
+   STRING ( 1 )   szGender
+   
+   CreateViewFromView( qPerson2, qPerson )
+   szWifeFirstName      = ""
+   szHusbandFirstName   = ""
+   szHusbandSuffix = ""
+   
+   // Get first names and salutations.
+   GetStringFromAttributeByContext( szSalutation, qPerson2, szEntityName, "Salutation", "", 10 )
+   GetStringFromAttribute( szLastName, qPerson2, szEntityName, "LastName" )
+   
+   SET CURSOR FIRST qPerson2.HusbandOrParentRole 
+              WHERE qPerson2.HusbandOrParentRole.Role = "S"
+   IF RESULT >= zCURSOR_SET AND qPerson2.HusbandOrParent.Deceased != "Y"
+      GetStringFromAttribute( szWifeLastName, qPerson2, szEntityName, "LastName" )
+      GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "FirstName" )
+      GetStringFromAttributeByContext( szWifeSalutation, qPerson2, szEntityName, "Salutation", "", 10 )
+      szHusbandLastName        = qPerson2.HusbandOrParent.LastName
+      szHusbandFirstName       = qPerson2.HusbandOrParent.FirstName
+      szHusbandSalutation = qPerson2.HusbandOrParent.Salutation 
+      szHusbandSuffix     = qPerson2.HusbandOrParent.Suffix 
+   ELSE
+      SET CURSOR FIRST qPerson2.WifeOrChildRole 
+                 WHERE qPerson2.WifeOrChildRole.Role = "S" AND qPerson2.WifeOrChild.Deceased != "Y"
+      IF RESULT >= zCURSOR_SET
+         szWifeLastName        = qPerson2.WifeOrChild.LastName 
+         szWifeFirstName       = qPerson2.WifeOrChild.FirstName
+         szWifeSalutation = qPerson2.WifeOrChild.Salutation 
+         GetStringFromAttribute( szHusbandLastName,  qPerson2, szEntityName, "LastName" )
+         GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "FirstName" )
+         GetStringFromAttributeByContext( szHusbandSalutation, qPerson2, szEntityName, "Salutation", "", 10 )
+      END
+   END
+   IF szHusbandSalutation = ""
+      szHusbandSalutation = "Mr."
+   END
+   IF szWifeSalutation = ""
+      szWifeSalutation = "Mrs."
+   END
+   
+   // Get Suffix set up.
+   GetStringFromAttribute( szMainSuffix, qPerson2, szEntityName, "Suffix" )
+   IF szMainSuffix != ""
+      szLastName = szLastName + " " + szMainSuffix
+      IF szWifeLastName != szHusbandLastName
+         szHusbandLastName = szLastName + " " + szMainSuffix
+      END
+   ELSE
+      IF szHusbandSuffix != ""
+         szLastName = szLastName + " " + szHusbandSuffix
+         IF szWifeLastName != szHusbandLastName
+            szHusbandLastName = szLastName + " " + szHusbandSuffix
+         END
+      END
+   END
+   
+   IF szHusbandFirstName != "" AND szWifeFirstName != ""
+      // COMBINED SALUTATION
+      // There is both a husband and wife name, so create combination.
+      GetPersonCombinedNameRanking( HusbandRanking, szHusbandSalutation )
+      GetPersonCombinedNameRanking( WifeRanking, szWifeSalutation )
+      
+      IF WifeRanking = 1 AND HusbandRanking > 1
+         // Husband "outranks" wife and wife salutation is on the first level.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szHusbandSalutation + " & Mrs. " + szHusbandFirstName + " " + szLastName
+         ELSE
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         "Mrs. " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      ELSE
+      IF WifeRanking > 1 AND HusbandRanking > WifeRanking
+         // Husband "outranks" wife and wife salutation is above first level.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " & " + 
+                         szWifeSalutation + " " + szWifeFirstName + " " +  szLastName
+         ELSE
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         szWifeSalutation + " " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      ELSE
+      IF WifeRanking > HusbandRanking 
+         // Wife "outranks" husband.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szWifeSalutation + " " + szWifeFirstName + " & " + 
+                         szHusbandSalutation + " " + szHusbandFirstName + " " +  szLastName
+         ELSE
+            szFullName = szWifeSalutation + " " + szWifeFirstName + " " +  szWifeLastName + " & " + 
+                         szHusbandSalutation + " " + szHusbandFirstName + " " + szHusbandLastName 
+                         
+         END
+      
+      ELSE
+      IF WifeRanking = HusbandRanking AND WifeRanking > 1 AND szHusbandSalutation = szWifeSalutation
+         // Salutations are the same and above first level.
+         IF szHusbandSalutation = "Hon."
+            szSalutation = "Hons."
+         ELSE
+         IF szHusbandSalutation = "Dr."
+            szSalutation = "Drs."
+         ELSE
+         IF szHusbandSalutation = "Rev."
+            szSalutation = "Revs."
+         ELSE
+         IF szHusbandSalutation = "Prof."
+            szSalutation = "Profs."
+         ELSE
+            szSalutation = szHusbandSalutation
+         END
+         END
+         END
+         END
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szSalutation + " " + szHusbandFirstName + " & " + szWifeFirstName + " " + szLastName
+         ELSE
+            szFullName = szSalutation + " " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         szSalutation + " " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      ELSE
+      IF szHusbandSalutation = szWifeSalutation AND WifeRanking > 1
+         // Ranks are even and above first level, but are not the same salutation.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " & " + 
+                         szWifeSalutation + " " + szWifeFirstName + " " +  szLastName
+         ELSE
+            szFullName = szHusbandSalutation + " " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         szWifeSalutation + " " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      ELSE
+         // The default must be Ranks are even and at first level.
+         IF szWifeLastName = szHusbandLastName
+            szFullName = "Mr. & Mrs. " + szHusbandFirstName + " " + szLastName
+         ELSE
+            szFullName = "Mr. " + szHusbandFirstName + " " + szHusbandLastName + " & " + 
+                         "Mrs. " + szWifeFirstName + " " +  szWifeLastName
+         END
+      
+      END
+      END
+      END
+      END
+      END
+      
+
+   ELSE
+      // SINGLE SALUTATION
+      // There is only a single name, so set up a single salution.
+      
+      GetStringFromAttribute( szFirstName, qPerson2, szEntityName, "FirstName" )
+      GetStringFromAttribute( szGender, qPerson2, szEntityName, "Gender" )
+      IF szSalutation = ""
+         IF szGender = "F"
+            szSalutation = "Ms."
+         ELSE
+            IF szGender = "M"
+               szSalutation = "Mr."
+            END
+         END 
+      END
+      IF szSalutation != ""
+         szFullName = szSalutation + " " + szFirstName + " " + szLastName
+      ELSE
+         szFullName = szFirstName + " " + szLastName
+      END
+   END
+   DropView( qPerson2 )
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonCombinedNameMrAndMrs
+**
+**    Combines FirstName and LastName to create szFullName for any entity.
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonCombinedNameMrAndMrs( STRING ( 100 ) szFullName,
+                               VIEW qPerson,
+                               STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 50 )  szHusbandFirstName
+   STRING ( 50 )  szWifeFirstName
+   STRING ( 50 )  szHusbandLastName
+   STRING ( 50 )  szWifeLastName
+   STRING ( 1 )   szGender
+   
+   // Format husband and wife as either.
+   //     Mr. & Mrs. Donald Baker, if same last name.
+   //     Mr. Donald Baker & Mrs. Mary Edwards, if different last name.
+   //     Mr. Donald Baker, if no spouse.
+   
+   CreateViewFromView( qPerson2, qPerson )
+   szWifeFirstName    = ""
+   szHusbandFirstName = ""
+   GetStringFromAttribute( szLastName, qPerson2, szEntityName, "LastName" )
+   SET CURSOR FIRST qPerson2.HusbandOrParentRole 
+              WHERE qPerson2.HusbandOrParentRole.Role = "S"
+   IF RESULT >= zCURSOR_SET AND qPerson2.HusbandOrParent.Deceased != "Y"
+      GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "FirstName" )
+      GetStringFromAttribute( szWifeLastName,  qPerson2, szEntityName, "LastName" )
+      szHusbandFirstName = qPerson2.HusbandOrParent.FirstName 
+      szHusbandLastName  = qPerson2.HusbandOrParent.LastName
+   ELSE
+      SET CURSOR FIRST qPerson2.WifeOrChildRole 
+                 WHERE qPerson2.WifeOrChildRole.Role = "S" AND qPerson2.WifeOrChild.Deceased != "Y"
+      IF RESULT >= zCURSOR_SET
+         szWifeFirstName    = qPerson2.WifeOrChild.FirstName 
+         szWifeLastName     = qPerson2.WifeOrChild.LastName
+         GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "FirstName" )
+         GetStringFromAttribute( szHusbandLastName,  qPerson2, szEntityName, "LastName" )
+      END
+   END
+   
+   IF szHusbandFirstName != "" AND szWifeFirstName != ""
+      IF szHusbandLastName = szWifeLastName
+         szFullName = "Mr. & Mrs. " + szHusbandFirstName + " " + szLastName
+      ELSE
+         szFullName = "Mr. " + szHusbandFirstName + " " + szHusbandLastName + " & Mrs. " + 
+                      szWifeFirstName + " " + szWifeLastName
+      END
+       
+   ELSE
+      GetStringFromAttribute( szFirstName, qPerson2, szEntityName, "FirstName" )
+      GetStringFromAttribute( szGender, qPerson2, szEntityName, "Gender" )
+      IF szGender = "F"
+         szFullName = "Ms. " + szFirstName + " " + szLastName
+      ELSE
+         IF szGender = "M"
+            szFullName = "Mr. " + szFirstName + " " + szLastName
+         ELSE
+            szFullName = szFirstName + " " + szLastName
+         END
+      END
+   END
+   DropView( qPerson2 )
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetPersonCombinedGreetingMrMrs
+**
+**    Combines FirstName, MiddleName and LastName to create szFullName for any entity.
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonCombinedGreetingMrMrs( STRING ( 100 ) szFullName,
+                                VIEW qPerson,
+                                STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 50 )  szHusbandFirstName
+   STRING ( 50 )  szWifeFirstName
+   STRING ( 50 )  szHusbandLastName
+   STRING ( 50 )  szWifeLastName
+   STRING ( 1 )   szGender
+   
+   // Format husband and wife as either.
+   //     Mr. & Mrs. Baker, if same last name.
+   //     Mr. Donald Baker & Mrs. Mary Edwards, if different last name.
+   //     Mr. Donald Baker, if no spouse.
+   
+   CreateViewFromView( qPerson2, qPerson )
+   szWifeFirstName    = ""
+   szHusbandFirstName = ""
+   GetStringFromAttribute( szLastName, qPerson2, szEntityName, "LastName" )
+   SET CURSOR FIRST qPerson2.HusbandOrParentRole 
+              WHERE qPerson2.HusbandOrParentRole.Role = "S"
+   IF RESULT >= zCURSOR_SET AND qPerson2.HusbandOrParent.Deceased != "Y"
+      GetStringFromAttribute( szWifeFirstName, qPerson2, szEntityName, "FirstName" )
+      GetStringFromAttribute( szWifeLastName,  qPerson2, szEntityName, "LastName" )
+      szHusbandFirstName = qPerson2.HusbandOrParent.FirstName 
+      szHusbandLastName  = qPerson2.HusbandOrParent.LastName
+   ELSE
+      SET CURSOR FIRST qPerson2.WifeOrChildRole 
+                 WHERE qPerson2.WifeOrChildRole.Role = "S" AND qPerson2.WifeOrChild.Deceased != "Y"
+      IF RESULT >= zCURSOR_SET
+         szWifeFirstName    = qPerson2.WifeOrChild.FirstName 
+         szWifeLastName     = qPerson2.WifeOrChild.LastName
+         GetStringFromAttribute( szHusbandFirstName, qPerson2, szEntityName, "FirstName" )
+         GetStringFromAttribute( szHusbandLastName,  qPerson2, szEntityName, "LastName" )
+      END
+   END
+   
+   IF szHusbandFirstName != "" AND szWifeFirstName != ""
+      IF szHusbandLastName = szWifeLastName
+         szFullName = "Mr. & Mrs. " + szLastName 
+      ELSE
+         szFullName = "Mr. " + szHusbandFirstName + " " + szHusbandLastName + " & Mrs. " + 
+                      szWifeFirstName + " " + szWifeLastName
+      END
+   ELSE
+      GetStringFromAttribute( szFirstName, qPerson2, szEntityName, "FirstName" )
+      GetStringFromAttribute( szGender, qPerson2, szEntityName, "Gender" )
+      IF szGender = "F"
+         szFullName = "Ms. " + szLastName
+      ELSE
+         IF szGender = "M"
+            szFullName = "Mr. " + szLastName
+         ELSE
+            szFullName = szFirstName + " " + szLastName
+         END
+      END
+   END
+   DropView( qPerson2 )
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetPersonGreetingMrOrMs
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonGreetingMrOrMs( STRING ( 100 ) szFullName,
+                         VIEW qPerson,
+                         STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 1 )   szGender
+   
+   // Format person with salutation of Mr. or Mrs., depending on Gender.
+
+   GetStringFromAttribute( szLastName, qPerson, szEntityName, "LastName" )
+   GetStringFromAttribute( szFirstName, qPerson, szEntityName, "FirstName" )
+   GetStringFromAttribute( szGender, qPerson, szEntityName, "Gender" )
+   IF szGender = "F"
+      szFullName = "Ms. " + szLastName
+   ELSE
+      IF szGender = "M"
+         szFullName = "Mr. " + szLastName
+      ELSE
+         szFullName = szFirstName + " " + szLastName
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetPersonGreetingSalutation
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonGreetingSalutation( STRING ( 100 ) szFullName,
+                             VIEW qPerson,
+                             STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 10 )  szSalutation
+   STRING ( 1 )   szGender
+   
+   // Format person with salutation of Mr. or Mrs., depending on Gender.
+
+   GetStringFromAttribute( szLastName, qPerson, szEntityName, "LastName" )
+   GetStringFromAttribute( szFirstName, qPerson, szEntityName, "FirstName" )
+   GetStringFromAttribute( szGender, qPerson, szEntityName, "Gender" )
+   GetStringFromAttributeByContext( szSalutation, qPerson, szEntityName, "Salutation", "", 10 )
+   IF szSalutation = ""
+      IF szGender = "F"
+         szFullName = "Ms. " + szLastName
+      ELSE
+         IF szGender = "M"
+            szFullName = "Mr. " + szLastName
+         ELSE
+            szFullName = szFirstName + " " + szLastName
+         END
+      END
+   ELSE
+      szFullName = szSalutation + " " + szLastName
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetPersonNameMrOrMs
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonNameMrOrMs( STRING ( 100 ) szFullName,
+                     VIEW qPerson,
+                     STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 50 )  szSuffix
+   STRING ( 1 )   szGender
+   
+   // Format person with salutation of Mr. or Mrs., depending on Gender.
+
+   GetStringFromAttribute( szLastName, qPerson, szEntityName, "LastName" )
+   GetStringFromAttribute( szFirstName, qPerson, szEntityName, "FirstName" )
+   GetStringFromAttribute( szSuffix, qPerson, szEntityName, "Suffix" )
+   GetStringFromAttribute( szGender, qPerson, szEntityName, "Gender" )
+   IF szGender = "F"
+      szFullName = "Ms. " + szFirstName + " " + szLastName + " " + szSuffix
+   ELSE
+      IF szGender = "M"
+         szFullName = "Mr. " + szFirstName + " " + szLastName + " " + szSuffix
+      ELSE
+         szFullName = szFirstName + " " + szLastName + " " + szSuffix
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetPersonFullNameSalutation
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetPersonFullNameSalutation( STRING ( 100 ) szFullName,
+                             VIEW qPerson,
+                             STRING ( 32 )  szEntityName )
+
+   VIEW qPerson2 
+   STRING ( 50 )  szFirstName
+   STRING ( 50 )  szLastName
+   STRING ( 10 )  szSalutation
+   STRING ( 50 )  szSuffix
+   STRING ( 1 )   szGender
+   
+   // Format person with salutation.
+
+   GetStringFromAttribute( szLastName, qPerson, szEntityName, "LastName" )
+   GetStringFromAttribute( szFirstName, qPerson, szEntityName, "FirstName" )
+   GetStringFromAttribute( szSuffix, qPerson, szEntityName, "Suffix" )
+   GetStringFromAttribute( szGender, qPerson, szEntityName, "Gender" )
+   GetStringFromAttributeByContext( szSalutation, qPerson, szEntityName, "Salutation", "", 10 )
+   IF szSalutation = ""
+      IF szGender = "F"
+         szFullName = "Ms. " + szFirstName + " " + szLastName + " " + szSuffix
+      ELSE
+         IF szGender = "M"
+            szFullName = "Mr. " + szFirstName + " " + szLastName + " " + szSuffix
+         ELSE
+            szFullName = szFirstName + " " + szLastName + " " + szSuffix
+         END
+      END
+   ELSE
+      szFullName = szSalutation + " " + szFirstName + " " + szLastName + " " + szSuffix
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetAddressLongitudeLatitude
+**    
+**    Set the Longitude and Latitude values in an Address entity.
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetAddressLongitudeLatitude( VIEW OI_View,
+                             STRING ( 32 ) AddressEntityName,
+                             STRING ( 10 ) ZipCode )
+   STRING ( 5 ) ShortZipCode
+   DECIMAL      Latitude
+   DECIMAL      Longitude
+   
+   ShortZipCode = ZipCode
+   GetZipLatLong( ShortZipCode, OI_View, Latitude, Longitude )
+   SetAttributeFromDecimal( OI_View, AddressEntityName, "Latitude", Latitude )
+   SetAttributeFromDecimal( OI_View, AddressEntityName, "Longitude", Longitude )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: BuildFamilyRole
+**    
+**    Builds the FamilyRole subobject for any Person object that has the derived path.
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+BuildFamilyRole( VIEW xPerson )
+
+   /*VIEW mPerson2 BASED ON LOD mPerson
+   STRING ( 1 )  szRole
+   STRING ( 32 ) ParentRoleName
+   STRING ( 32 ) ParentPersonName
+   STRING ( 32 ) DescendantRoleName
+   STRING ( 32 ) DescendantPersonName
+   SHORT nRC
+   
+   // Build the derived subobject paths FamilyRole/FamilyPerson.
+   CreateViewFromView( mPerson2, xPerson)
+   nRC = LodContainsEntity( mPerson2, "DescendantRole" )
+   IF nRC >= 0
+      ParentRoleName       = "ParentRole"
+      ParentPersonName     = "ParentPerson"
+      DescendantRoleName   = "DescendantRole"
+      DescendantPersonName = "DescendantPerson"
+   ELSE
+      ParentRoleName       = "HusbandOrParentRole"
+      ParentPersonName     = "HusbandOrParent"
+      DescendantRoleName   = "WifeOrChildRole"
+      DescendantPersonName = "WifeOrChild"
+   END
+   
+   //TraceLineS("In Build Family Role: ","2")
+   FOR EACH mPerson2.Person
+      nRC = SetCursorFirstEntity( mPerson2, ParentRoleName, "" )
+      LOOP WHILE nRC >= zCURSOR_SET 
+         // Make sure that the child entity exists, although it should if data is correct.
+         nRC = CheckExistenceOfEntity( mPerson2, ParentPersonName )
+         IF nRC >= 0
+            //nRC = CompareAttributeToString( mPerson2, ParentPersonName, "Deceased", "Y" )
+            //IF nRC != 0
+               CREATE ENTITY mPerson2.FamilyRole
+               IncludeSubobjectFromSubobject( mPerson2, "FamilyPerson",
+                                              mPerson2, ParentPersonName, zPOS_AFTER )
+               IF ParentRoleName != "HusbandOrParentRole"
+                  SetAttributeFromAttribute( mPerson2, "FamilyRole",   "LivesWith",
+                                             mPerson2, ParentRoleName, "LivesWith" )
+               END
+               GetStringFromAttribute( szRole, mPerson2, ParentRoleName, "Role" )
+               IF szRole = "F"
+                  mPerson2.FamilyRole.FamilyRole = "Father"
+               ELSE
+               IF szRole = "M"
+                  mPerson2.FamilyRole.FamilyRole = "Mother"
+               ELSE
+               IF szRole = "G"
+                  mPerson2.FamilyRole.FamilyRole = "Guardian"
+               ELSE
+               IF szRole = "P"
+                  mPerson2.FamilyRole.FamilyRole = "Grandparent"
+               ELSE
+               IF szRole = "O"
+                  mPerson2.FamilyRole.FamilyRole = "Other"
+               ELSE
+               IF szRole = "B"
+                  mPerson2.FamilyRole.FamilyRole = "Sibling"
+               ELSE
+               IF szRole = "D"
+                  mPerson2.FamilyRole.FamilyRole = "Divorced"
+               ELSE
+                  mPerson2.FamilyRole.FamilyRole = "Husband"
+               END
+               END
+               END
+               END
+               END
+               END
+               END
+               
+               // We'll only make the ParentPersonAlumni check below if the object contains entity, ParentPersonAlumni.
+               nRC = LodContainsEntity( mPerson2, "ParentPersonAlumni" )
+               IF nRC >= 0
+                  IF mPerson2.ParentPersonAlumni EXISTS
+                     mPerson2.FamilyPerson.dPersonIsAlumniFlag = "Y"
+                  END
+               END
+            //END
+         END
+         nRC = SetCursorNextEntity( mPerson2, ParentRoleName, "" )
+      END
+ //TraceLineS("In Build Family Role: ","6")
+      nRC = SetCursorFirstEntity( mPerson2, DescendantRoleName, "" )
+      LOOP WHILE nRC >= zCURSOR_SET 
+         nRC = CheckExistenceOfEntity( mPerson2, DescendantPersonName )
+         IF nRC >= 0
+ 
+            //nRC = CompareAttributeToString( mPerson2, DescendantPersonName, "Deceased", "Y" )
+            //IF nRC != 0
+               CREATE ENTITY mPerson2.FamilyRole
+               IncludeSubobjectFromSubobject( mPerson2, "FamilyPerson",
+                                              mPerson2, DescendantPersonName, zPOS_AFTER )
+               IF ParentRoleName != "HusbandOrParentRole"
+                  SetAttributeFromAttribute( mPerson2, "FamilyRole",   "LivesWith",
+                                             mPerson2, DescendantRoleName, "LivesWith" )
+               END
+               GetStringFromAttribute( szRole, mPerson2, DescendantRoleName, "Role" )
+               IF szRole = "S"
+                  mPerson2.FamilyRole.FamilyRole = "Wife"
+               ELSE
+               IF szRole = "O"
+                  mPerson2.FamilyRole.FamilyRole = "Other"
+               ELSE
+               IF szRole = "B"
+                  mPerson2.FamilyRole.FamilyRole = "Sibling"
+               ELSE
+               IF szRole = "D"
+                  mPerson2.FamilyRole.FamilyRole = "Divorced"
+               ELSE
+                  mPerson2.FamilyRole.FamilyRole = "Child"
+               END
+               END
+               END
+               END
+               // We'll only make the DescendantPersonAlumni check below if the object contains entity, DescendantPersonAlumni.
+               nRC = LodContainsEntity( mPerson2, "DescendantPersonAlumni" )
+               IF nRC >= 0
+                  IF mPerson2.DescendantPersonAlumni EXISTS
+                     mPerson2.FamilyPerson.dPersonIsAlumniFlag = "Y"
+                  END
+               END
+            //END
+    
+         END
+      
+         nRC = SetCursorNextEntity( mPerson2, DescendantRoleName, "" )
+      END
+    
+   END
+   DropView( mPerson2 )*/
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetUpAndStartEmailClientForList
+**    
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetUpAndStartEmailClientForList( VIEW mConList,
+                                 STRING ( 32 ) szIncludeEntityName,
+                                 STRING ( 32 ) szEmailEntityName,
+                                 STRING ( 1 )  szAllEntriesFlag )
+
+   SetUpAndStartEmailClientForListR( mConList,
+                                     szIncludeEntityName,
+                                     "",
+                                     szEmailEntityName,
+                                     "eMailAddress",
+                                     "",
+                                     szEmailEntityName,
+                                     szAllEntriesFlag,
+                                     "", "", "" )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetUpAndStartEmailClientForListR
+**    
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetUpAndStartEmailClientForListR( VIEW mConList,
+                                  STRING ( 32 ) szIncludeEntityName,
+                                  STRING ( 32 ) szCreateItemEntityName,
+                                  STRING ( 32 ) szEmailEntityName,
+                                  STRING ( 32 ) szEmailAttributeName,
+                                  STRING ( 32 ) szAlternateEmailEntityName,
+                                  STRING ( 32 ) szSelectedEntityName,
+                                  STRING ( 1 )  szAllEntriesFlag,
+                                  STRING ( 1 )  szBlindCopyFlag,
+                                  STRING ( 256) szSubjectLine,
+                                  STRING ( 5000 ) szBody )
+   
+   VIEW mUser  BASED ON LOD  mUser
+   VIEW wXferO REGISTERED AS wXferO
+   VIEW mConListT
+   STRING ( 256 ) szEMailAddress
+   STRING ( 256 ) szAlternateEMailAddress
+   STRING ( 256 ) Msg
+   STRING ( 32 )  szObjectName
+   STRING ( 50 )  szPersonName
+   STRING ( 100 ) szLangConv  
+   SHORT   nRC
+   
+   // Perform common setup for calling StartEmailClientForList, which will format the email address from
+   // entries in a Contact List. This Contact List will be built temporarily from the input Contact List, so
+   // that it only contains the desired entries that have email addresses.
+   // This includes building a work mConList of those entries to be included in the list.
+   // If szAllEntriesFlag flag is "Y", it contains all entries that have an Email address.
+   // If szAllEntriesFlag flag is "N", it contains all selected entries that have an Email address.
+
+   nRC = GetViewByName( mUser, "mCurrentUser", mConList, zLEVEL_TASK )
+   IF nRC < 0
+      // Use task view in case we're running under Web.
+      nRC = GetViewByName( mUser, "mUser", mConList, zLEVEL_TASK )
+   END
+   
+   // Create temporary Contact List with Email entries.
+   MiGetObjectNameForView( szObjectName, mConList )
+   ActivateEmptyObjectInstance( mConListT, szObjectName, mConList, zSINGLE )
+   CREATE ENTITY mConListT.ContactList 
+   nRC = SetCursorFirstEntity( mConList, szIncludeEntityName, "ContactList" )
+   LOOP WHILE nRC >= zCURSOR_SET
+      szAlternateEMailAddress = ""
+      IF szAllEntriesFlag = "Y"
+         // List is made up of ALL Contact List entries with Email addresses.
+         GetStringFromAttribute( szEMailAddress, mConList, szEmailEntityName, szEmailAttributeName )
+         IF szEMailAddress = "" AND szAlternateEmailEntityName != ""
+            GetStringFromAttribute( szEMailAddress, mConList, szAlternateEmailEntityName, szEmailAttributeName )
+            szAlternateEMailAddress = szEMailAddress
+         END
+         IF szEMailAddress != ""
+            IF szCreateItemEntityName != ""
+               CreateEntity( mConListT, szCreateItemEntityName, zPOS_AFTER )
+            END
+            IncludeSubobjectFromSubobject( mConListT, szIncludeEntityName,
+                                           mConList,  szIncludeEntityName, zPOS_AFTER )
+            // Make sure that the eMail attribute is set as it could be a work attribute.
+            SetAttributeFromAttribute( mConListT, szEmailEntityName, szEmailAttributeName,
+                                       mConList,  szEmailEntityName, szEmailAttributeName )
+                                       
+            // If the Email Address from the alternate entity was used, we have to set it in the temporary object.
+            IF szAlternateEMailAddress != ""
+               SetAttributeFromString( mConListT, szEmailEntityName, szEmailAttributeName, szAlternateEMailAddress )
+            END
+         ELSE
+            // Format error message containing name. Most names are from the Person entity, which is the email address.
+            // There are a few expections, however, as defined below.
+            IF szIncludeEntityName = "Employee"
+               GetStringFromAttribute( szPersonName, mConList, "EmployeePerson", "dFullNameLFM" )
+            ELSE
+               IF szIncludeEntityName = "Faculty"
+                  GetStringFromAttribute( szPersonName, mConList, "FacultyPerson", "dFullNameLFM" )
+               ELSE
+                  GetStringFromAttribute( szPersonName, mConList, szEmailEntityName, "dFullNameLFM" )
+               END
+            END
+            
+            GetTextConv(szLangConv,mConList,"No Email Address is specified for","" )
+            Msg = szLangConv+" " + szPersonName + "."
+            MessageSend( mConList, "", "Generate Email", Msg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+      ELSE
+         // List is made up of SELECTED Contact List entries with Email addresses.
+         // We will check both szEmailEntityName and szIncludeEntityName because there are OL controls
+         // that select each of them.
+         nRC = GetSelectStateOfEntity( mConList, szSelectedEntityName )
+         IF nRC = 0
+            nRC = GetSelectStateOfEntity( mConList, szIncludeEntityName )
+         END
+         IF nRC = 1
+            GetStringFromAttribute( szEMailAddress, mConList, szEmailEntityName, szEmailAttributeName )
+            IF szEMailAddress = "" AND szAlternateEmailEntityName != ""
+               GetStringFromAttribute( szEMailAddress, mConList, szAlternateEmailEntityName, szEmailAttributeName )
+               szAlternateEMailAddress = szEMailAddress
+            END
+            IF szEMailAddress != ""
+               IF szCreateItemEntityName != ""
+                  CreateEntity( mConListT, szCreateItemEntityName, zPOS_AFTER )
+               END
+               IncludeSubobjectFromSubobject( mConListT, szIncludeEntityName,
+                                              mConList,  szIncludeEntityName, zPOS_AFTER )
+               // Make sure that the eMail attribute is set as it could be a work attribute.
+               SetAttributeFromAttribute( mConListT, szEmailEntityName, szEmailAttributeName,
+                                          mConList,  szEmailEntityName, szEmailAttributeName )
+               // If the Email Address from the alternate entity was used, we have to set it in the temporary object.
+               IF szAlternateEMailAddress != ""
+                  SetAttributeFromString( mConListT, szEmailEntityName, szEmailAttributeName, szAlternateEMailAddress )
+               END
+            ELSE
+               // Format error message containing name. Most names are from the Person entity, which is the email address.
+               // There are a few expections, however, as defined below.
+               IF szIncludeEntityName = "Employee"
+                  GetStringFromAttribute( szPersonName, mConList, "EmployeePerson", "dFullNameLFM" )
+               ELSE
+                  IF szIncludeEntityName = "Faculty"
+                     GetStringFromAttribute( szPersonName, mConList, "FacultyPerson", "dFullNameLFM" )
+                  ELSE
+                     IF szIncludeEntityName = "ContactListItemStudent"
+                        IF wXferO.Root.CurrentFunction = "EmailParent"
+                           // Entity is for Parent of Student.
+                           szPersonName = "parent of Student: " + mConList.ContactListItemStudentPerson.dFullNameLFM
+                        ELSE
+                           // Entity is for Student.
+                           GetStringFromAttribute( szPersonName, mConList, "ContactListItemStudentPerson", "dFullNameLFM" )
+                        END
+                     ELSE
+                        GetStringFromAttribute( szPersonName, mConList, szEmailEntityName, "dFullNameLFM" )
+                     END
+                  END
+               END
+          GetTextConv(szLangConv,mConList,"No Email Address is specified for","" )
+            Msg = szLangConv+" " + szPersonName + "."
+               MessageSend( mConList, "", "Generate Email", Msg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+            SetSelectStateOfEntity( mConList, szSelectedEntityName, 0 )
+         END
+      END
+      nRC = SetCursorNextEntity( mConList, szIncludeEntityName, "ContactList" )
+   END
+
+   // StartEmailClientForList( zVIEW   ResultSet,
+   //                          zCPCHAR cpcEntityName,
+   //                          zCPCHAR cpcAttributeName,
+   //                          zCPCHAR cpcContext,
+   //                          zCPCHAR cpcScope,
+   //                          zSHORT  bUseOnlySelectedEntities,
+   //                          zSHORT  bUseParentSelectedEntities,
+   //                          zCPCHAR cpcSubject,
+   //                          zCPCHAR cpcCopyTo,        // comma separated list
+   //                          zCPCHAR cpcBlindCopy,     // comma separated list
+   //                          zCPCHAR cpcBody,
+   //                          zCPCHAR cpcAttachment,
+   //                          zCPCHAR cpcEmailClient,
+   //                          zLONG   lFlags )          // reserved
+   
+   IF szBlindCopyFlag = "Y"
+      StartBlindEmailClientForList( mConListT, szEmailEntityName, szEmailAttributeName, "", "ContactList",
+                                    FALSE, TRUE, szSubjectLine, "", "", szBody, "", "", 0 )
+   ELSE
+      StartEmailClientForList( mConListT, szEmailEntityName, szEmailAttributeName, "", "ContactList",
+                               FALSE, TRUE, szSubjectLine, "", "", szBody, "", "", 0 )
+   END
+      
+   DropView( mConListT )
+
+END
+
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetDateFromLegacyDate
+**    
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetDateFromLegacyDate( VIEW TargetView,
+                       STRING ( 32 ) TargetEntityName,
+                       STRING ( 32 ) TargetAttributeName,
+                       VIEW SourceView,
+                       STRING ( 32 ) SourceEntityName,
+                       STRING ( 32 ) SourceAttributeName )
+                       
+   STRING ( 8 ) szLS_Date
+   STRING ( 8 ) szNewDate
+   STRING ( 4 ) szYear
+   STRING ( 2 ) szMonth
+   STRING ( 2 ) szDay
+   SHORT  nRC 
+   
+   GetStringFromAttributeByContext( szLS_Date, 
+                                    SourceView, SourceEntityName, SourceAttributeName, "", 8 )
+   nRC = zstrlen( szLS_Date )
+   IF nRC < 7
+      szNewDate = ""
+   ELSE
+      IF nRC = 7
+         szMonth = "0" + szLS_Date[1:1]
+         szDay   = szLS_Date[2:2]
+         szYear  = szLS_Date[4:4]
+      ELSE
+         szMonth = szLS_Date[1:2]
+         szDay   = szLS_Date[3:2]
+         szYear  = szLS_Date[5:4]
+      END
+      szNewDate = szYear + szMonth + szDay
+   END
+   SetAttributeFromString( TargetView, TargetEntityName, TargetAttributeName, szNewDate )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: RetrieveCommaDeliminatedValue
+**    
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+RetrieveCommaDeliminatedValue( STRING ( 5000 ) ReturnedValue,
+                               STRING ( 5000 ) szLine,
+                               INTEGER ParameterNumber )
+
+   INTEGER Length
+   INTEGER ParameterPosition
+   INTEGER CommaPos
+   INTEGER NextPos
+   INTEGER LastPos
+   INTEGER PreviousPos
+   STRING ( 1 )    szComma
+   STRING ( 5000 ) szValue
+   STRING ( 5000 ) szValue2
+   STRING ( 1 )    szEndFlag
+   STRING ( 1 )    szNextValue
+
+   // Return the value at the comma deliminated position ParameterNumber.
+   Length = zstrlen( szLine )
+   szValue = ""
+   CommaPos = 1
+   ParameterPosition = 1
+   szComma = szLine[ CommaPos: 1 ]
+   LOOP WHILE ParameterPosition <= ParameterNumber AND CommaPos <= Length
+      IF szComma = QUOTES
+         // The entry IS contained in quotes.
+         CommaPos  = CommaPos + 1
+         szComma   = szLine[ CommaPos: 1 ]
+         
+         // Check to see if we're starting with a triple quote, which happens if the first line of Text is a quote.
+         // In that case, skip another character.
+         NextPos = CommaPos + 1
+         szNextValue = szLine[ NextPos: 1 ]
+         IF szNextValue = QUOTES AND szComma = QUOTES
+            CommaPos = CommaPos + 1
+         END
+         
+         szValue   = ""
+         szEndFlag = ""
+         LOOP WHILE CommaPos < Length AND szEndFlag = ""
+            szValue = szValue + szComma
+            CommaPos = CommaPos + 1
+            szComma = szLine[ CommaPos: 1 ]
+            IF szComma = QUOTES
+               NextPos = CommaPos + 1
+               szNextValue = szLine[ NextPos: 1 ]
+               IF szNextValue = QUOTES
+                  // The value is a double quote, so skip second quote.
+                  CommaPos = CommaPos + 1
+               ELSE
+                  // The value is a single quote, so treat it as end of string value.
+                  szEndFlag = "Y"
+               END
+            END
+         END
+         CommaPos = CommaPos + 2
+         IF CommaPos < Length
+            szComma = szLine[ CommaPos: 1 ]
+         END
+         ParameterPosition = ParameterPosition + 1
+      ELSE
+         // The entry is NOT contained in quotes.
+         szValue = ""
+         LOOP WHILE CommaPos < Length AND szComma != "," 
+            szValue = szValue + szComma
+            CommaPos = CommaPos + 1
+            szComma = szLine[ CommaPos: 1 ]
+         END
+         IF szComma != ","
+            szComma = szLine[ CommaPos: 1 ]
+            szValue = szValue + szComma
+         END
+         CommaPos = CommaPos + 1
+         szComma = szLine[ CommaPos: 1 ]
+         ParameterPosition = ParameterPosition + 1
+      END
+   END
+   
+   // Remove any trailing blanks from szValue.
+   LastPos = zstrlen( szValue)
+   IF szValue[ LastPos: 1 ] = " "
+      szValue2 = szValue
+      LOOP WHILE szValue2[ LastPos: 1 ] = " " AND LastPos > 0
+         LastPos = LastPos - 1
+      END
+      IF LastPos = 0
+         szValue = ""
+      ELSE
+         szValue = szValue2[ 1:LastPos ]
+      END
+   END
+   
+   // If the ParameterPosition is the same value as the ParameterNumber, then the last value was null. If not,
+   // the ParameterPosition got incremented one more time as the non-null value was processed.
+   IF ParameterNumber = ParameterPosition
+      ReturnedValue = ""
+   ELSE
+      ReturnedValue = szValue
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetAttributeByCommaDelimitValue
+**    Set an Attribute from a value in a comma delimited file.
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetAttributeByCommaDelimitValue( VIEW AnyView,
+                                 STRING ( 32 )    szEntityName,
+                                 STRING ( 32 )    szAttributeName,
+                                 STRING ( 4000 ) szLine,
+                                 INTEGER ValueCommaPos )
+
+   STRING ( 4000 )  szValue
+   
+   RetrieveCommaDeliminatedValue( szValue, szLine, ValueCommaPos )
+   SetAttributeFromString( AnyView, szEntityName, szAttributeName, szValue )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetAttributeByCL_PositionalValue
+**    Set an Attribute from a value in a positional file.
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetAttributeByCL_PositionalValue( VIEW AnyView,
+                                  STRING ( 32 )    szEntityName,
+                                  STRING ( 32 )    szAttributeName,
+                                  STRING ( 4000 ) szLine,
+                                  INTEGER StartPosition,
+                                  INTEGER Length,
+                                  STRING ( 1 ) szDataType )
+
+   STRING ( 1000 )  szValueIn
+   STRING ( 1000 )  szValueOut
+   STRING (  5 )    szZipCode5
+   STRING (  4 )    szZipCode4
+   INTEGER          IntegerValue
+   DECIMAL          DecimalValue1
+   DECIMAL          DecimalValue2
+   
+   // Set the attribute from a string identified by position and length.
+   // Make sure that we trim any blanks off the end of the string.
+   // Since this is a CommonLine attribute, make sure that any nulls are filled with blanks.
+   IF Length > 1000
+      MessageSend( AnyView, "zGlobal2005", "Set Attribute by Positional Value",
+                   "Length cannot exceed 1000 characters.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN 2
+   END
+   szValueIn = szLine[ StartPosition: Length ]
+   zRTrim( szValueIn, szValueOut, 1000 )
+   IF szDataType = "Z"
+      // Zip Code for 9 Digits
+      szZipCode5 = szValueOut[1:5]
+      szZipCode4 = szValueOut[6:4]
+      IF szZipCode5 = "00000"
+         szValueOut = ""
+      ELSE
+         szValueOut = szZipCode5
+         IF szZipCode4 != "0000"
+            szValueOut = szZipCode5 + szZipCode4
+         END
+      END
+      SetAttributeFromString( AnyView, szEntityName, szAttributeName, szValueOut )
+   ELSE
+      IF szDataType = "N"
+         // Whole Number
+         IntegerValue = zStringToInteger( szValueIn )
+         SetAttributeFromInteger( AnyView, szEntityName, szAttributeName, IntegerValue )
+      ELSE
+         IF szDataType = "D"
+            // Decimal with two decimal digits.
+            IntegerValue = zStringToInteger( szValueIn ) 
+            DecimalValue1 = IntegerValue
+            DecimalValue2 = DecimalValue1 / 100
+            SetAttributeFromDecimal( AnyView, szEntityName, szAttributeName, DecimalValue2 )
+         ELSE
+            // Default is String.
+            SetAttributeFromString( AnyView, szEntityName, szAttributeName, szValueOut )
+         END
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetCL_PositionalValue
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetCL_PositionalValue( VIEW AnyView,
+                       STRING ( 4000 ) szLine,
+                       STRING ( 1000 ) szValueIn,
+                       INTEGER TargetLength,
+                       STRING ( 1 ) szDataType )
+
+   STRING ( 1000 ) szValueOut
+   STRING (  5 )   szZipCode5
+   STRING (  4 )   szZipCode4
+   SHORT  SourceLength
+   SHORT  PadLength
+   
+   // Set the Input string value at the end of the Output line for the length specified.
+   // Make sure that we pad the output value with zeros or blanks, depending on data type.
+   // Regular strings get padded with blanks on the right.
+   // Numbers get padded with zeros on the left.
+   // ZipCodes get padded with zeros on the right.
+   IF TargetLength > 1000
+      MessageSend( AnyView, "zGlobal2005", "Set string by Positional Value",
+                   "Length cannot exceed 1000 characters.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN 2
+   END
+   
+   SourceLength = zstrlen( szValueIn )
+   PadLength = TargetLength - SourceLength
+   IF szDataType = "N"
+      // Number field, which is padded with zeros on the left.
+      szValueOut = ""
+      LOOP WHILE PadLength > 0
+         szValueOut = szValueOut + "0"
+         PadLength = PadLength - 1
+      END
+      szValueOut = szValueOut + szValueIn
+   ELSE
+      IF szDataType = "Z"
+         // Zip Code.
+         IF SourceLength = 0
+            szValueOut = "000000000"
+         ELSE
+            IF SourceLength = 5
+               szValueOut = szValueIn + "0000"
+            ELSE
+               szValueOut = szValueIn
+            END
+         END
+      ELSE
+         // The default is simple text padded with blanks on the right.
+         szValueOut = szValueIn
+         LOOP WHILE PadLength > 0
+            szValueOut = szValueOut + " "
+            PadLength = PadLength - 1
+         END
+      END
+   END
+   
+   // Add resulting string to end of szLine.
+   szLine = szLine + szValueOut
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetTimeDifferenceInMinutes
+**    Return the time difference for two Time attributes in minutes
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetTimeDifferenceInMinutes( VIEW StartTimeView,
+                            STRING ( 32 ) StartTimeEntityName,
+                            STRING ( 32 ) StartTimeAttributeName,
+                            VIEW EndTimeView,
+                            STRING ( 32 ) EndTimeEntityName,
+                            STRING ( 32 ) EndTimeAttributeName )
+
+   STRING ( 20 ) szStartTime
+   STRING ( 20 ) szEndTime
+   STRING ( 2 )  szTimeHours
+   STRING ( 2 )  szTimeMinutes
+   INTEGER  TimeHours
+   INTEGER  TimeMinutes
+   INTEGER  StartTimeInMinutes
+   INTEGER  EndTimeInMinutes
+   INTEGER  TimeDifference
+   
+   // Compute StartTime in basic Minutes from start of day.
+   GetStringFromAttribute( szStartTime, StartTimeView, StartTimeEntityName, StartTimeAttributeName )
+   szTimeHours   = szStartTime[9:2]
+   szTimeMinutes = szStartTime[11:2]
+   TimeHours   = zStringToInteger( szTimeHours )
+   TimeMinutes = zStringToInteger( szTimeMinutes )
+   StartTimeInMinutes = 60 * TimeHours + TimeMinutes
+   
+   // Compute EndTime in basic Minutes from End of day.
+   GetStringFromAttribute( szEndTime, EndTimeView, EndTimeEntityName, EndTimeAttributeName )
+   szTimeHours   = szEndTime[9:2]
+   szTimeMinutes = szEndTime[11:2]
+   TimeHours   = zStringToInteger( szTimeHours )
+   TimeMinutes = zStringToInteger( szTimeMinutes )
+   EndTimeInMinutes = 60 * TimeHours + TimeMinutes
+   
+   // Compute Difference.
+   TimeDifference = EndTimeInMinutes - StartTimeInMinutes
+   RETURN TimeDifference
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CREATE_MenuSecuritySubSection
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+CREATE_MenuSecuritySubSection( VIEW mUGroups BASED ON LOD mUGroups ,
+                               STRING ( 32 ) szSubSectionName,
+                               SHORT  nInitAllowAccess )
+
+   // Create Menu Bar Security entry.
+   /*CREATE ENTITY  mUGroups.SecuritySubSection 
+   mUGroups.SecuritySubSection.SubSectionName = szSubSectionName
+   IF nInitAllowAccess = 1
+      mUGroups.SecuritySubSection.AllowAccess ="N"  
+   END*/
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CREATE_SecuritySubSections_G
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+CREATE_SecuritySubSections_G( VIEW   mUGroups BASED ON LOD mUGroups ,
+                              SHORT  nInitAllowAccess )
+
+   /*STRING ( 1 ) szAllowAccess
+   SHORT nRC_Change
+   
+   nRC_Change = 0    // Initialize Return Code to indicate no changes were made.
+   
+   IF nInitAllowAccess = 1
+      szAllowAccess = "N"  
+   ELSE
+      szAllowAccess = ""  
+   END
+   IF mUGroups.SecuritySection.SectionName = "People"
+      nRC_Change = 1
+      CreateSecuritySubSection( mUGroups, "nRegPeop", "PersonDetail",
+                                "TBPerson", nInitAllowAccess )
+   END
+   RETURN nRC_Change*/
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CREATE_SecuritySubSections_G
+**
+*************************************************************************************************/
+LOCAL OPERATION
+CreateSecuritySubSection( VIEW   mUGroups,
+                          STRING ( 32 ) szDlgName,
+                          STRING ( 32 ) szWndName,
+                          STRING ( 32 ) szTabCtrl,
+                          SHORT  nInitAllowAccess )
+
+
+   /*VIEW    vDialog
+   INTEGER lControl1
+   INTEGER lControl2
+   STRING ( 256 ) szNameExt
+   SHORT   nRC
+   GetApplDirectoryFromView( szNameExt, mUGroups, zAPPL_DIR_OBJECT, 256 )
+   szNameExt = szNameExt + "\"+szDlgName
+   szNameExt = szNameExt + ".XWD"
+   // Activate using SfActivateSysOI_FromFile so that the kzwdlgxo.xod
+   // does not have to be in the application LPLR.
+   nRC = SfActivateSysOI_FromFile( vDialog, "KZWDLGXO", mUGroups,
+                                   szNameExt, zSINGLE )
+   IF nRC = 0
+      lControl1 = zQUAL_STRING + zPOS_FIRST
+      lControl2 = zQUAL_STRING + zPOS_FIRST + zRECURS
+      IF SetEntityCursor( vDialog, "Wnd", "Tag", lControl1,
+                          szWndName, "", "", 0,
+                          "Dlg", "" ) >= zCURSOR_SET AND
+         SetEntityCursor( vDialog, "Ctrl", "Tag", lControl2,
+                          szTabCtrl, "", "", 0,
+                          "Wnd", "" ) >= zCURSOR_SET
+         FOR EACH  vDialog.CtrlCtrl
+            CREATE ENTITY  mUGroups.SecuritySubSection 
+            mUGroups.SecuritySubSection.SubSectionName = vDialog.CtrlCtrl.Tag
+            IF nInitAllowAccess = 1
+               mUGroups.SecuritySubSection.AllowAccess ="N"  
+            END
+         END
+      END
+      DropObjectInstance( vDialog )
+   END*/
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetCurrentAgeFromDate
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetCurrentAgeFromDate( VIEW vDateView,
+                       STRING ( 32 ) szEntityName,
+                       STRING ( 32 ) szAttributeName )
+
+   VIEW wXferO   REGISTERED AS wXferO
+   STRING ( 7 ) szDateOfBirth
+   STRING ( 7 ) szCurrentDate
+   STRING ( 4 ) szYear
+   STRING ( 3 ) szDay
+   INTEGER CurrentYear
+   INTEGER CurrentDay
+   INTEGER BirthYear
+   INTEGER BirthDay
+   INTEGER Age
+
+   // Return the Age for the attribute defined in the parameters.
+   
+   // Birth Date
+   GetStringFromAttributeByContext( szDateOfBirth, vDateView, szEntityName, szAttributeName, "YYYYJJJ", 7 )
+   IF szDateOfBirth = ""
+      RETURN 2
+   END
+   szYear = szDateOfBirth[1:4]
+   szDay  = szDateOfBirth[5:3]
+   BirthYear = zStringToInteger( szYear )
+   BirthDay  = zStringToInteger( szDay )
+   
+   // Current Date
+   GetStringFromAttributeByContext( szCurrentDate, wXferO, "Root", "dCurrentDate", "YYYYJJJ", 7 )
+   szYear = szCurrentDate[1:4]
+   szDay  = szCurrentDate[5:3]
+   CurrentYear = zStringToInteger( szYear )
+   CurrentDay  = zStringToInteger( szDay )
+   
+   // Compute Age
+   IF BirthDay < CurrentDay
+      // The Birth Date has already occurred for the current year, so simply subtract the years.
+      Age = CurrentYear - BirthYear
+   ELSE
+      // The Birth Date hasn't occurred for the current year, so subtract the years plus one additional year.
+      Age = CurrentYear - BirthYear - 1
+   END
+   RETURN Age
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetCheckOI_ForUpdate
+**    Checks an OI for locking and sets it if OK.
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetCheckOI_ForUpdate( VIEW ObjectView,
+                      STRING ( 32 ) szObjectName,
+                      INTEGER       ObjectID,
+                      STRING ( 32 ) szUserName )
+
+   /*VIEW wXferO  REGISTERED AS wXferO
+   VIEW ZPLOCKO BASED ON LOD  ZPLOCKO
+   STRING ( 15 ) szObjectID
+   STRING ( 20 ) szCurrentDateTime
+   STRING ( 20 ) szCompareDateTime
+   STRING ( 2 )  szHour
+   STRING ( 1 )  szHourSingle
+   STRING ( 2 )  szHourSuffix
+   INTEGER       Hour
+   // Checks if the Object identified by view, Object Name and User Name is currently locked for update.
+   // If it is locked, it set the OI to read-only and returns a 2.
+   // If it is unlocked, it locks it and returns a 0.
+   // Note that we'll only keep a lock for one hour.
+   
+   // Check if the OI and key are locked by a different User and make the OI read-only and return 2 if they are.
+   szObjectID = ObjectID    // The KeyValue is the ID converted to a string.
+   ACTIVATE ZPLOCKO WHERE ZPLOCKO.ZeidonLock.LOD_Name = szObjectName
+                      AND ZPLOCKO.ZeidonLock.KeyValue = szObjectID
+   IF RESULT >= 0
+      IF ZPLOCKO.ZeidonLock.UserName != szUserName
+         // We will see if the User set the lock more than 1 hour ago, and will remove the lock if so.
+         szCurrentDateTime = wXferO.Root.dCurrentDateTime 
+         szHour       = szCurrentDateTime[9:2]
+         szHourSuffix = szCurrentDateTime[11:7]
+         Hour = zStringToInteger( szHour )
+         IF Hour >= 1
+            Hour = Hour - 1 
+         END
+         IF Hour < 10
+            szHourSingle = Hour
+            szHour = "0" + szHourSingle
+         ELSE 
+            szHour = Hour
+         END
+         
+         szCompareDateTime = szCurrentDateTime[1:8] + szHour + szHourSuffix
+         IF szCompareDateTime > ZPLOCKO.ZeidonLock.Timestamp 
+            // The current lock is over an hour old, so just remove it and continue to setting lock below.
+            DELETE ENTITY ZPLOCKO.ZeidonLock 
+            COMMIT ZPLOCKO
+            DropObjectInstance( ZPLOCKO )
+         ELSE
+            // There is another User lock on this Object/ID, so don't allow lock.
+            DropObjectInstance( ZPLOCKO )
+            SetViewReadOnly( ObjectView )
+            RETURN 2
+         END
+      ELSE
+         // It's the same User, so delete current lock and reset lock below to pick up new time.
+         DELETE ENTITY ZPLOCKO.ZeidonLock 
+         COMMIT ZPLOCKO
+         DropObjectInstance( ZPLOCKO )
+      END
+   ELSE
+      DropObjectInstance( ZPLOCKO )
+   END
+   
+   // Set the lock. Note that after setting the lock, we will check to see if someone managed to set a lock for the
+   // same OI at the same time. If so, we will remove the lock and and 
+   ACTIVATE ZPLOCKO EMPTY 
+   CREATE ENTITY ZPLOCKO.ZeidonLock 
+   ZPLOCKO.ZeidonLock.LOD_Name = szObjectName
+   ZPLOCKO.ZeidonLock.KeyValue = szObjectID
+   ZPLOCKO.ZeidonLock.UserName = szUserName
+   SetAttributeFromCurrentDateTime( ZPLOCKO, "ZeidonLock", "Timestamp" ) 
+   COMMIT  ZPLOCKO
+   DropObjectInstance( ZPLOCKO )
+   
+   // Now check to see if anyone else managed to create same lock during the time we just did.
+   ACTIVATE ZPLOCKO WHERE ZPLOCKO.ZeidonLock.LOD_Name  = szObjectName
+                      AND ZPLOCKO.ZeidonLock.KeyValue  = szObjectID
+                      AND ZPLOCKO.ZeidonLock.UserName != szUserName
+   IF RESULT >= 0
+      // Someone else has the lock, so delete the one we just created and return as read-only.
+      ACTIVATE ZPLOCKO WHERE ZPLOCKO.ZeidonLock.LOD_Name = szObjectName
+                         AND ZPLOCKO.ZeidonLock.KeyValue = szObjectID
+                         AND ZPLOCKO.ZeidonLock.UserName = szUserName
+      NAME VIEW ZPLOCKO "ZPLOCKODelete"
+      DELETE ENTITY ZPLOCKO.ZeidonLock 
+      COMMIT  ZPLOCKO
+      DropObjectInstance( ZPLOCKO )
+      SetViewReadOnly( ObjectView )
+      RETURN 2
+   ELSE
+      DropObjectInstance( ZPLOCKO )
+   END*/
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: DeleteCheckOI_ForUpdate
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+DeleteCheckOI_ForUpdate( VIEW ObjectView,
+                         STRING ( 32 ) szObjectName,
+                         INTEGER       ObjectID,
+                         STRING ( 32 ) szUserName )
+
+   /*VIEW ZPLOCKO BASED ON LOD  ZPLOCKO
+   STRING ( 15 ) szObjectID
+ 
+   // Delete the lock instance for the ObjectName, ObjectID and UserName.
+   szObjectID = ObjectID    // The KeyValue is the ID converted to a string.
+   ACTIVATE ZPLOCKO WHERE ZPLOCKO.ZeidonLock.LOD_Name = szObjectName
+                      AND ZPLOCKO.ZeidonLock.KeyValue = szObjectID
+                      AND ZPLOCKO.ZeidonLock.UserName = szUserName
+   IF RESULT >= 0 
+      NAME VIEW ZPLOCKO "ZPLOCKODelete"
+      DELETE ENTITY ZPLOCKO.ZeidonLock 
+      COMMIT  ZPLOCKO
+      DropObjectInstance( ZPLOCKO )
+   END*/
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetWebErrorMessage
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SetWebErrorMessage( VIEW ViewToWindow,
+                    STRING ( 32 ) szMessage )
+
+   VIEW wXferO REGISTERED AS wXferO 
+   
+   wXferO.Root.WebErrorMessage = szMessage
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetWebErrorMessage
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+ClearWebErrorMessage( VIEW ViewToWindow,
+                    STRING ( 32 ) szMessage )
+
+   VIEW wXferO REGISTERED AS wXferO 
+   
+   wXferO.Root.WebErrorMessage = ""
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CLEAN_ForLogout
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+CLEAN_ForLogout( VIEW ViewToWindow )
+
+   /*VIEW mUser       BASED ON LOD mUser
+   VIEW wXferO      BASED ON LOD wXferO
+   VIEW sHost       BASED ON LOD sHost
+   VIEW  DOMAINT    BASED ON LOD DOMAINT
+   VIEW  DOMAINTL   BASED ON LOD DOMAINTL
+   VIEW  DOMAINTLST BASED ON LOD DOMAINTL
+   SHORT nRC
+   
+   // Need to do this because if the WEB page keeps getting refreshed it will keep loading instances
+   GET VIEW  wXferO  NAMED "wXferO"
+   IF  RESULT > 0
+     DropObjectInstance( wXferO )
+   END
+   GET VIEW  sHost  NAMED "sHost"
+   IF  RESULT > 0
+     DropObjectInstance( sHost )
+   END
+   GET VIEW  mUser  NAMED "mUser"
+   IF  RESULT > 0
+     DropObjectInstance( mUser )
+   END
+   nRC = GetViewByName( DOMAINT, "DOMAINT", ViewToWindow, zLEVEL_TASK )
+   IF nRC > 0
+   //   DropObjectInstance( DOMAINT )
+         DropView ( DOMAINT )
+   END
+   GET VIEW  DOMAINTL  NAMED "DOMAINTL"
+   IF  RESULT > 0
+   //  DropObjectInstance( DOMAINTL )
+        DropView ( DOMAINTL )
+   END
+   //TraceLineS("Before delete general task","1")
+   DeleteGeneralTask_G(ViewToWindow,"nazsis")*/
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetUserLanguage
+**    Get the default language for the user.
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetUserLanguage( STRING ( 32 ) szLanguage,
+                 VIEW vView )
+
+   VIEW mUser  REGISTERED AS mCurrentUser 
+   VIEW sHost  REGISTERED AS sHost 
+
+   szLanguage = ""   
+   IF mUser.Demographics EXISTS
+      szLanguage = mUser.Demographics.PreferredLanguage  
+   END
+   IF szLanguage = ""
+      szLanguage = sHost.Host.PreferredLanguage 
+   END   
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GetIPEDS_Ethnicity
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GetIPEDS_Ethnicity( VIEW mPerson BASED ON LOD mPerson,
+                    STRING ( 20 ) szIPEDS_Ethnicity )
+
+   INTEGER iCount
+
+   // Return the IPEDS_Ethnicity attribute value as determined from other Demographics information.
+   // The view passed in can be any view containing a Demographics entity.
+   
+   // If the Citizenship value is Nonresident Alien, then that is the value of the IPEDS_Ethnicity attribute,
+   // regardless of what any of the Ethnic attributes are set to.
+   /*IF mPerson.Demographics.CitizenshipCode = "FS" OR mPerson.Demographics.CitizenshipCode = "NR"    // FS is also Nonresident Alien
+      szIPEDS_Ethnicity = "NRAlien"
+   ELSE
+   
+      // If the person did not select anything, then mark this as Unknown
+      IF mPerson.Demographics.EthnicityHispanic = "" AND mPerson.Demographics.EthnicityAmerIndian = "" AND
+         mPerson.Demographics.EthnicityAsian = "" AND mPerson.Demographics.EthnicityBlack = "" AND
+         mPerson.Demographics.EthnicityPacific = "" AND mPerson.Demographics.EthnicityWhite = ""
+         
+         szIPEDS_Ethnicity = "Unknown"
+      ELSE
+      
+      // If the person chose "No" on hispanic, but then didn't fill anything else out, this is Unknown.
+      IF mPerson.Demographics.EthnicityHispanic = "N" AND mPerson.Demographics.EthnicityAmerIndian = "" AND
+         mPerson.Demographics.EthnicityAsian = "" AND mPerson.Demographics.EthnicityBlack = "" AND
+         mPerson.Demographics.EthnicityPacific = "" AND mPerson.Demographics.EthnicityWhite = ""
+         
+         szIPEDS_Ethnicity = "Unknown"
+      ELSE
+      
+      // If they marked "Yes" on hispanic then it doesn't matter what else they have selected, IPEDS_Ethnicity will
+      // be set to Hispanic.
+      IF mPerson.Demographics.EthnicityHispanic = "Y"
+         szIPEDS_Ethnicity = "Hispanic"
+      ELSE
+      
+         iCount = 0
+         IF mPerson.Demographics.EthnicityAmerIndian = "Y" 
+            iCount = iCount + 1
+         END
+         IF mPerson.Demographics.EthnicityAsian = "Y" 
+            iCount = iCount + 1
+         END
+         IF mPerson.Demographics.EthnicityBlack = "Y" 
+            iCount = iCount + 1
+         END
+         IF mPerson.Demographics.EthnicityPacific = "Y" 
+            iCount = iCount + 1
+         END
+         IF mPerson.Demographics.EthnicityWhite = "Y" 
+            iCount = iCount + 1
+         END
+         
+         // If they've chosen more than one ethnicity, then IPEDS_Ethnicity is set to 2 or more.
+         IF iCount > 1
+            szIPEDS_Ethnicity = "2ormore"
+         ELSE
+            // Only one option has been chosen.
+            IF mPerson.Demographics.EthnicityAmerIndian = "Y" 
+               szIPEDS_Ethnicity = "AmerNat"
+            END
+            IF mPerson.Demographics.EthnicityAsian = "Y" 
+               szIPEDS_Ethnicity = "Asian"
+            END
+            IF mPerson.Demographics.EthnicityBlack = "Y" 
+               szIPEDS_Ethnicity = "Black"
+            END
+            IF mPerson.Demographics.EthnicityPacific = "Y" 
+               szIPEDS_Ethnicity = "HawPacIs"
+            END
+            IF mPerson.Demographics.EthnicityWhite = "Y" 
+               szIPEDS_Ethnicity = "White"
+            END
+         END
+      END
+      END
+      END
+   END*/
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CreateSecureEmail
+**    Creates the email tracking and sends the email to the individual.
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+SendSecureEmail(  VIEW ViewToWindow, STRING (100) szEmailSubject, STRING ( 10000 ) szEmailBody, STRING (100) szContentType, 
+                  INTEGER PersonIDSending, STRING (100) szSenderEmail, INTEGER DurationDays , STRING (254) szDownloadFilename)
+                  
+   /*VIEW wXferO   REGISTERED AS wXferO
+   VIEW sHost    REGISTERED AS sHost
+   VIEW mSecEmail BASED ON LOD mSecEmail
+   VIEW mSecEmailPerson BASED ON LOD mPerson
+   STRING (100) szUUID
+   STRING (100) szMessageID
+   STRING (100) szRecipientEmailAddress
+   STRING (1000) szSendError
+   STRING (1000) szMessageText
+   STRING (500) szLinkEmail
+   STRING (500) pdfFullFilename
+   STRING (30) szDateFormat
+   STRING (100) szExpirationDate
+   INTEGER ret
+   INTEGER nRC
+      STRING (200) szName
+   
+   szDateFormat = sHost.Host.DateFormat 
+      
+   ACTIVATE mSecEmailPerson WHERE mSecEmailPerson.Person.ID  = PersonIDSending
+  
+   ACTIVATE mSecEmail EMPTY
+   CREATE ENTITY mSecEmail.SecureEmail 
+   mSecEmail.SecureEmail.Subject = szEmailSubject 
+   mSecEmail.SecureEmail.ContentType = szContentType
+   ret = returnUUID(szUUID)
+   mSecEmail.SecureEmail.FileGUID = szUUID
+   ret = returnUUID(szMessageID)
+   mSecEmail.SecureEmail.MessageID =szMessageID
+   mSecEmail.SecureEmail.DateAdded = wXferO.Root.dCurrentDateTime 
+   mSecEmail.SecureEmail.DateExpires = wXferO.Root.dCurrentDateTime
+   mSecEmail.SecureEmail.SenderEmail = szSenderEmail 
+   mSecEmail.SecureEmail.FileExtension  = "pdf"
+   IF szDownloadFilename = "" //Defaults to SecureMessage.pdf 
+       mSecEmail.SecureEmail.DownloadName = "SecureMessage.pdf"
+   ELSE
+       mSecEmail.SecureEmail.DownloadName = szDownloadFilename
+   END
+   IF DurationDays > 0 AND DurationDays <=365 // defaults to 30 if < 0 > 365
+       ret = AddDaysToDate(mSecEmail,"SecureEmail","DateExpires",DurationDays)
+   ELSE
+       ret = AddDaysToDate(mSecEmail,"SecureEmail","DateExpires",30)
+   END
+   
+   GetStringFromAttributeByContext( szExpirationDate, mSecEmail, "SecureEmail", "DateExpires", szDateFormat, 32 )
+   mSecEmail.SecureEmail.LinkDisabled ="N"
+   
+   INCLUDE mSecEmail.Person FROM mSecEmailPerson.Person 
+   pdfFullFilename = sHost.Host.CustomDir + "secemail/"+szUUID
+   
+   COMMIT mSecEmail
+   CreatePDFFileFromHTMLString ( ViewToWindow, szEmailBody, pdfFullFilename)
+   szLinkEmail = "<a href='"+sHost.Host.BaseUrl+"wStartUpLogin.jsp"+"?eid="+szMessageID+"'>link</a>" 
+   szRecipientEmailAddress = mSecEmailPerson.Person.PreferredEmail 
+   szMessageText = sHost.HostLoginPages.SecureEmailMessageText 
+  IF mSecEmailPerson.Person.PreferedFirstName != ""
+     szName=mSecEmailPerson.Person.PreferedFirstName 
+   ELSE
+     szName=mSecEmailPerson.Person.FirstName
+   END
+   ret = strReplace(szMessageText,"[FIRSTNAME]",mSecEmailPerson.Person.FirstName, szMessageText)
+   ret = strReplace(szMessageText,"[PREFERREDNAME]",szName, szMessageText)
+   ret = strReplace(szMessageText,"[FULLNAME]",mSecEmailPerson.Person.dFullNameFML , szMessageText)
+   ret = strReplace(szMessageText,"[EMAILLINK]",szLinkEmail, szMessageText)
+   ret = strReplace(szMessageText,"[EXPIREDDATE]",szExpirationDate,szMessageText)
+   nRC = SendEmail(sHost, szSenderEmail, szRecipientEmailAddress,"","", szEmailSubject, szMessageText,"", szSendError )
+   IF nRC < 0
+       TraceLineS("*****", "Error sending email")
+   END*/
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: AddToQualificationForLanguage
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+AddToQualificationForLanguage( VIEW ViewToWindow,
+                               VIEW vQualObject,
+                               STRING ( 32 )  QualEntity,
+                               STRING ( 32 )  QualAttribute,
+                               STRING ( 256 ) SearchValue,
+                               STRING ( 32 )  TranslationEntity,
+                               STRING ( 32 )  TranslationAttribute )
+
+   /*VIEW mLangEA   REGISTERED AS mLangEA
+   VIEW mLangEATr BASED ON LOD mLangEATr
+   STRING ( 5 )  szLanguage
+   STRING ( 10 ) szID
+   STRING ( 32 ) szEntityID
+   INTEGER iCount
+   
+   GetUserLanguage( szLanguage, ViewToWindow )
+   // mLangEA should be in memory.
+   SET CURSOR FIRST mLangEA.LanguageEntityAttr WHERE mLangEA.LanguageEntityAttr.EntityName = TranslationEntity 
+                                                 AND mLangEA.LanguageEntityAttr.AttributeName = TranslationAttribute
+                                                 
+   IF RESULT >= zCURSOR_SET
+      szEntityID = mLangEA.LanguageEntityAttr.EntityIDName 
+      ACTIVATE mLangEATr MULTIPLE WHERE mLangEATr.LanguageEntityAttrTranslation.LangEntityAttrID = mLangEA.LanguageEntityAttr.ID 
+                                    AND mLangEATr.LanguageEntityAttrTranslation.Language = szLanguage
+                                    AND mLangEATr.LanguageEntityAttrTranslation.Translation LIKE SearchValue
+                           
+      IF mLangEATr.LanguageEntityAttrTranslation EXISTS
+         DBQualEntityByString( vQualObject,  "", "", "(", "", 0 )
+         iCount = 0
+         FOR EACH mLangEATr.LanguageEntityAttrTranslation
+            IF iCount > 0
+               DBQualEntityByString( vQualObject,  "", "", "OR", "", 0 )
+            END
+            szID = mLangEATr.LanguageEntityAttrTranslation.EntityID 
+            DBQualEntityByString( vQualObject,  QualEntity, szEntityID, "=", szID, 0 )
+            iCount = iCount + 1
+         END                           
+         DBQualEntityByString( vQualObject,  "", "", ")", "", 0 )
+      ELSE
+         // No translations. Should we return -1 so that calling code can do a search on the original database values?
+         RETURN -1
+      END                           
+      DropObjectInstance( mLangEATr )                                                 
+   END
+   RETURN 0 */
+   
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: AddDelayedEmail
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+AddDelayedEmail( VIEW ViewToWindow,
+                 STRING ( 3000 ) FromEmailVal,
+                 STRING ( 3000 ) ToEmailVal,
+                 STRING ( 3000 ) CCEmailVal,
+                 STRING ( 3000 ) BCCEmailVal,
+                 STRING ( 3000 ) EmailSubjectVal,
+                 STRING ( 5000 ) EmailBodyVal,
+   //              STRING ( 32   )   HoursToDelayVal,
+                 INTEGER nHoursToDelay,
+                 STRING ( 254 )  FunctionSendingFromVal )
+   
+   /*VIEW mEmailDelay BASED ON LOD mEmailDelay
+   VIEW wXferO   REGISTERED AS wXferO
+   STRING (20) szNewDateTime
+ //  INTEGER nHoursToDelay
+ 
+   //nHoursToDelay = StrToInt(HoursToDelayVal)
+   IF FromEmailVal != "" AND ToEmailVal != "" AND EmailSubjectVal != "" AND EmailBodyVal != "" AND nHoursToDelay > 0
+       ACTIVATE mEmailDelay EMPTY
+       
+       CREATE ENTITY mEmailDelay.DelayedEmail 
+       mEmailDelay.DelayedEmail.FromEmail = FromEmailVal
+       mEmailDelay.DelayedEmail.ToEmail = ToEmailVal
+       mEmailDelay.DelayedEmail.CCEmail = CCEmailVal
+       mEmailDelay.DelayedEmail.BCCEmail = BCCEmailVal
+       mEmailDelay.DelayedEmail.EmailSubject = EmailSubjectVal
+       mEmailDelay.DelayedEmail.EmailBody = EmailBodyVal
+       IF FunctionSendingFromVal != ""
+           mEmailDelay.DelayedEmail.FunctionSendingFrom = FunctionSendingFromVal
+       END 
+       AddMinutesToDateTime(wXferO.Root.dCurrentDateTime, 60*nHoursToDelay,szNewDateTime)  
+       mEmailDelay.DelayedEmail.DateTimeToSend  = szNewDateTime
+       NAME VIEW mEmailDelay "mEmailDelay"
+       COMMIT mEmailDelay 
+   ELSE
+       RETURN -1
+   END
+   RETURN 0*/
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: ActivateDomain
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+ActivateDomain( VIEW DOMAINT BASED ON LOD DOMAINT,
+                STRING ( 32 ) szDomainName,
+                VIEW ViewToWindow )
+
+   VIEW vXDM
+   VIEW vDOMAINT BASED ON LOD DOMAINT
+   VIEW sHost    REGISTERED AS sHost
+   STRING ( 400 ) szFileName
+   STRING ( 1 )   szDefault
+   STRING ( 100 ) szJavaClass
+   STRING ( 100 ) szDynamicDomainName
+
+   // Initialze this domain, whether it is static or dynamic.
+
+   // Activate the XDM object.
+   GetApplDirectoryFromView( szFileName, ViewToWindow, zAPPL_DIR_OBJECT, 400 )
+   szFileName = szFileName + "/zeidon.xdm"
+   // 536870912 is ACTIVATE_SYSTEM in the following activate statement.
+   ActivateOI_FromFile( vXDM, "TZDMXGPO", ViewToWindow, szFileName,zSingle )
+   NAME VIEW vXDM "XDM"
+   SET CURSOR FIRST vXDM.Domain WHERE vXDM.Domain.Name = szDomainName
+
+   //GetLanguage( ViewToWindow )
+   
+   IF RESULT >= zCURSOR_SET
+      // Check the java class.
+      szJavaClass = vXDM.Domain.JavaClass
+      // It would be nice to have a different way of determining whether or not the domain
+      // is Static or Dynamic.
+      IF ZeidonStringFind( szJavaClass, 1, "Dynamic") >= 0
+         // Dynamic
+         // Don't look for activated dynamic domain, just load values from database.
+         szDynamicDomainName = "_DM_" + szDomainName + "_" + szDomainName
+         ACTIVATE DOMAINT WHERE DOMAINT.Domain.Name = szDomainName
+         // What about language?
+      ELSE
+         // Static
+         ACTIVATE  DOMAINT EMPTY
+         CREATE ENTITY DOMAINT.Domain 
+         DOMAINT.Domain.Name = szDomainName
+         szDefault = ""
+         FOR EACH vXDM.Context
+            IF vXDM.Context.IsDefault = "Y"
+               szDefault = "Y"
+            END
+         END
+         // If there is not default context, set first as default.
+         IF szDefault = ""
+            SET CURSOR FIRST vXDM.Context
+            IF RESULT >= zCURSOR_SET
+               vXDM.Context.IsDefault = "Y"
+            END  
+         END
+         FOR EACH vXDM.Context
+            IF vXDM.Context.IsDefault = "Y"
+               // Merge in any DomainValue entries that are not already there.
+               FOR EACH vXDM.TableEntry WHERE vXDM.TableEntry.InternalValue != ""
+                  SET CURSOR FIRST DOMAINT.DomainValue
+                             WHERE DOMAINT.DomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+                  IF RESULT < zCURSOR_SET
+                     SET CURSOR LAST DOMAINT.DomainValue
+                     CREATE ENTITY DOMAINT.DomainValue
+                     DOMAINT.DomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+                     DOMAINT.DomainValue.ExternalDescription = vXDM.TableEntry.ExternalValue
+                  END
+               END
+            ELSE
+               SET CURSOR FIRST DOMAINT.Context WHERE DOMAINT.Context.Name = vXDM.Context.Name
+               IF RESULT < zCURSOR_SET
+                  CREATE ENTITY DOMAINT.Context 
+                  DOMAINT.Context.Name = vXDM.Context.Name
+               END 
+               FOR EACH vXDM.TableEntry WHERE vXDM.TableEntry.InternalValue != ""
+                  SET CURSOR FIRST DOMAINT.ContextDomainValue
+                             WHERE DOMAINT.ContextDomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+                  IF RESULT < zCURSOR_SET
+                     SET CURSOR LAST DOMAINT.ContextDomainValue
+                     CREATE ENTITY DOMAINT.ContextDomainValue
+                     DOMAINT.ContextDomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+                     DOMAINT.ContextDomainValue.ExternalDescription = vXDM.TableEntry.ExternalValue
+                  END
+               END
+            END
+         END //FOR EACH vXDM.Context
+      END  // If Dynamic domain
+      SET CURSOR FIRST DOMAINT.DomainValue
+      DropObjectInstance( vXDM )
+   ELSE
+      DropObjectInstance( vXDM )
+      RETURN -1
+   END  // IF RESULT >= zCURSOR_SET
+   
+END

@@ -1,0 +1,89 @@
+
+/*************************************************************************************************
+**    
+**    OPERATION: dPersonFullNameLFM
+**    
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dPersonFullNameLFM( VIEW mPerson BASED ON LOD mPerson,
+                    STRING ( 32 ) InternalEntityStructure,
+                    STRING ( 32 ) InternalAttribStructure,
+                    SHORT GetOrSetFlag )
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+   
+      PersonName_LastFirstMiddle( mPerson, InternalEntityStructure, InternalAttribStructure, GetOrSetFlag )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: ActivateConstraint
+**    
+*************************************************************************************************/
+OBJECT CONSTRAINT OPERATION
+ActivateConstraint( VIEW mPerson BASED ON LOD mPerson,
+                    SHORT Event,
+                    SHORT State )
+
+   CASE Event
+   OF   zOCE_ACTIVATE:
+   
+      // If a Primary Address exists, relink it with the correct Address entity.
+      IF mPerson.PrimaryAddress EXISTS
+         SET CURSOR FIRST mPerson.Address WHERE mPerson.Address.ID = mPerson.PrimaryAddress.ID 
+         IF RESULT >= zCURSOR_SET
+            RelinkInstanceToInstance( mPerson, "PrimaryAddress", mPerson, "Address" )
+         END 
+      END
+
+        /* end zOCE_ACTIVATE */
+   OF   zOCE_ACTIVATE_EMPTY:
+
+        /* end zOCE_ACTIVATE_EMPTY */
+   OF   zOCE_COMMIT:
+
+        /* end zOCE_COMMIT */
+   OF   zOCE_DROPOI:
+
+        /* end zOCE_DROPOI */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: dAddressLabelFull
+**
+**
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dAddressLabelFull( VIEW mPerson BASED ON LOD mPerson,
+                   STRING ( 32 ) InternalEntityStructure,
+                   STRING ( 32 ) InternalAttribStructure,
+                   SHORT GetOrSetFlag )
+   SHORT nRC
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+
+      nRC = dAdressLabelFull( mPerson,
+                              InternalEntityStructure,
+                              InternalAttribStructure,
+                              GetOrSetFlag )
+      RETURN nRC
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END

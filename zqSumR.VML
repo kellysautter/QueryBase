@@ -1,0 +1,724 @@
+/*************************************************************************************************
+**    
+**    OPERATION: BuildSummaryResultSet
+**    
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+BuildSummaryResultSet( VIEW zqSumR   BASED ON LOD zqSumR,
+                       VIEW zqFrame  BASED ON LOD zqFrame,
+                       VIEW InputResultSet )
+   STRING ( 32 )  RootEntityName
+   STRING ( 32 )  FromMappingEntityName
+   STRING ( 32 )  FromMappingAttributeName
+   STRING ( 32 )  FromSummaryAttributeName
+   STRING ( 32 )  ToMappingAttributeName
+   STRING ( 32 )  SummaryEntityName
+   STRING ( 32 )  SummaryOperationType
+   STRING ( 32 )  OperationName
+   STRING ( 32 )  QualifyingEntityName
+   STRING ( 50 )  szOperationResult
+   STRING ( 200 ) szValue
+   STRING ( 200 ) szValue2
+   STRING ( 300 ) szMsg
+   STRING ( 1 )   DataType
+   STRING ( 2 )   szCount
+   STRING ( 1 )   ParentBreakFlag
+   DECIMAL        OperationResult
+   INTEGER        Count
+   INTEGER        BreakpointCount
+   INTEGER        DecimalCount
+   INTEGER        IntegerCount
+   INTEGER        TextCount
+   INTEGER        Length
+   SHORT          nRC
+   
+   // Initialize object.
+   ACTIVATE zqSumR EMPTY 
+   CREATE ENTITY zqSumR.SummaryRoot  
+   
+   // Set up mapping entries.
+   IntegerCount = 0
+   DecimalCount = 0
+   TextCount = 0
+   OrderEntityForView( zqFrame, "GeneralParameter", "DisplayOrder A" )
+   szMsg = "This query has a breakpoint defined and has too many attributes to be displayed." + NEW_LINE +
+           "The maximum number of attributes that can be displayed for any one type (eg., decimal, integer, string) is 20."
+   FOR EACH zqFrame.GeneralParameter
+      IF zqFrame.GeneralParameter.ListDisplayFlag = "Y"
+         CREATE ENTITY zqSumR.MappingTransformation 
+         DataType = zqFrame.GeneralParameter.DataType 
+         zqSumR.MappingTransformation.DataType              = DataType
+         zqSumR.MappingTransformation.OriginalEntityName    = zqFrame.GeneralParameter.EntityName 
+         zqSumR.MappingTransformation.OriginalAttributeName = zqFrame.GeneralParameter.AttributeName 
+         zqSumR.MappingTransformation.PromptValue           = zqFrame.GeneralParameter.Title 
+         zqSumR.MappingTransformation.OperationName         = zqFrame.GeneralParameter.SubgroupSearchType 
+         IF DataType = "M"
+            // DataType is Decimal
+            IF DecimalCount < 20
+               DecimalCount = DecimalCount + 1
+            ELSE
+               MessageSend( zqSumR, "", "Query Definition Error", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            END
+            szCount = DecimalCount
+            FromMappingAttributeName = "Decimal" + szCount
+         ELSE
+            IF DataType = "L"
+               // DataType is Integer
+               IF IntegerCount < 20
+                  IntegerCount = IntegerCount + 1
+               ELSE
+                  MessageSend( zqSumR, "", "Query Definition Error", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               END
+               szCount = IntegerCount
+               FromMappingAttributeName = "Integer" + szCount
+            ELSE
+               // DataType is Text (including date)
+               IF TextCount < 20
+                  TextCount = TextCount + 1
+               ELSE
+                  MessageSend( zqSumR, "", "Query Definition Error", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               END
+               szCount = TextCount
+               FromMappingAttributeName = "Text" + szCount
+            END
+         END
+            
+         IF zqFrame.GeneralParameter.OverrideLength = ""
+            zqSumR.MappingTransformation.DataLength = 20
+         ELSE
+            zqSumR.MappingTransformation.DataLength = zqFrame.GeneralParameter.OverrideLength
+         END
+         zqSumR.MappingTransformation.NewAttributeName = FromMappingAttributeName
+         IF zqFrame.GeneralParameter.BreakpointSummationType != ""
+            IF zqFrame.GeneralParameter.BreakpointSummationType = "COUNT" AND 
+               DataType != "L"
+               // For COUNT where the value being counted is not an integer, the SummaryMappingName must be an integer.
+               IntegerCount = IntegerCount + 1
+               szCount = IntegerCount
+               FromSummaryAttributeName = "Integer" + szCount
+               CREATE ENTITY zqSumR.SummaryEntry 
+               zqSumR.SummaryEntry.EntityName           = zqSumR.MappingTransformation.OriginalEntityName 
+               zqSumR.SummaryEntry.AttributeName        = zqSumR.MappingTransformation.OriginalAttributeName 
+               zqSumR.SummaryEntry.SummaryType          = zqFrame.GeneralParameter.BreakpointSummationType 
+               zqSumR.SummaryEntry.SummaryAttributeName = FromSummaryAttributeName
+               zqSumR.SummaryEntry.PromptValue          = zqFrame.GeneralParameter.Title 
+               zqSumR.SummaryEntry.DataLength           = zqSumR.MappingTransformation.DataLength
+            ELSE
+               CREATE ENTITY zqSumR.SummaryEntry 
+               zqSumR.SummaryEntry.EntityName           = zqSumR.MappingTransformation.OriginalEntityName 
+               zqSumR.SummaryEntry.AttributeName        = zqSumR.MappingTransformation.OriginalAttributeName 
+               zqSumR.SummaryEntry.SummaryType          = zqFrame.GeneralParameter.BreakpointSummationType 
+               zqSumR.SummaryEntry.SummaryAttributeName = zqSumR.MappingTransformation.NewAttributeName 
+               zqSumR.SummaryEntry.PromptValue          = zqFrame.GeneralParameter.Title 
+               zqSumR.SummaryEntry.DataLength           = zqSumR.MappingTransformation.DataLength
+            END
+         END
+      END
+   END
+   // Determine number of levels (Breakpoints).
+   OrderEntityForView( zqFrame, "GeneralParameter", "SortOrder A" )
+   BreakpointCount = 0
+   FOR EACH zqFrame.GeneralParameter 
+      IF zqFrame.GeneralParameter.BreakpointType != ""
+         BreakpointCount = BreakpointCount + 1
+         CREATE ENTITY zqSumR.BreakpointEntry 
+         zqSumR.BreakpointEntry.EntityName     = zqFrame.GeneralParameter.EntityName 
+         zqSumR.BreakpointEntry.AttributeName  = zqFrame.GeneralParameter.AttributeName 
+         zqSumR.BreakpointEntry.BreakpointType = zqFrame.GeneralParameter.BreakpointType 
+         zqSumR.BreakpointEntry.PromptValue    = zqFrame.GeneralParameter.Title 
+         IF zqFrame.GeneralParameter.OverrideLength = ""
+            zqSumR.BreakpointEntry.DataLength = 20
+         ELSE
+            zqSumR.BreakpointEntry.DataLength = zqFrame.GeneralParameter.OverrideLength
+         END
+         IF BreakpointCount = 1
+            zqSumR.BreakpointEntry.SummaryEntityName = "SummaryA"
+         ELSE
+            IF BreakpointCount = 2
+               zqSumR.BreakpointEntry.SummaryEntityName = "SummaryB"
+            ELSE
+               zqSumR.BreakpointEntry.SummaryEntityName = "SummaryC"
+            END
+         END
+      END 
+   END
+   IF Count > 3
+      MessageSend( zqSumR, "", "Generate Summary Values", 
+                   "You cannot specify more than three breakpoint values.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   
+   // Loop through each ResultSet root, copying attributes from the ResultSet to the Detail entity and processing
+   // breakpoints.
+   CreateSummaryEntity( zqSumR, "SummaryA" )
+   CreateSummaryEntity( zqSumR, "SummaryB" )
+   CreateSummaryEntity( zqSumR, "SummaryC" )
+   
+   RootEntityName = zqFrame.zqFrame.QueryObjectRootEntityName
+   nRC = SetCursorFirstEntity( InputResultSet, RootEntityName, "" )
+   
+   // Initialize the breakpoint values.
+   FOR EACH zqSumR.BreakpointEntry WHERE zqSumR.BreakpointEntry.BreakpointType != "R"
+      FromMappingEntityName    = zqSumR.BreakpointEntry.EntityName 
+      FromMappingAttributeName = zqSumR.BreakpointEntry.AttributeName 
+      nRC = CheckExistenceOfEntity( InputResultSet, FromMappingEntityName )
+      IF nRC >= 0
+         GetStringFromAttributeByContext( szValue, 
+                                          InputResultSet, FromMappingEntityName, FromMappingAttributeName, "", 200 )
+      ELSE
+         szValue = ""
+      END
+      zqSumR.BreakpointEntry.LastBreakpointValue = szValue
+      
+      // Set nRC depending on the existence of a Root entity.
+      nRC = CheckExistenceOfEntity( InputResultSet, RootEntityName )
+      
+      SetAttributeFromString( zqSumR, zqSumR.BreakpointEntry.SummaryEntityName, "Title", szValue )
+   END
+   
+   LOOP WHILE nRC >= zCURSOR_SET
+   
+      // Process any breakpoints.
+      ParentBreakFlag = ""
+      FOR EACH zqSumR.BreakpointEntry WHERE zqSumR.BreakpointEntry.BreakpointType != "R"
+         FromMappingEntityName    = zqSumR.BreakpointEntry.EntityName 
+         FromMappingAttributeName = zqSumR.BreakpointEntry.AttributeName
+         nRC = CheckExistenceOfEntity( InputResultSet, FromMappingEntityName )
+         IF nRC >= 0
+            GetStringFromAttributeByContext( szValue2, 
+                                             InputResultSet, FromMappingEntityName, FromMappingAttributeName, "", 200 )
+         ELSE
+            szValue2 = ""
+         END
+         IF ParentBreakFlag = "Y"
+            zqSumR.BreakpointEntry.LastBreakpointValue = szValue2
+            SetAttributeFromString( zqSumR, zqSumR.BreakpointEntry.SummaryEntityName, "Title", szValue2 )
+         ELSE
+            szValue = zqSumR.BreakpointEntry.LastBreakpointValue 
+            IF szValue != szValue2
+               zqSumR.BreakpointEntry.LastBreakpointValue = szValue2
+               SummaryEntityName = zqSumR.BreakpointEntry.SummaryEntityName 
+               IF SummaryEntityName = "SummaryA"
+                  CREATE ENTITY zqSumR.SummaryA 
+                  zqSumR.SummaryA.Prompt = zqSumR.BreakpointEntry.PromptValue 
+                  zqSumR.SummaryA.Title  = szValue2
+                  CreateSummaryEntity( zqSumR, "SummaryB" )
+                  CreateSummaryEntity( zqSumR, "SummaryC" )
+                  ParentBreakFlag = "Y"
+               ELSE
+                  IF SummaryEntityName = "SummaryB"
+                     IF ParentBreakFlag = ""
+                        CreateSummaryEntity( zqSumR, "SummaryB" )
+                        CreateSummaryEntity( zqSumR, "SummaryC" ) 
+                     END
+                     zqSumR.SummaryB.Prompt = zqSumR.BreakpointEntry.PromptValue 
+                     zqSumR.SummaryB.Title  = szValue2
+                     ParentBreakFlag = "Y"
+                  ELSE
+                     IF ParentBreakFlag = ""
+                        CREATE ENTITY zqSumR.SummaryC
+                     END
+                     zqSumR.SummaryC.Prompt = zqSumR.BreakpointEntry.PromptValue 
+                     zqSumR.SummaryC.Title  = szValue2
+                  END
+               END
+            END
+         END
+      END
+   
+      // Create Detail entry.
+      CREATE ENTITY zqSumR.Detail  
+      FOR EACH zqSumR.MappingTransformation 
+         FromMappingEntityName    = zqSumR.MappingTransformation.OriginalEntityName
+         FromMappingAttributeName = zqSumR.MappingTransformation.OriginalAttributeName
+         
+         // Check if SUM, AVG, etc. has been specified for this attribute and execute if so.
+         OperationName = zqSumR.MappingTransformation.OperationName 
+         IF OperationName = "MAX" OR
+            OperationName = "MIN" OR
+            OperationName = "COUNT" OR
+            OperationName = "SUM" OR
+            OperationName = "AVG"
+            
+            // Operation Attribute
+            SET CURSOR FIRST zqFrame.GeneralParameter 
+                       WHERE zqFrame.GeneralParameter.EntityName    = zqSumR.MappingTransformation.OriginalEntityName
+                             zqFrame.GeneralParameter.AttributeName = zqSumR.MappingTransformation.OriginalAttributeName 
+            DataType             = zqFrame.GeneralParameter.DataType 
+            QualifyingEntityName = zqFrame.GeneralParameter.ScopingEntityName 
+            IF DataType = "L" OR DataType = "M"
+               // Use common routine for computing decimal/integer values for above operations.
+               ComputeOperationValue( zqFrame, InputResultSet, OperationResult, OperationName,
+                                      zqFrame.GeneralParameter.EntityName,
+                                      zqFrame.GeneralParameter.AttributeName,
+                                      QualifyingEntityName )
+               SetAttributeFromDecimal( zqSumR, "Detail", zqSumR.MappingTransformation.NewAttributeName, OperationResult )
+            ELSE
+               // Use common routine for computing date values for above operations.
+               ComputeOperationVDate( zqFrame, InputResultSet, szOperationResult, OperationName,
+                                      zqFrame.GeneralParameter.EntityName,
+                                      zqFrame.GeneralParameter.AttributeName,
+                                      QualifyingEntityName )
+               SetAttributeFromString( zqSumR, "Detail", zqSumR.MappingTransformation.NewAttributeName, szOperationResult )
+            END
+            
+         ELSE
+         
+            // Regular non-Operation Attribute
+            nRC = CheckExistenceOfEntity( InputResultSet, FromMappingEntityName )
+            IF nRC >= 0 
+               IF zqSumR.MappingTransformation.DataType = "M" OR
+                  zqSumR.MappingTransformation.DataType = "L"
+                  
+                  // Decimal or Integer
+                  SetAttributeFromAttribute( zqSumR,         "Detail",              zqSumR.MappingTransformation.NewAttributeName,
+                                             InputResultSet, FromMappingEntityName, FromMappingAttributeName )
+               ELSE
+                  // String uses default Context.
+                  GetStringFromAttributeByContext( szValue,
+                                                   InputResultSet, FromMappingEntityName, FromMappingAttributeName, "", 200 )
+                  SetAttributeFromString( zqSumR, "Detail", zqSumR.MappingTransformation.NewAttributeName,
+                                          szValue )
+               END
+            END
+         END
+      END
+      
+      nRC = SetCursorNextEntity( InputResultSet, RootEntityName, "" )
+   END
+   
+   // Loop through each Summary subobject in the new ResultSet and compute the operation values (SUM, AVG, etc.)
+   // for each breakpoint entry.
+   FOR EACH zqSumR.SummaryA
+      FOR EACH zqSumR.SummaryEntry 
+         ToMappingAttributeName = zqSumR.SummaryEntry.SummaryAttributeName
+         ComputeOperationValue( zqFrame,
+                                zqSumR,
+                                OperationResult,
+                                zqSumR.SummaryEntry.SummaryType,
+                                "Detail",
+                                ToMappingAttributeName,
+                                "SummaryA" )
+         SetAttributeFromDecimal( zqSumR, "SummaryA", ToMappingAttributeName, OperationResult )
+      END
+      FOR EACH zqSumR.SummaryB 
+         FOR EACH zqSumR.SummaryEntry 
+            ToMappingAttributeName = zqSumR.SummaryEntry.SummaryAttributeName
+            ComputeOperationValue( zqFrame,
+                                   zqSumR,
+                                   OperationResult,
+                                   zqSumR.SummaryEntry.SummaryType,
+                                   "Detail",
+                                   ToMappingAttributeName,
+                                   "SummaryB" )
+            SetAttributeFromDecimal( zqSumR, "SummaryB", ToMappingAttributeName, OperationResult )
+         END
+         FOR EACH zqSumR.SummaryC 
+            FOR EACH zqSumR.SummaryEntry 
+               ToMappingAttributeName = zqSumR.SummaryEntry.SummaryAttributeName
+               ComputeOperationValue( zqFrame,
+                                      zqSumR,
+                                      OperationResult,
+                                      zqSumR.SummaryEntry.SummaryType,
+                                      "Detail",
+                                      ToMappingAttributeName,
+                                      "SummaryC" )
+               SetAttributeFromDecimal( zqSumR, "SummaryC", ToMappingAttributeName, OperationResult )
+            END
+         END
+      END
+   END
+   
+   // Compute operation values for whole object.
+   FOR EACH zqSumR.SummaryEntry 
+      ToMappingAttributeName = zqSumR.SummaryEntry.SummaryAttributeName
+      SummaryOperationType = zqSumR.SummaryEntry.SummaryType
+      IF SummaryOperationType = "COUNT"
+         SummaryOperationType = "SUM"
+      END
+      ComputeOperationValue( zqFrame,
+                             zqSumR,
+                             OperationResult,
+                             SummaryOperationType,
+                             "SummaryA",
+                             ToMappingAttributeName,
+                             "SummaryRoot" )
+      SetAttributeFromDecimal( zqSumR, "SummaryRoot", ToMappingAttributeName, OperationResult )
+   END
+   
+   SET CURSOR FIRST zqSumR.SummaryRoot 
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CreateSummaryEntity
+**    
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+CreateSummaryEntity( VIEW zqSumR BASED ON LOD zqSumR,
+                     STRING ( 32 ) SummaryEntityName )
+
+   // Create a SummaryX entity, setting the Prompt attribute.
+   CreateEntity( zqSumR, SummaryEntityName, zPOS_AFTER )
+   SET CURSOR FIRST zqSumR.BreakpointEntry WHERE zqSumR.BreakpointEntry.SummaryEntityName = SummaryEntityName
+   IF RESULT >= zCURSOR_SET
+      SetAttributeFromAttribute( zqSumR, SummaryEntityName, "Prompt",
+                                 zqSumR, "BreakpointEntry", "PromptValue" )
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: BuildDisplayValues
+**    
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+BuildDisplayValues( VIEW zqSumR BASED ON LOD zqSumR,
+                    VIEW zqFrame  BASED ON LOD zqFrame )
+
+   VIEW zqFrameNew  BASED ON LOD zqFrame
+   
+   // Build the display entries for the Summary and Detail entities.
+   // If the TopEntityName is not the root, we will have to go down to the next level
+   // of zqFrame.ParentEntity.
+   CreateViewFromView( zqFrameNew, zqFrame )
+   IF zqFrameNew.ParentEntity EXISTS
+      DELETE ENTITY zqFrameNew.ParentEntity   
+   END
+   
+   // Create SummaryA mapping entry.
+   CREATE ENTITY zqFrameNew.ParentEntity 
+   zqFrameNew.ParentEntity.EntityName = "SummaryA" 
+   zqFrameNew.ParentEntity.MaxCardinality = 99
+   FOR EACH zqSumR.BreakpointEntry WHERE zqSumR.BreakpointEntry.SummaryEntityName = "SummaryA"
+      CREATE ENTITY zqFrameNew.QueryAttribute 
+      zqFrameNew.QueryAttribute.AttributeName     = "Title"
+      zqFrameNew.QueryAttribute.MappingEntityName = "SummaryA"
+      zqFrameNew.QueryAttribute.Prompt            = zqSumR.BreakpointEntry.PromptValue 
+      zqFrameNew.QueryAttribute.Length            = zqSumR.BreakpointEntry.DataLength
+      zqFrameNew.QueryAttribute.Type              = "S"
+      zqFrameNew.QueryAttribute.DisplayRow        = 1
+   END
+   
+   // Create SummaryB mapping entry.
+   SetViewToSubobject( zqFrameNew, "ChildEntity" )
+   CREATE ENTITY zqFrameNew.ParentEntity 
+   zqFrameNew.ParentEntity.EntityName = "SummaryB" 
+   zqFrameNew.ParentEntity.MaxCardinality = 99
+   FOR EACH zqSumR.BreakpointEntry WHERE zqSumR.BreakpointEntry.SummaryEntityName = "SummaryB"
+      CREATE ENTITY zqFrameNew.QueryAttribute 
+      zqFrameNew.QueryAttribute.AttributeName     = "Title"
+      zqFrameNew.QueryAttribute.MappingEntityName = "SummaryB"
+      zqFrameNew.QueryAttribute.Prompt            = zqSumR.BreakpointEntry.PromptValue 
+      zqFrameNew.QueryAttribute.Length            = zqSumR.BreakpointEntry.DataLength
+      zqFrameNew.QueryAttribute.Type              = "S"
+      zqFrameNew.QueryAttribute.DisplayRow        = 1
+   END
+   
+   // Create SummaryC mapping entry.
+   SetViewToSubobject( zqFrameNew, "ChildEntity" )
+   CREATE ENTITY zqFrameNew.ParentEntity 
+   zqFrameNew.ParentEntity.EntityName = "SummaryC" 
+   zqFrameNew.ParentEntity.MaxCardinality = 99
+   FOR EACH zqSumR.BreakpointEntry WHERE zqSumR.BreakpointEntry.SummaryEntityName = "SummaryC"
+      CREATE ENTITY zqFrameNew.QueryAttribute 
+      zqFrameNew.QueryAttribute.AttributeName     = "Title"
+      zqFrameNew.QueryAttribute.MappingEntityName = "SummaryC"
+      zqFrameNew.QueryAttribute.Prompt            = zqSumR.BreakpointEntry.PromptValue 
+      zqFrameNew.QueryAttribute.Length            = zqSumR.BreakpointEntry.DataLength
+      zqFrameNew.QueryAttribute.Type              = "S"
+      zqFrameNew.QueryAttribute.DisplayRow        = 1
+   END
+   
+   // Create Detail mapping entries.
+   SetViewToSubobject( zqFrameNew, "ChildEntity" )
+   CREATE ENTITY zqFrameNew.ParentEntity 
+   zqFrameNew.ParentEntity.EntityName = "Detail" 
+   zqFrameNew.ParentEntity.MaxCardinality = 99
+   FOR EACH zqSumR.MappingTransformation 
+      CREATE ENTITY zqFrameNew.QueryAttribute 
+      zqFrameNew.QueryAttribute.AttributeName     = zqSumR.MappingTransformation.NewAttributeName 
+      zqFrameNew.QueryAttribute.MappingEntityName = "Detail"
+      zqFrameNew.QueryAttribute.Prompt            = zqSumR.MappingTransformation.PromptValue 
+      zqFrameNew.QueryAttribute.Length            = zqSumR.MappingTransformation.DataLength 
+      zqFrameNew.QueryAttribute.Type              = zqSumR.MappingTransformation.DataType 
+   END
+
+   DropView( zqFrameNew )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: ReformatDisplayReport
+**    
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+ReformatDisplayReport( VIEW zqSumR BASED ON LOD zqSumR,
+                       VIEW qBaseR,
+                       VIEW qBaseR_Base )
+   VIEW qBaseRF
+   STRING ( 32 ) SummaryEntityName
+   STRING ( 32 ) SummaryEntityMappingName
+   
+   // Reset Group and GroupSet sizes for Summary entries.
+   SET CURSOR FIRST qBaseR.GroupSet
+              WHERE qBaseR.GroupSet.Tag = "SummaryA"
+   IF RESULT >= zCURSOR_SET
+      qBaseR.GroupSet.SZDLG_Y = 50
+      qBaseR.Group.SZDLG_Y    = 50
+   END
+   SET CURSOR FIRST qBaseR.GroupSet
+              WHERE qBaseR.GroupSet.Tag = "SummaryB"
+   IF RESULT >= zCURSOR_SET
+      qBaseR.GroupSet.SZDLG_Y = 50
+      qBaseR.Group.SZDLG_Y    = 50
+   END 
+   SET CURSOR FIRST qBaseR.GroupSet
+              WHERE qBaseR.GroupSet.Tag = "SummaryC"
+   IF RESULT >= zCURSOR_SET
+      qBaseR.GroupSet.SZDLG_Y = 50
+      qBaseR.Group.SZDLG_Y    = 50
+   END
+   
+   // Create Footer Group for the Detail GroupSet which contains Summary fields.
+   // We will do this by copying the Detail controls for those that have Summmary entries.
+   // We will also do the summary for each Breakpoint entry that has summary data.
+
+   // Create the Summary Controls for each Breakpoint entry.
+   CreateViewFromView( qBaseRF, qBaseR )     // Detail
+   FOR EACH zqSumR.BreakpointEntry 
+      SummaryEntityName = zqSumR.BreakpointEntry.SummaryEntityName
+      SET CURSOR FIRST qBaseRF.GroupSet
+                 WHERE qBaseRF.GroupSet.Tag = SummaryEntityName
+      IF SummaryEntityName = "SummaryA"
+         SummaryEntityMappingName = "SummaryRoot"
+      END
+      IF SummaryEntityName = "SummaryB"
+         SummaryEntityMappingName = "SummaryA"
+      END
+      IF SummaryEntityName = "SummaryC"
+         SummaryEntityMappingName = "SummaryB"
+      END
+      CreateSummaryEntries( zqSumR, qBaseR, qBaseRF, qBaseR_Base, 
+                            SummaryEntityMappingName  )
+      // Set the Page Break if requested.
+      IF zqSumR.BreakpointEntry.BreakpointType = "P"
+         SET CURSOR PREVIOUS qBaseRF.Group    // Go back, since we're currently positioned on the Footer.
+         qBaseRF.Group.ForcePageBreak = "Y"
+      END
+   END
+   
+   // Create the Summary Controls for the Detail Footer.   SET CURSOR LAST zqSumR.BreakpointEntry
+   SET CURSOR LAST zqSumR.BreakpointEntry
+   SET CURSOR FIRST qBaseRF.GroupSet
+                 WHERE qBaseRF.GroupSet.Tag = "Detail"
+   SET CURSOR NEXT qBaseRF.Group        // Skip to Detail Group.
+   CreateSummaryEntries( zqSumR, qBaseR, qBaseRF, qBaseR_Base, 
+                         zqSumR.BreakpointEntry.SummaryEntityName  )
+   DropView( qBaseRF )
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CreateSummaryEntries
+**    
+**    
+*************************************************************************************************/
+LOCAL OPERATION
+CreateSummaryEntries( VIEW zqSumR BASED ON LOD zqSumR,
+                    VIEW qBaseR,
+                    VIEW qBaseRF,
+                    VIEW qBaseR_Base,
+                    STRING ( 32 ) SummaryEntityMappingName )
+   VIEW qBaseRH
+
+   // Create Footer Group.
+   SET CURSOR FIRST qBaseR.GroupSet
+              WHERE qBaseR.GroupSet.Tag = "Detail"
+   CreateViewFromView( qBaseRH, qBaseR )     // Header
+   SET CURSOR NEXT qBaseR.Group
+   CREATE ENTITY qBaseRF.Group               // Footer
+   SetMatchingAttributesByName ( qBaseRF, "Group",
+                                 qBaseRH, "Group", zSET_ALL )
+   qBaseRF.Group.Tag  = "DetailF"
+   qBaseRF.Group.Type = "gf"
+   qBaseRF.Group.SZDLG_Y    = 70
+
+   // Create Footer Summation Line Controls.
+   SET CURSOR FIRST qBaseR_Base.Control WITHIN qBaseR_Base.Page
+              WHERE qBaseR_Base.Control.Tag = "SummationLine"
+   FOR EACH zqSumR.SummaryEntry
+      SET CURSOR FIRST qBaseR.CtrlMapER_Attribute WITHIN qBaseR.Group
+                 WHERE qBaseR.CtrlMapER_Attribute.Name = zqSumR.SummaryEntry.SummaryAttributeName  
+      CREATE ENTITY qBaseRF.Control
+      SetMatchingAttributesByName ( qBaseRF,      "Control",
+                                    qBaseR_Base,  "Control", zSET_ALL )
+      qBaseRF.Control.PSDLG_Y = 0
+      qBaseRF.Control.PSDLG_X = qBaseR.Control.PSDLG_X     // From newly created detail entry.
+      qBaseRF.Control.SZDLG_X = qBaseR.Control.SZDLG_X     // From newly created detail entry.
+      qBaseRF.Control.Tag     = "TXL_" + zqSumR.SummaryEntry.SummaryAttributeName 
+      INCLUDE qBaseRF.ControlDef FROM qBaseR_Base.ControlDef
+   END
+   
+   // Create Summary Controls.
+   FOR EACH zqSumR.SummaryEntry
+      SET CURSOR FIRST qBaseR.CtrlMapER_Attribute WITHIN qBaseR.Group
+                 WHERE qBaseR.CtrlMapER_Attribute.Name = zqSumR.SummaryEntry.SummaryAttributeName  
+      CREATE ENTITY qBaseRF.Control
+      SetMatchingAttributesByName ( qBaseRF, "Control",
+                                    qBaseR,  "Control", zSET_ALL )
+      qBaseRF.Control.PSDLG_Y = 20
+      INCLUDE qBaseRF.ControlDef FROM qBaseR.ControlDef
+      CREATE ENTITY qBaseRF.CtrlMap
+      CREATE ENTITY qBaseRF.CtrlMapLOD_Attribute
+      CREATE ENTITY qBaseRF.CtrlMapRelatedEntity
+      qBaseRF.CtrlMapRelatedEntity.Name = SummaryEntityMappingName
+      CREATE ENTITY qBaseRF.CtrlMapER_Attribute
+      qBaseRF.CtrlMapER_Attribute.Name = qBaseR.CtrlMapER_Attribute.Name
+      CREATE ENTITY qBaseRF.CtrlMapER_Domain
+      qBaseRF.CtrlMapER_Domain.DataType = qBaseR.CtrlMapER_Domain.DataType
+      CREATE ENTITY qBaseRF.CtrlMapView
+      qBaseRF.CtrlMapView.Name = qBaseR.CtrlMapView.Name
+      // If the summary operation is COUNT, use the SummaryEntrySummaryAttributeName value and datatype of "L".
+      IF zqSumR.SummaryEntry.SummaryType = "COUNT"
+         qBaseRF.CtrlMapER_Attribute.Name  = zqSumR.SummaryEntry.SummaryAttributeName 
+         qBaseRF.CtrlMapER_Domain.DataType = "L"
+      END
+   END
+   
+   DropView( qBaseRH )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: FormatCSV_BreakPtLine
+**    
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+FormatCSV_BreakPtLine( VIEW zqSumR BASED ON LOD zqSumR,
+                       INTEGER FilePointer,
+                       STRING ( 32 ) SummaryEntityName )
+
+   STRING ( 2000 ) OutputLine
+   STRING ( 100 )  FormattedValue
+   STRING ( 100 )  PromptValue
+   STRING ( 32 )   szAttributeName
+   
+   // Process any Totals for the summary entity passed in.
+   GetStringFromAttribute( PromptValue, zqSumR, SummaryEntityName, "Prompt" )
+   SET CURSOR FIRST zqSumR.BreakpointEntry 
+              WHERE zqSumR.BreakpointEntry.SummaryEntityName = SummaryEntityName
+   IF RESULT >= zCURSOR_SET
+      OutputLine = ""
+      FOR EACH zqSumR.MappingTransformation
+         IF zqSumR.MappingTransformation.TotalsPromptEntryFlag = "Y"
+            FormattedValue = PromptValue + " Summary:"
+            OutputLine = OutputLine + QUOTES + FormattedValue + QUOTES + ","
+         ELSE
+            SET CURSOR FIRST zqSumR.SummaryEntry 
+                       WHERE zqSumR.SummaryEntry.SummaryAttributeName = zqSumR.MappingTransformation.NewAttributeName  
+            IF RESULT >= zCURSOR_SET
+               szAttributeName = zqSumR.MappingTransformation.NewAttributeName 
+               GetStringFromAttribute( FormattedValue, zqSumR, SummaryEntityName, szAttributeName )
+               OutputLine = OutputLine + QUOTES + FormattedValue + QUOTES + ","
+            ELSE
+               OutputLine = OutputLine + QUOTES + QUOTES + ","
+            END
+         END
+      END
+      SysWriteLine( zqSumR, FilePointer, OutputLine )
+   END
+   
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: FormatCSV_BreakPtsFile
+**    
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+FormatCSV_BreakPtsFile( VIEW zqSumR BASED ON LOD zqSumR,
+                        INTEGER FilePointer )
+
+   VIEW zqSumR2 BASED ON LOD zqSumR
+   STRING ( 2000 ) OutputLine
+   STRING ( 100 )  FormattedValue
+   STRING ( 32 )   szAttributeName
+   STRING ( 1 )    FoundFlag
+
+   // Create the CSV File records from the zqSumR Result Set.
+   
+   // Create the single title line for the displayed attributes.
+   OutputLine = ""
+   FOR EACH zqSumR.MappingTransformation
+      FormattedValue = zqSumR.MappingTransformation.PromptValue 
+      OutputLine = OutputLine + QUOTES + FormattedValue + QUOTES + ","
+   END
+   SysWriteLine( zqSumR, FilePointer, OutputLine )
+   
+   // Identify the Mapping Attribute that will hold the Totals Prompt information. This is used to
+   // identify which column will hold the title for "totals" lines. It is the last column before the
+   // first summary column.
+   FoundFlag = ""
+   FOR EACH zqSumR.MappingTransformation 
+      SET CURSOR FIRST zqSumR.SummaryEntry 
+                 WHERE zqSumR.SummaryEntry.SummaryAttributeName = zqSumR.MappingTransformation.NewAttributeName
+      IF RESULT >= zCURSOR_SET AND FoundFlag = ""
+         FoundFlag = "Y"
+         CreateViewFromView( zqSumR2, zqSumR )
+         SET CURSOR PREVIOUS zqSumR2.MappingTransformation 
+         zqSumR2.MappingTransformation.TotalsPromptEntryFlag = "Y" 
+         DropView( zqSumR2 )
+      END
+   END
+   
+   // Process each summary and detail entry.
+   FOR EACH zqSumR.SummaryA 
+      FOR EACH zqSumR.SummaryB 
+         FOR EACH zqSumR.SummaryC 
+            // Write blank line to separate the first detail from the last total.
+            OutputLine = ""
+            SysWriteLine( zqSumR, FilePointer, OutputLine )
+            
+            // Process the Detail entity.
+            FOR EACH zqSumR.Detail
+               OutputLine = ""
+               FOR EACH zqSumR.MappingTransformation
+                  szAttributeName = zqSumR.MappingTransformation.NewAttributeName 
+                  GetStringFromAttribute( FormattedValue, zqSumR, "Detail", szAttributeName )
+                  OutputLine = OutputLine + QUOTES + FormattedValue + QUOTES + ","
+               END
+               SysWriteLine( zqSumR, FilePointer, OutputLine )
+            END
+            
+            // Write blank line to separate the last detail from the first total.
+            OutputLine = ""
+            SysWriteLine( zqSumR, FilePointer, OutputLine )
+            
+            // Process any Totals for SummaryC.
+            FormatCSV_BreakPtLine( zqSumR, FilePointer, "SummaryC" )
+         END
+         
+         // Process any Totals for SummaryB.
+         FormatCSV_BreakPtLine( zqSumR, FilePointer, "SummaryB" )
+      END
+      
+      // Process any Totals for SummaryA.
+      FormatCSV_BreakPtLine( zqSumR, FilePointer, "SummaryA" )
+   END
+
+END
+

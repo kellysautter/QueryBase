@@ -1,0 +1,2848 @@
+z1000-Zeidon    MDASHBDF TZZOLODO 01/09/25   10:46:28 1.0a2    
+eLOD       1
+aZKey      910462831
+aNextZKeyToAssign 910463047
+aName      mDashBDf
+
+eLOD_EntityParent 2
+aName      DashboardDefinition
+aIndentName DashboardDefinition
+aIndentLvl 0
+aZKey      910462832
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      User
+aIndentName    User
+aIndentLvl 3
+aZKey      910462865
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator L
+aDesc      user of the system
+
+eLOD_AttributeRec 4
+aZKey      910462866
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370794
+aNotNull   Y
+aDesc      system generated user id
+
+eDomainRec 6
+aZKey      910381608
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462867
+
+eER_AttributeRec 5
+aName      UserName
+aZKey      910370795
+aNotNull   Y
+aDesc      user's logon name
+
+eDomainRec 6
+aZKey      910382144
+aName      GeneralName_Address
+aDomainType E
+aDataType  S
+aMaxStringLth 50
+aDesc      General Text (names, streets, cities, etc.)
+aContextRestriction N
+
+eER_EntityRec 4
+aName      User
+aZKey      910370793
+aPurpose   F
+aDesc      user of the system
+aER_DiagramPosX 30
+aER_DiagramPosY 36
+
+eER_RelLinkRec 4
+aName      has
+aZKey      910370855
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 5
+aZKey      910370854
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 13
+aER_DiagramBendPosY 40
+aER_DiagramE1PosX 13
+aER_DiagramE1PosY 43
+aER_DiagramE2PosX 29
+aER_DiagramE2PosY 40
+
+eLOD_EntityChild 3
+aName      DashboardUserEntryDefinition
+aIndentName    DashboardUserEntryDefinition
+aIndentLvl 3
+aZKey      910462868
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+
+eLOD_EntityChild 4
+aName      DashboardEntryDefinition
+aIndentName       DashboardEntryDefinition
+aIndentLvl 6
+aZKey      910462873
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator H
+
+eLOD_EntityChild 5
+aName      QueryReport
+aIndentName          QueryReport
+aIndentLvl 9
+aZKey      910462877
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave R
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Ties a Query and possibly a document together for assignment to a Person
+
+eLOD_AttributeRec 6
+aZKey      910462878
+
+eER_AttributeRec 7
+aName      ID
+aZKey      910370758
+aNotNull   Y
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      910462879
+
+eER_AttributeRec 7
+aName      Name
+aZKey      910370759
+aLth       64
+aDesc      This is the name displayed to the user on the interface.
+
+eDomainRec 8
+aZKey      910381615
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eER_EntityRec 6
+aName      QueryReport
+aZKey      910370757
+aPurpose   F
+aDesc      Ties a Query and possibly a document together for assignment to a Person
+aER_DiagramPosX 67
+aER_DiagramPosY 42
+
+eER_RelLinkRec 6
+aName      uses
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      910370864
+aCardMin   0
+aCardMax   1
+aTE_NoForeignKeyPrefix N
+
+eER_RelTypeRec 7
+aZKey      910370863
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 46
+aER_DiagramE1PosY 46
+aER_DiagramE2PosX 66
+aER_DiagramE2PosY 46
+
+eLOD_AttributeRec 5
+aZKey      910462874
+
+eER_AttributeRec 6
+aName      ID
+aZKey      910370590
+aNotNull   Y
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462875
+aUpdate    Y
+
+eER_AttributeRec 6
+aName      Name
+aZKey      910370591
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462876
+
+eER_AttributeRec 6
+aName      Type
+aZKey      910370592
+
+eDomainRec 7
+aZKey      910382300
+aName      DashboardEntryDefinitionType
+aDomainType T
+aDataType  S
+aMaxStringLth 20
+aContextRestriction N
+
+eER_EntityRec 5
+aName      DashboardEntryDefinition
+aZKey      910370589
+aPurpose   A
+aER_DiagramPosX 37
+aER_DiagramPosY 44
+
+eER_RelLinkRec 5
+aName      for
+aZKey      910370862
+aCardMin   1
+aCardMax   1
+
+eER_RelTypeRec 6
+aZKey      910370860
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 36
+aER_DiagramE1PosY 46
+aER_DiagramE2PosX 32
+aER_DiagramE2PosY 46
+
+eLOD_AttributeRec 4
+aZKey      910462869
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910370594
+aNotNull   Y
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462870
+
+eER_AttributeRec 5
+aName      zqFrameOI
+aZKey      910370595
+
+eDomainRec 6
+aZKey      910382017
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910462871
+
+eER_AttributeRec 5
+aName      zqObjExtOI
+aZKey      910370596
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462872
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      DisplaySequenceNumber
+aZKey      910370597
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      DashboardUserEntryDefinition
+aZKey      910370593
+aPurpose   S
+aER_DiagramPosX 23
+aER_DiagramPosY 44
+
+eER_RelLinkRec 4
+aName      has
+aZKey      910370858
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 5
+aZKey      910370857
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 18
+aER_DiagramE1PosY 46
+aER_DiagramE2PosX 22
+aER_DiagramE2PosY 46
+
+eLOD_EntityChild 3
+aName      DisplayGrid1
+aIndentName    DisplayGrid1
+aIndentLvl 3
+aZKey      910462880
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      DisplayGridRow1
+aIndentName       DisplayGridRow1
+aIndentLvl 6
+aZKey      910462895
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      910462896
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue1
+aZKey      910462897
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462898
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue2
+aZKey      910462899
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462900
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue3
+aZKey      910462901
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462902
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue4
+aZKey      910462903
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462904
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue5
+aZKey      910462905
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462906
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue6
+aZKey      910462907
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      910462881
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Title
+aZKey      910462882
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462883
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle1
+aZKey      910462884
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462885
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle2
+aZKey      910462886
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462887
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle3
+aZKey      910462888
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462889
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle4
+aZKey      910462890
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462891
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle5
+aZKey      910462892
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462893
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle6
+aZKey      910462894
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      DisplayGrid2
+aIndentName    DisplayGrid2
+aIndentLvl 3
+aZKey      910462908
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      DisplayGridRow2
+aIndentName       DisplayGridRow2
+aIndentLvl 6
+aZKey      910462923
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      910462924
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue1
+aZKey      910462925
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462926
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue2
+aZKey      910462927
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462928
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue3
+aZKey      910462929
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462930
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue4
+aZKey      910462931
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462932
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue5
+aZKey      910462933
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462934
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue6
+aZKey      910462935
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      910462909
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Title
+aZKey      910462910
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462911
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle1
+aZKey      910462912
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462913
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle2
+aZKey      910462914
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462915
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle3
+aZKey      910462916
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462917
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle4
+aZKey      910462918
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462919
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle5
+aZKey      910462920
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462921
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle6
+aZKey      910462922
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      DisplayGrid3
+aIndentName    DisplayGrid3
+aIndentLvl 3
+aZKey      910462936
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      DisplayGridRow3
+aIndentName       DisplayGridRow3
+aIndentLvl 6
+aZKey      910462951
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      910462952
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue1
+aZKey      910462953
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462954
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue2
+aZKey      910462955
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462956
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue3
+aZKey      910462957
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462958
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue4
+aZKey      910462959
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462960
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue5
+aZKey      910462961
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462962
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue6
+aZKey      910462963
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      910462937
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Title
+aZKey      910462938
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462939
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle1
+aZKey      910462940
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462941
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle2
+aZKey      910462942
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462943
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle3
+aZKey      910462944
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462945
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle4
+aZKey      910462946
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462947
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle5
+aZKey      910462948
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462949
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle6
+aZKey      910462950
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      DisplayGrid4
+aIndentName    DisplayGrid4
+aIndentLvl 3
+aZKey      910462964
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      DisplayGridRow4
+aIndentName       DisplayGridRow4
+aIndentLvl 6
+aZKey      910462979
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      910462980
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue1
+aZKey      910462981
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462982
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue2
+aZKey      910462983
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462984
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue3
+aZKey      910462985
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462986
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue4
+aZKey      910462987
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462988
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue5
+aZKey      910462989
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910462990
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue6
+aZKey      910462991
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      910462965
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Title
+aZKey      910462966
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462967
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle1
+aZKey      910462968
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462969
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle2
+aZKey      910462970
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462971
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle3
+aZKey      910462972
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462973
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle4
+aZKey      910462974
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462975
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle5
+aZKey      910462976
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462977
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle6
+aZKey      910462978
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      DisplayGrid5
+aIndentName    DisplayGrid5
+aIndentLvl 3
+aZKey      910462992
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      DisplayGridRow5
+aIndentName       DisplayGridRow5
+aIndentLvl 6
+aZKey      910463007
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      910463008
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue1
+aZKey      910463009
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463010
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue2
+aZKey      910463011
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463012
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue3
+aZKey      910463013
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463014
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue4
+aZKey      910463015
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463016
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue5
+aZKey      910463017
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463018
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue6
+aZKey      910463019
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      910462993
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Title
+aZKey      910462994
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462995
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle1
+aZKey      910462996
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462997
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle2
+aZKey      910462998
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910462999
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle3
+aZKey      910463000
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463001
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle4
+aZKey      910463002
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463003
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle5
+aZKey      910463004
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463005
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle6
+aZKey      910463006
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      DisplayGrid6
+aIndentName    DisplayGrid6
+aIndentLvl 3
+aZKey      910463020
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      DisplayGridRow6
+aIndentName       DisplayGridRow6
+aIndentLvl 6
+aZKey      910463035
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      910463036
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue1
+aZKey      910463037
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463038
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue2
+aZKey      910463039
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463040
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue3
+aZKey      910463041
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463042
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue4
+aZKey      910463043
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463044
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue5
+aZKey      910463045
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      910463046
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ColumnValue6
+aZKey      910463047
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      910463021
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Title
+aZKey      910463022
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463023
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle1
+aZKey      910463024
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463025
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle2
+aZKey      910463026
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463027
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle3
+aZKey      910463028
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463029
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle4
+aZKey      910463030
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463031
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle5
+aZKey      910463032
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      910463033
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ColumnTitle6
+aZKey      910463034
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      910462833
+
+eER_AttributeRec 4
+aName      ID
+aZKey      910370587
+aNotNull   Y
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462834
+
+eER_AttributeRec 4
+aName      Name
+aZKey      910370588
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462835
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wLastRunDateTime1
+aZKey      910462836
+
+eDomainRec 5
+aZKey      910381914
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910462837
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wLastRunDateTime2
+aZKey      910462838
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462839
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wLastRunDateTime3
+aZKey      910462840
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462841
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wLastRunDateTime4
+aZKey      910462842
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462843
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wLastRunDateTime5
+aZKey      910462844
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462845
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wLastRunDateTime6
+aZKey      910462846
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462847
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wRunLabel1
+aZKey      910462848
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462849
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wRunLabel2
+aZKey      910462850
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462851
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wRunLabel3
+aZKey      910462852
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462853
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wRunLabel4
+aZKey      910462854
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462855
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wRunLabel5
+aZKey      910462856
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462857
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wRunLabel6
+aZKey      910462858
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462859
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wChartLoaded
+aZKey      910462860
+aDesc      We only need the line "https://www.gstatic.com/charts/loader.js" one time on the dashboard page. Otherwise, the bar chart gives an error. We will keep track if this has already been done.
+
+eDomainRec 5
+aZKey      910382007
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910462861
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wExportFileName1
+aZKey      910462862
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910462863
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wExportFileName2
+aZKey      910462864
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      DashboardDefinition
+aZKey      910370586
+aPurpose   F
+aER_DiagramPosX 9
+aER_DiagramPosY 44
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i17        5
+i26        5
+i29        20
+i38        5
+i44        41
+i47        5
+i55        20
+i58        20
+i61        20
+i64        20
+i67        20
+i70        20
+i73        20
+i76        20
+i79        20
+i82        20
+i85        20
+i88        20
+i91        20
+i96        20
+i99        20
+i102       20
+i105       20
+i108       20
+i111       20
+i114       20
+i117       20
+i120       20
+i123       20
+i126       20
+i129       20
+i132       20
+i137       20
+i140       20
+i143       20
+i146       20
+i149       20
+i152       20
+i155       20
+i158       20
+i161       20
+i164       20
+i167       20
+i170       20
+i173       20
+i178       20
+i181       20
+i184       20
+i187       20
+i190       20
+i193       20
+i196       20
+i199       20
+i202       20
+i205       20
+i208       20
+i211       20
+i214       20
+i219       20
+i222       20
+i225       20
+i228       20
+i231       20
+i234       20
+i237       20
+i240       20
+i243       20
+i246       20
+i249       20
+i252       20
+i255       20
+i260       20
+i263       20
+i266       20
+i269       20
+i272       20
+i275       20
+i278       20
+i281       20
+i284       20
+i287       20
+i290       20
+i293       20
+i296       20
+i299       5
+i302       8
+i308       305
+i311       305
+i314       305
+i317       305
+i320       305
+i323       20
+i326       20
+i329       20
+i332       20
+i335       20
+i338       20
+i344       20
+i347       20
+i349       1
+i350       297
+i351       298
+i352       5
+i353       300
+i354       301
+i355       8
+i356       303
+i357       304
+i358       305
+i359       306
+i360       307
+i361       305
+i362       309
+i363       310
+i364       305
+i365       312
+i366       313
+i367       305
+i368       315
+i369       316
+i370       305
+i371       318
+i372       319
+i373       305
+i374       321
+i375       322
+i376       20
+i377       324
+i378       325
+i379       20
+i380       327
+i381       328
+i382       20
+i383       330
+i384       331
+i385       20
+i386       333
+i387       334
+i388       20
+i389       336
+i390       337
+i391       20
+i392       339
+i393       340
+i394       341
+i395       342
+i396       343
+i397       20
+i398       345
+i399       346
+i400       20
+i401       348
+i402       2
+i403       3
+i404       4
+i405       5
+i406       6
+i407       7
+i408       8
+i409       9
+i410       10
+i411       11
+i412       12
+i413       36
+i414       37
+i415       5
+i416       39
+i417       40
+i418       41
+i419       42
+i420       43
+i421       41
+i422       45
+i423       46
+i424       5
+i425       48
+i426       49
+i427       50
+i428       13
+i429       24
+i430       25
+i431       5
+i432       27
+i433       28
+i434       20
+i435       30
+i436       31
+i437       32
+i438       33
+i439       34
+i440       35
+i441       14
+i442       15
+i443       16
+i444       5
+i445       18
+i446       19
+i447       20
+i448       21
+i449       22
+i450       23
+i451       51
+i452       71
+i453       72
+i454       20
+i455       74
+i456       75
+i457       20
+i458       77
+i459       78
+i460       20
+i461       80
+i462       81
+i463       20
+i464       83
+i465       84
+i466       20
+i467       86
+i468       87
+i469       20
+i470       89
+i471       90
+i472       20
+i473       52
+i474       53
+i475       54
+i476       20
+i477       56
+i478       57
+i479       20
+i480       59
+i481       60
+i482       20
+i483       62
+i484       63
+i485       20
+i486       65
+i487       66
+i488       20
+i489       68
+i490       69
+i491       20
+i492       92
+i493       112
+i494       113
+i495       20
+i496       115
+i497       116
+i498       20
+i499       118
+i500       119
+i501       20
+i502       121
+i503       122
+i504       20
+i505       124
+i506       125
+i507       20
+i508       127
+i509       128
+i510       20
+i511       130
+i512       131
+i513       20
+i514       93
+i515       94
+i516       95
+i517       20
+i518       97
+i519       98
+i520       20
+i521       100
+i522       101
+i523       20
+i524       103
+i525       104
+i526       20
+i527       106
+i528       107
+i529       20
+i530       109
+i531       110
+i532       20
+i533       133
+i534       153
+i535       154
+i536       20
+i537       156
+i538       157
+i539       20
+i540       159
+i541       160
+i542       20
+i543       162
+i544       163
+i545       20
+i546       165
+i547       166
+i548       20
+i549       168
+i550       169
+i551       20
+i552       171
+i553       172
+i554       20
+i555       134
+i556       135
+i557       136
+i558       20
+i559       138
+i560       139
+i561       20
+i562       141
+i563       142
+i564       20
+i565       144
+i566       145
+i567       20
+i568       147
+i569       148
+i570       20
+i571       150
+i572       151
+i573       20
+i574       174
+i575       194
+i576       195
+i577       20
+i578       197
+i579       198
+i580       20
+i581       200
+i582       201
+i583       20
+i584       203
+i585       204
+i586       20
+i587       206
+i588       207
+i589       20
+i590       209
+i591       210
+i592       20
+i593       212
+i594       213
+i595       20
+i596       175
+i597       176
+i598       177
+i599       20
+i600       179
+i601       180
+i602       20
+i603       182
+i604       183
+i605       20
+i606       185
+i607       186
+i608       20
+i609       188
+i610       189
+i611       20
+i612       191
+i613       192
+i614       20
+i615       215
+i616       235
+i617       236
+i618       20
+i619       238
+i620       239
+i621       20
+i622       241
+i623       242
+i624       20
+i625       244
+i626       245
+i627       20
+i628       247
+i629       248
+i630       20
+i631       250
+i632       251
+i633       20
+i634       253
+i635       254
+i636       20
+i637       216
+i638       217
+i639       218
+i640       20
+i641       220
+i642       221
+i643       20
+i644       223
+i645       224
+i646       20
+i647       226
+i648       227
+i649       20
+i650       229
+i651       230
+i652       20
+i653       232
+i654       233
+i655       20
+i656       256
+i657       276
+i658       277
+i659       20
+i660       279
+i661       280
+i662       20
+i663       282
+i664       283
+i665       20
+i666       285
+i667       286
+i668       20
+i669       288
+i670       289
+i671       20
+i672       291
+i673       292
+i674       20
+i675       294
+i676       295
+i677       20
+i678       257
+i679       258
+i680       259
+i681       20
+i682       261
+i683       262
+i684       20
+i685       264
+i686       265
+i687       20
+i688       267
+i689       268
+i690       20
+i691       270
+i692       271
+i693       20
+i694       273
+i695       274
+i696       20

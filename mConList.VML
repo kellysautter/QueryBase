@@ -1,0 +1,175 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: dFullPersonNameLFM
+**
+**
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dFullPersonNameLFM( VIEW mConList BASED ON LOD mConList,
+                    STRING ( 32 ) InternalEntityStructure,
+                    STRING ( 32 ) InternalAttribStructure,
+                    SHORT GetOrSetFlag )
+
+   STRING (  254  ) szString
+   STRING ( 4 )     szYear
+   STRING ( 5 )     szTermYear
+   STRING ( 1 )     szShortTerm
+
+   CASE GetOrSetFlag
+      OF zDERIVED_GET:
+      
+         PersonName_LastFirstMiddle( mConList, InternalEntityStructure, InternalAttribStructure, GetOrSetFlag )
+
+         /* end zDERIVED_GET */
+      OF zDERIVED_SET:
+
+         /* end zDERIVED_SET */
+   END /* case */
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: dContentCount
+**    No. of Persons, Students, etc. in this Contact  List.
+**    
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dContentCount( VIEW mConList BASED ON LOD mConList,
+               STRING ( 32 ) InternalEntityStructure,
+               STRING ( 32 ) InternalAttribStructure,
+               SHORT GetOrSetFlag )
+
+   INTEGER ContentCount
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+   
+      // Note that only one of the loops below should have any entities to loop through, since a
+      // ContactList instance is for only one type of entity.
+      ContentCount = 0
+      FOR EACH mConList.ContactListItem 
+         ContentCount = ContentCount + 1
+      END
+
+      StoreValueInRecord ( mConList,
+                           InternalEntityStructure, InternalAttribStructure, ContentCount, 0 )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: dIsRecurring
+**    
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dIsRecurring( VIEW mConList BASED ON LOD mConList,
+              STRING ( 32 ) InternalEntityStructure,
+              STRING ( 32 ) InternalAttribStructure,
+              SHORT GetOrSetFlag )
+
+   STRING ( 1 ) szRecurring  
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+   
+      szRecurring = ""
+      IF mConList.DynamicCL_StoredQuery EXISTS
+         szRecurring = "Y"
+      END
+      StoreStringInRecord ( mConList, InternalEntityStructure, InternalAttribStructure, szRecurring )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: dPreferredEmail
+**    
+*************************************************************************************************/
+DERIVED ATTRIBUTE OPERATION
+dPreferredEmail( VIEW mConList BASED ON LOD mConList,
+                 STRING ( 32 ) InternalEntityStructure,
+                 STRING ( 32 ) InternalAttribStructure,
+                 SHORT GetOrSetFlag )
+   STRING (  254  ) szString
+   STRING ( 4 )     szYear
+   STRING ( 5 )     szTermYear
+   STRING ( 1 )     szShortTerm
+
+   CASE GetOrSetFlag
+      OF zDERIVED_GET:
+         
+       IF mConList.Person EXISTS
+          szString = mConList.Person.PreferredEmail 
+       ELSE
+          szString = ""
+       END
+            
+       // Store the calculated value in the object.
+       StoreStringInRecord ( mConList,
+                             InternalEntityStructure, InternalAttribStructure, szString )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GetConListName
+**
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GetConListName( VIEW mConList,
+                STRING ( 50 ) szMainViewName,
+                STRING ( 50 ) szPotentialListName,
+                STRING ( 50 ) szFinalListName )
+
+   STRING (  64  ) szListName
+   STRING (  5  ) szNumber
+   VIEW mConListMain BASED ON LOD mConList
+   INTEGER i
+
+   i = 0
+   szListName = ""
+      szFinalListName = szPotentialListName
+   
+   GET VIEW mConListMain NAMED szMainViewName
+
+   IF RESULT >= 0
+      SET CURSOR FIRST mConListMain.ContactList
+         WHERE mConListMain.ContactList.ListName = szPotentialListName
+         
+      IF RESULT < zCURSOR_SET
+         szFinalListName = szPotentialListName
+      ELSE
+        LOOP WHILE  RESULT >= zCURSOR_SET
+            i = i + 1
+            zIntegerToString( szNumber, 5, i )
+            szListName = szPotentialListName + "_" + szNumber
+            SET CURSOR FIRST mConListMain.ContactList
+               WHERE mConListMain.ContactList.ListName = szListName
+        END
+        szFinalListName = szListName
+      END
+   END
+
+END

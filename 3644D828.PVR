@@ -1,0 +1,12 @@
+z1000-Zeidon    3644D828 TZWDVORO 01/09/25   10:48:14 1.0a2    
+eViewObjRef 1
+aZKey      910481448
+aNextZKeyToAssign 910481448
+aName      mPerson
+aDesc      Created during CRM Build
+
+eLOD       2
+aZKey      910463719
+aName      mPerson
+aActivateConstraint Y
+

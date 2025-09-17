@@ -1,0 +1,13 @@
+z1000-Zeidon    3644DC65 TZWDVORO 01/09/25   10:48:25 1.0a2    
+eViewObjRef 1
+aZKey      910482533
+aNextZKeyToAssign 910482533
+aName      sHost
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      910465302
+aName      sHost
+aDesc      System Host Object
+aDLL_Name  sHost
+

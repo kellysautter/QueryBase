@@ -1,0 +1,1932 @@
+z1000-Zeidon    ZEIDON   TZEREMXO 01/09/25   14:13:38 1.0a2    
+eMODEL     1
+aNumEnts   34
+aNumRels   48
+
+eENTITY    2
+aZKEY      910370525
+aNumAtts   16
+
+eATTRIB    3
+aZKEY      910370526
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370527
+aNAME      Type
+aAPDM_TOK  910381741
+
+eATTRIB    3
+aZKEY      910370528
+aNAME      Status
+aAPDM_TOK  910381744
+
+eATTRIB    3
+aZKEY      910370529
+aNAME      Description
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370530
+aNAME      BeginDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370531
+aNAME      BeginTime
+aAPDM_TOK  910381900
+
+eATTRIB    3
+aZKEY      910370532
+aNAME      EndTime
+aAPDM_TOK  910381900
+
+eATTRIB    3
+aZKEY      910370533
+aNAME      AllDay
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370534
+aNAME      IsExclusive
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370535
+aNAME      CompletedDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370536
+aNAME      CompletedTime
+aAPDM_TOK  910381900
+
+eATTRIB    3
+aZKEY      910370537
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370538
+aNAME      ModifiedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370539
+aNAME      AlarmDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370540
+aNAME      Note
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      1389392
+aNAME      FK_ID_Z_USER
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370541
+aNumAtts   13
+
+eATTRIB    3
+aZKEY      910370542
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370543
+aNAME      Line1
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370544
+aNAME      Line2
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370545
+aNAME      Line3
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370546
+aNAME      City
+aAPDM_TOK  910381615
+aLTH       100
+
+eATTRIB    3
+aZKEY      910370547
+aNAME      StateProvince
+aAPDM_TOK  910381747
+
+eATTRIB    3
+aZKEY      910370548
+aNAME      PostalCode
+aAPDM_TOK  910382146
+aLTH       10
+
+eATTRIB    3
+aZKEY      910370549
+aNAME      Country
+aAPDM_TOK  910381873
+
+eATTRIB    3
+aZKEY      910370550
+aNAME      County
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370551
+aNAME      AttentionLine1
+aAPDM_TOK  910382144
+aLTH       50
+
+eATTRIB    3
+aZKEY      910370552
+aNAME      InternationalRegion
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      1389394
+aNAME      FK_ID_PERSON
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389395
+aNAME      FK_ID_HOST
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370553
+aNumAtts   18
+
+eATTRIB    3
+aZKEY      910370554
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370555
+aNAME      Type
+aAPDM_TOK  910381878
+
+eATTRIB    3
+aZKEY      910370556
+aNAME      ResultCode
+aAPDM_TOK  910381884
+
+eATTRIB    3
+aZKEY      910370557
+aNAME      CompletedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370558
+aNAME      Note
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370559
+aNAME      EmailSubjectLine
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370560
+aNAME      UserEmailRecipients
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370561
+aNAME      FunctionalArea
+aAPDM_TOK  910381615
+aLTH       50
+
+eATTRIB    3
+aZKEY      910370562
+aNAME      PrivateToArea
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370563
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370564
+aNAME      ModifiedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370565
+aNAME      CreatedBy
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370566
+aNAME      LastModifiedBy
+aAPDM_TOK  910381615
+aLTH       50
+
+eATTRIB    3
+aZKEY      1389391
+aNAME      FK_ID_ACTIVITY
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389396
+aNAME      FK_ID_Z_USER
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389397
+aNAME      FK_ID_EVENT
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389398
+aNAME      FK_ID_PERSON
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389399
+aNAME      FK_ID_MERGEDOCUMENT
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370567
+aNumAtts   14
+
+eATTRIB    3
+aZKEY      910370568
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370569
+aNAME      Type
+aAPDM_TOK  910381890
+aLTH       1
+
+eATTRIB    3
+aZKEY      910370570
+aNAME      ListName
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370571
+aNAME      DateGenerated
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370572
+aNAME      DateLastGeneratedRecurring
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370573
+aNAME      FindCriteria
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370574
+aNAME      Note
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370575
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370576
+aNAME      DynamicFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370577
+aNAME      SaveFindFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370578
+aNAME      SentFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370579
+aNAME      SentByName
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      1389401
+aNAME      FK_ID_Z_USER
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389402
+aNAME      FK_ID_STOREDQUERY
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370580
+aNumAtts   4
+
+eATTRIB    3
+aZKEY      910370581
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      1389400
+aNAME      FK_ID_CONTACTLIST
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389403
+aNAME      FK_ID_PERSON
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389454
+aNAME      FK_ID_PROJECT
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370582
+aNumAtts   4
+
+eATTRIB    3
+aZKEY      910370583
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370584
+aNAME      Name
+aAPDM_TOK  910381618
+aLTH       32
+
+eATTRIB    3
+aZKEY      910370585
+aNAME      Desc
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      1389404
+aNAME      FK_ID_Z_DOMAIN
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370586
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      910370587
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370588
+aNAME      Name
+aAPDM_TOK  910382144
+
+eENTITY    2
+aZKEY      910370589
+aNumAtts   4
+
+eATTRIB    3
+aZKEY      910370590
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370591
+aNAME      Name
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370592
+aNAME      Type
+aAPDM_TOK  910382300
+
+eATTRIB    3
+aZKEY      1389412
+aNAME      FK_ID_QUERYREPORT
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370593
+aNumAtts   6
+
+eATTRIB    3
+aZKEY      910370594
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370595
+aNAME      zqFrameOI
+aAPDM_TOK  910382017
+
+eATTRIB    3
+aZKEY      910370596
+aNAME      zqObjExtOI
+aAPDM_TOK  910382017
+
+eATTRIB    3
+aZKEY      910370597
+aNAME      DisplaySequenceNumber
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      1389410
+aNAME      FK_ID_DASHBOARDDEFINITION
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389411
+aNAME      FK_ID_DASHBOARDENTRYDEFINITION
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370598
+aNumAtts   11
+
+eATTRIB    3
+aZKEY      910370599
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370600
+aNAME      PlaceOfBirthCity
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370601
+aNAME      PlaceOfBirthStateProvince
+aAPDM_TOK  910381747
+
+eATTRIB    3
+aZKEY      910370602
+aNAME      PlaceOfBirthCountry
+aAPDM_TOK  910381873
+
+eATTRIB    3
+aZKEY      910370603
+aNAME      CitizenshipCode
+aAPDM_TOK  910381873
+aLTH       2
+
+eATTRIB    3
+aZKEY      910370604
+aNAME      PreferredLanguage
+aAPDM_TOK  910381898
+
+eATTRIB    3
+aZKEY      910370605
+aNAME      LocalizedLanguage
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370606
+aNAME      ModifiedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370607
+aNAME      CreatedBy
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370608
+aNAME      LastModifiedBy
+aAPDM_TOK  910381615
+aLTH       50
+
+eATTRIB    3
+aZKEY      1389413
+aNAME      FK_ID_PERSON
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370609
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      910370610
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370611
+aNAME      DMCategoryName
+aAPDM_TOK  910381615
+aLTH       30
+
+eENTITY    2
+aZKEY      910370612
+aNumAtts   10
+
+eATTRIB    3
+aZKEY      910370613
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370614
+aNAME      DocumentTitle
+aAPDM_TOK  910381615
+aLTH       100
+
+eATTRIB    3
+aZKEY      910370615
+aNAME      DocumentFileName
+aAPDM_TOK  910381615
+aLTH       100
+
+eATTRIB    3
+aZKEY      910370616
+aNAME      DocumentGUID
+aAPDM_TOK  910381615
+aLTH       256
+
+eATTRIB    3
+aZKEY      910370617
+aNAME      CreatedBy
+aAPDM_TOK  910381615
+aLTH       50
+
+eATTRIB    3
+aZKEY      910370618
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370619
+aNAME      Note
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      1389414
+aNAME      FK_ID_DMCATEGORY
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389415
+aNAME      FK_ID_PERSON
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389416
+aNAME      FK_ID_Z_USER
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370620
+aNumAtts   5
+
+eATTRIB    3
+aZKEY      910370621
+aNAME      Name
+aAPDM_TOK  910381618
+aLTH       32
+
+eATTRIB    3
+aZKEY      910370622
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370623
+aNAME      SystemRequired
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370624
+aNAME      Desc
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370625
+aNAME      RequiresPreloadFlag
+aAPDM_TOK  910382007
+
+eENTITY    2
+aZKEY      910370626
+aNumAtts   7
+
+eATTRIB    3
+aZKEY      910370627
+aNAME      InternalIntegerValue
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370628
+aNAME      SystemRequired
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370629
+aNAME      DomainValue_Token
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370630
+aNAME      InternalStringValue
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370631
+aNAME      ExternalDescription
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      1389405
+aNAME      FK_ID_CONTEXT
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389417
+aNAME      FK_ID_Z_DOMAIN
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370632
+aNumAtts   14
+
+eATTRIB    3
+aZKEY      910370633
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370634
+aNAME      Title
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370635
+aNAME      SortOrder
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370636
+aNAME      Description
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370637
+aNAME      EventType
+aAPDM_TOK  910381904
+
+eATTRIB    3
+aZKEY      910370638
+aNAME      EventCost
+aAPDM_TOK  910382446
+
+eATTRIB    3
+aZKEY      910370639
+aNAME      BeginDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370640
+aNAME      EndDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370641
+aNAME      BeginTime
+aAPDM_TOK  910381900
+
+eATTRIB    3
+aZKEY      910370642
+aNAME      EndTime
+aAPDM_TOK  910381900
+
+eATTRIB    3
+aZKEY      910370643
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370644
+aNAME      ModifiedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370645
+aNAME      CreatedBy
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370646
+aNAME      LastModifiedBy
+aAPDM_TOK  910381615
+aLTH       50
+
+eENTITY    2
+aZKEY      910370647
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      910370648
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370649
+aNAME      Name
+aAPDM_TOK  910381615
+aLTH       64
+
+eENTITY    2
+aZKEY      910370650
+aNumAtts   25
+
+eATTRIB    3
+aZKEY      910370651
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370652
+aNAME      HostName
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370653
+aNAME      PreferredLanguage
+aAPDM_TOK  910381898
+
+eATTRIB    3
+aZKEY      910370654
+aNAME      SMTPEnableSSL
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370655
+aNAME      SMTPEnableTLS
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370656
+aNAME      SMTPPassword
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370657
+aNAME      SMTPPort
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370658
+aNAME      SMTPServer
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370659
+aNAME      SMTPUser
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370660
+aNAME      QueryLODsSourceDirectory
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370661
+aNAME      QueryMergeDocTemplatesDirectory
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370662
+aNAME      OD_FileUnzipZipDirectory
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370663
+aNAME      DOCX_FileUnzipZipDirectory
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370664
+aNAME      EmailMaximumGroupSend
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370665
+aNAME      LastModifiedBy
+aAPDM_TOK  910381615
+aLTH       50
+
+eATTRIB    3
+aZKEY      910370666
+aNAME      CreatedBy
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370667
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910371068
+aNAME      DateFormat
+aAPDM_TOK  910381615
+aLTH       20
+
+eATTRIB    3
+aZKEY      910371069
+aNAME      TimeFormat
+aAPDM_TOK  910381615
+aLTH       20
+
+eATTRIB    3
+aZKEY      910371070
+aNAME      TempDir
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910371071
+aNAME      MergeDocumentTemplatesDirectory
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910371072
+aNAME      MergeDocumentOutputsDirectory
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910371073
+aNAME      MergeDocumentsEmailSourceAddress
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910371074
+aNAME      SecureEmailWorkDirectory
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910371075
+aNAME      ODT_DOCX_FileUnzipZipDirectory
+aAPDM_TOK  910381615
+
+eENTITY    2
+aZKEY      910370668
+aNumAtts   26
+
+eATTRIB    3
+aZKEY      910370669
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370670
+aNAME      Name
+aAPDM_TOK  910381615
+aLTH       64
+
+eATTRIB    3
+aZKEY      910370671
+aNAME      ActiveFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370672
+aNAME      DocType
+aAPDM_TOK  910382305
+aLTH       1
+
+eATTRIB    3
+aZKEY      910370673
+aNAME      Description
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370674
+aNAME      ObjectName
+aAPDM_TOK  910382312
+
+eATTRIB    3
+aZKEY      910370675
+aNAME      FormatOverrideObjectName
+aAPDM_TOK  910382312
+
+eATTRIB    3
+aZKEY      910370676
+aNAME      ExternalReportName
+aAPDM_TOK  910382312
+
+eATTRIB    3
+aZKEY      910370677
+aNAME      ExternalReportObjectName
+aAPDM_TOK  910382312
+
+eATTRIB    3
+aZKEY      910370678
+aNAME      TemplateFileName
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370679
+aNAME      TextTemplateFileName
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370680
+aNAME      OutputFileName
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370681
+aNAME      TextOutputFileName
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370682
+aNAME      FunctionalAreaName
+aAPDM_TOK  910381906
+
+eATTRIB    3
+aZKEY      910370683
+aNAME      GenerateContactActivityFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370684
+aNAME      GenerateContactEmailContentFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370685
+aNAME      EmailSubjectTitle
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370686
+aNAME      EmailSubjectTitleNameFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370687
+aNAME      EmailAttachmentFileName
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370688
+aNAME      MailType
+aAPDM_TOK  910381938
+
+eATTRIB    3
+aZKEY      910370689
+aNAME      CounselorSelectableFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370690
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370691
+aNAME      ModifiedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370692
+aNAME      CreatedBy
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370693
+aNAME      LastModifiedBy
+aAPDM_TOK  910381615
+aLTH       50
+
+eATTRIB    3
+aZKEY      910370694
+aNAME      UploadDirectory
+aAPDM_TOK  910381615
+
+eENTITY    2
+aZKEY      910370695
+aNumAtts   25
+
+eATTRIB    3
+aZKEY      910370696
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370697
+aNAME      LastName
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370698
+aNAME      FirstName
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370699
+aNAME      MiddleName
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370700
+aNAME      Suffix
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370701
+aNAME      DateOfBirth
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370702
+aNAME      eMailAddress
+aAPDM_TOK  910382149
+
+eATTRIB    3
+aZKEY      910370703
+aNAME      PreferredEmail
+aAPDM_TOK  910382149
+
+eATTRIB    3
+aZKEY      910370704
+aNAME      WorkEmail
+aAPDM_TOK  910382149
+
+eATTRIB    3
+aZKEY      910370705
+aNAME      Gender
+aAPDM_TOK  910382151
+
+eATTRIB    3
+aZKEY      910370706
+aNAME      HomePhone
+aAPDM_TOK  910382155
+
+eATTRIB    3
+aZKEY      910370707
+aNAME      MobilePhone
+aAPDM_TOK  910382155
+
+eATTRIB    3
+aZKEY      910370708
+aNAME      Deceased
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370709
+aNAME      DeceasedDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370710
+aNAME      MaritalStatus
+aAPDM_TOK  910381942
+
+eATTRIB    3
+aZKEY      910370711
+aNAME      Note
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370712
+aNAME      Salutation
+aAPDM_TOK  910381950
+
+eATTRIB    3
+aZKEY      910370713
+aNAME      Title
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370714
+aNAME      WorkPhone
+aAPDM_TOK  910382155
+
+eATTRIB    3
+aZKEY      910370715
+aNAME      CreatedBy
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370716
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370717
+aNAME      ModifiedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370718
+aNAME      LastModifiedBy
+aAPDM_TOK  910381615
+aLTH       50
+
+eATTRIB    3
+aZKEY      910370719
+aNAME      Prefix
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      1389393
+aNAME      MAINID_ADDRESS
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370720
+aNumAtts   10
+
+eATTRIB    3
+aZKEY      910370721
+aNAME      AttributeName
+aAPDM_TOK  910381618
+aLTH       32
+
+eATTRIB    3
+aZKEY      910370722
+aNAME      MappingEntityName
+aAPDM_TOK  910381618
+aLTH       32
+
+eATTRIB    3
+aZKEY      910370723
+aNAME      Prompt
+aAPDM_TOK  910381615
+aLTH       50
+
+eATTRIB    3
+aZKEY      910370724
+aNAME      Length
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370725
+aNAME      Type
+aAPDM_TOK  910381618
+aLTH       1
+
+eATTRIB    3
+aZKEY      910370726
+aNAME      CSV_ColumnNumber
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370727
+aNAME      GroupOperation
+aAPDM_TOK  910381618
+aLTH       5
+
+eATTRIB    3
+aZKEY      910370728
+aNAME      GroupOperationEntityName
+aAPDM_TOK  910382314
+
+eATTRIB    3
+aZKEY      910370729
+aNAME      GroupOperationAttributeName
+aAPDM_TOK  910382314
+
+eATTRIB    3
+aZKEY      910370730
+aNAME      GroupOperationScopingEntityName
+aAPDM_TOK  910382314
+
+eENTITY    2
+aZKEY      910370731
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      910370732
+aNAME      Name
+aAPDM_TOK  910381618
+aLTH       32
+
+eATTRIB    3
+aZKEY      910370733
+aNAME      OutlinerDisplayValue
+aAPDM_TOK  910381615
+
+eENTITY    2
+aZKEY      910370734
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      910370735
+aNAME      Name
+aAPDM_TOK  910381618
+aLTH       32
+
+eATTRIB    3
+aZKEY      910370736
+aNAME      OutlinerDisplayValue
+aAPDM_TOK  910381615
+
+eENTITY    2
+aZKEY      910370737
+aNumAtts   3
+
+eATTRIB    3
+aZKEY      910370738
+aNAME      EntityName
+aAPDM_TOK  910382314
+
+eATTRIB    3
+aZKEY      910370739
+aNAME      MaxCardinality
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370740
+aNAME      CurrentOutputLine
+aAPDM_TOK  910381615
+aLTH       1000
+
+eENTITY    2
+aZKEY      910370741
+aNumAtts   9
+
+eATTRIB    3
+aZKEY      910370742
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370743
+aNAME      ExternalName
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370744
+aNAME      ObjectName
+aAPDM_TOK  910382312
+
+eATTRIB    3
+aZKEY      910370745
+aNAME      ContactListType
+aAPDM_TOK  910382019
+
+eATTRIB    3
+aZKEY      910370746
+aNAME      DisplayEntityName
+aAPDM_TOK  910382314
+
+eATTRIB    3
+aZKEY      910370747
+aNAME      DisplayAttributeName
+aAPDM_TOK  910382314
+
+eATTRIB    3
+aZKEY      910370748
+aNAME      ContactListIncludeEntityName
+aAPDM_TOK  910382314
+
+eATTRIB    3
+aZKEY      910370749
+aNAME      ContactListCreateEntityName
+aAPDM_TOK  910382314
+
+eATTRIB    3
+aZKEY      910370750
+aNAME      SourceIncludeEntityName
+aAPDM_TOK  910382314
+
+eENTITY    2
+aZKEY      910370751
+aNumAtts   5
+
+eATTRIB    3
+aZKEY      910370752
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370753
+aNAME      ObjectName
+aAPDM_TOK  910382312
+
+eATTRIB    3
+aZKEY      910370754
+aNAME      ExtensionName
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370755
+aNAME      ExtensionDescription
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370756
+aNAME      QueryExtensionBlob
+aAPDM_TOK  910382017
+
+eENTITY    2
+aZKEY      910370757
+aNumAtts   11
+
+eATTRIB    3
+aZKEY      910370758
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370759
+aNAME      Name
+aAPDM_TOK  910381615
+aLTH       64
+
+eATTRIB    3
+aZKEY      910370760
+aNAME      Type
+aAPDM_TOK  910382316
+
+eATTRIB    3
+aZKEY      910370761
+aNAME      Description
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370762
+aNAME      UpdateableQueryFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      1389426
+aNAME      FK_ID_MERGEDOCUMENT
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389433
+aNAME      FK_ID_STOREDQUERY
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389434
+aNAME      FK_ID_STOREDQUERY02
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389435
+aNAME      FK_ID_Z_USER
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389444
+aNAME      FK_ID_STOREDQUERYCATEGORY
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389445
+aNAME      FK_ID_QUERYREPORT
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370763
+aNumAtts   9
+
+eATTRIB    3
+aZKEY      910370764
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370765
+aNAME      SenderType
+aAPDM_TOK  910382159
+
+eATTRIB    3
+aZKEY      910370766
+aNAME      RecipientEmailAddress
+aAPDM_TOK  910382149
+
+eATTRIB    3
+aZKEY      910370767
+aNAME      SenderEmailAddress
+aAPDM_TOK  910382149
+
+eATTRIB    3
+aZKEY      910370768
+aNAME      EmailAttachmentFileName
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370769
+aNAME      SubjectText
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370770
+aNAME      BodyText
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      1389427
+aNAME      FK_ID_PERSON
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389446
+aNAME      FK_ID_Z_USER
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370771
+aNumAtts   20
+
+eATTRIB    3
+aZKEY      910370772
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370773
+aNAME      Name
+aAPDM_TOK  910381615
+aLTH       64
+
+eATTRIB    3
+aZKEY      910370774
+aNAME      PrivateFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370775
+aNAME      CreatedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370776
+aNAME      ModifiedDateTime
+aAPDM_TOK  910381914
+
+eATTRIB    3
+aZKEY      910370777
+aNAME      ReportTitle
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370778
+aNAME      Description
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910370779
+aNAME      Type
+aAPDM_TOK  910381618
+aLTH       1
+
+eATTRIB    3
+aZKEY      910370780
+aNAME      QueryBlob
+aAPDM_TOK  910382017
+
+eATTRIB    3
+aZKEY      910370781
+aNAME      ObjectName
+aAPDM_TOK  910382312
+
+eATTRIB    3
+aZKEY      910370782
+aNAME      AttributeBlob
+aAPDM_TOK  910382017
+
+eATTRIB    3
+aZKEY      910370783
+aNAME      QueryExtensionBlob
+aAPDM_TOK  910382017
+
+eATTRIB    3
+aZKEY      910370784
+aNAME      FunctionalArea
+aAPDM_TOK  910381906
+
+eATTRIB    3
+aZKEY      910370785
+aNAME      ReportBlob
+aAPDM_TOK  910382017
+
+eATTRIB    3
+aZKEY      910370786
+aNAME      ReportBlobExistsFlag
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370787
+aNAME      YearlyModificationFlagDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910370788
+aNAME      BooleanExpression
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      1389447
+aNAME      FK_ID_Z_USER
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389448
+aNAME      FK_ID_STOREDQUERY
+aAPDM_TOK  910381608
+aLTH       4
+
+eATTRIB    3
+aZKEY      1389449
+aNAME      FK_ID_STOREDQUERYCATEGORY
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370789
+aNumAtts   3
+
+eATTRIB    3
+aZKEY      910370790
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370791
+aNAME      Name
+aAPDM_TOK  910381615
+aLTH       64
+
+eATTRIB    3
+aZKEY      910370792
+aNAME      FunctionalArea
+aAPDM_TOK  910381906
+
+eENTITY    2
+aZKEY      910370793
+aNumAtts   17
+
+eATTRIB    3
+aZKEY      910370794
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370795
+aNAME      UserName
+aAPDM_TOK  910382144
+
+eATTRIB    3
+aZKEY      910370796
+aNAME      eMailUserName
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370797
+aNAME      eMailAddress
+aAPDM_TOK  910382149
+
+eATTRIB    3
+aZKEY      910370798
+aNAME      SMTPServer
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370799
+aNAME      Active
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370800
+aNAME      QueryAdminAuthority
+aAPDM_TOK  910382007
+
+eATTRIB    3
+aZKEY      910370801
+aNAME      Status
+aAPDM_TOK  910381964
+
+eATTRIB    3
+aZKEY      910370802
+aNAME      MergeOutputFileName
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370803
+aNAME      LDAPContext
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370804
+aNAME      SenderUserEmailAddress
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910370805
+aNAME      SenderHostEmailAddress
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910371064
+aNAME      Password
+aAPDM_TOK  910381615
+aLTH       1000
+
+eATTRIB    3
+aZKEY      910371065
+aNAME      PasswordSt
+aAPDM_TOK  910381615
+aLTH       512
+
+eATTRIB    3
+aZKEY      910371066
+aNAME      JavaPassword
+aAPDM_TOK  910381615
+aLTH       1000
+
+eATTRIB    3
+aZKEY      910371067
+aNAME      eMailPassword
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      1389428
+aNAME      FK_ID_PERSON
+aAPDM_TOK  910381608
+aLTH       4
+
+eENTITY    2
+aZKEY      910370806
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      910370807
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910370808
+aNAME      GroupName
+aAPDM_TOK  910382144
+
+eENTITY    2
+aZKEY      910371037
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      910371038
+aNAME      CurrentGenkey
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910371039
+aNAME      TableName
+aAPDM_TOK  910381618
+aLTH       32
+
+eENTITY    2
+aZKEY      910371042
+aNumAtts   7
+
+eATTRIB    3
+aZKEY      910371043
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910371044
+aNAME      Name
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910371045
+aNAME      Description
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      910371057
+aNAME      EstimatedStartDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910371058
+aNAME      EstimatedCompletionDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910371059
+aNAME      StartDate
+aAPDM_TOK  910381872
+
+eATTRIB    3
+aZKEY      910371060
+aNAME      CompletionDate
+aAPDM_TOK  910381872
+
+eENTITY    2
+aZKEY      910371051
+aNumAtts   4
+
+eATTRIB    3
+aZKEY      910371052
+aNAME      ID
+aAPDM_TOK  910381608
+
+eATTRIB    3
+aZKEY      910371053
+aNAME      Name
+aAPDM_TOK  910381615
+
+eATTRIB    3
+aZKEY      910371054
+aNAME      Description
+aAPDM_TOK  910381612
+
+eATTRIB    3
+aZKEY      1389455
+aNAME      FK_ID_PROJECT
+aAPDM_TOK  910381608
+aLTH       4
+
+eREL       2
+aZKEY      910370809
+
+eREL       2
+aZKEY      910370812
+
+eREL       2
+aZKEY      910370815
+
+eREL       2
+aZKEY      910370818
+
+eREL       2
+aZKEY      910370821
+
+eREL       2
+aZKEY      910370824
+
+eREL       2
+aZKEY      910370827
+
+eREL       2
+aZKEY      910370830
+
+eREL       2
+aZKEY      910370833
+
+eREL       2
+aZKEY      910370836
+
+eREL       2
+aZKEY      910370839
+
+eREL       2
+aZKEY      910370842
+
+eREL       2
+aZKEY      910370845
+
+eREL       2
+aZKEY      910370848
+
+eREL       2
+aZKEY      910370851
+
+eREL       2
+aZKEY      910370854
+
+eREL       2
+aZKEY      910370857
+
+eREL       2
+aZKEY      910370860
+
+eREL       2
+aZKEY      910370863
+
+eREL       2
+aZKEY      910370866
+
+eREL       2
+aZKEY      910370869
+
+eREL       2
+aZKEY      910370872
+
+eREL       2
+aZKEY      910370875
+
+eREL       2
+aZKEY      910370878
+
+eREL       2
+aZKEY      910370881
+
+eREL       2
+aZKEY      910370884
+
+eREL       2
+aZKEY      910370887
+
+eREL       2
+aZKEY      910370890
+
+eREL       2
+aZKEY      910370893
+
+eREL       2
+aZKEY      910370896
+
+eREL       2
+aZKEY      910370899
+
+eREL       2
+aZKEY      910370902
+
+eREL       2
+aZKEY      910370905
+
+eREL       2
+aZKEY      910370908
+
+eREL       2
+aZKEY      910370911
+
+eREL       2
+aZKEY      910370914
+
+eREL       2
+aZKEY      910370917
+
+eREL       2
+aZKEY      910370920
+
+eREL       2
+aZKEY      910370923
+
+eREL       2
+aZKEY      910370926
+
+eREL       2
+aZKEY      910370929
+
+eREL       2
+aZKEY      910370932
+
+eREL       2
+aZKEY      910370935
+
+eREL       2
+aZKEY      910370938
+
+eREL       2
+aZKEY      910370941
+
+eREL       2
+aZKEY      910370944
+
+eREL       2
+aZKEY      910371048
+
+eREL       2
+aZKEY      910371061
+

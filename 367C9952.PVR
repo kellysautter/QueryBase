@@ -1,0 +1,13 @@
+z1000-Zeidon    367C9952 TZWDVORO 01/09/25   14:13:53 1.0a2    
+eViewObjRef 1
+aZKey      914135378
+aNextZKeyToAssign 914135378
+aName      zqObjExt
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      914134002
+aName      zqObjExt
+aDesc      Query object extension
+aDLL_Name  zqObjExt
+

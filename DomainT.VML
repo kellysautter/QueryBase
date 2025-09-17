@@ -1,0 +1,305 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: ActivateDomainList
+**
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+ActivateDomainList( VIEW DOMAINTLST BASED ON LOD DOMAINT,
+                    VIEW zAnyView )
+/*
+   VIEW DOMAINT BASED ON LOD DOMAINT
+   VIEW DOMAINTDG BASED ON LOD DOMAINT
+   ACTIVATE DOMAINTLST RootOnlyMultiple
+   GET VIEW DOMAINT NAMED "DOMAINT"
+   IF RESULT >= 0
+      IF DOMAINTLST.Domain EXISTS
+         SET CURSOR FIRST DOMAINTLST.Domain WHERE
+            DOMAINT.Domain.Name = DOMAINTLST.Domain.Name
+      END
+      DropView ( DOMAINT )
+   END
+   NAME VIEW DOMAINTLST "DOMAINTLST"
+   */
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: AcceptDomainValue
+**    
+*************************************************************************************************/
+ENTITY CONSTRAINT OPERATION
+AcceptDomainValue( VIEW DOMAINT BASED ON LOD DOMAINT,
+                   STRING ( 32 ) NameOfEntity,
+                   SHORT Event,
+                   SHORT State )
+
+   VIEW DOMAINTV BASED ON LOD DOMAINT
+   STRING ( 1 ) szDuplicateFlag
+   STRING ( 256 )  szDomain
+   STRING ( 256 )  szExt1
+   STRING ( 256 )  szExt2
+   STRING ( 256 )  szInternal
+   STRING ( 600 )  szMsg
+   INTEGER      Position
+   INTEGER      PositionTemp
+
+   CASE Event
+   OF   zECE_ACCEPT:
+
+   // Check that internal value is unique.
+   // Note that we may not have an ID yet so we will have to check position to determine if we are
+   // on same entity.
+   //TraceLineS("In accept domain value: ","1")
+   GetAbsolutePositionForEntity( Position, DOMAINT, "DomainValue" )
+   CreateViewFromView( DOMAINTV, DOMAINT )
+   SET CURSOR FIRST DOMAINTV.DomainValue 
+              WHERE DOMAINTV.DomainValue.InternalStringValue = DOMAINTV.DomainValue.InternalStringValue 
+   IF RESULT >= zCURSOR_SET 
+      // We found a duplicate, but it could be the same entity.
+      GetAbsolutePositionForEntity( PositionTemp, DOMAINTV, "DomainValue" )
+      IF PositionTemp != Position
+         // We've found internal value at different position, so it's an error.
+         szDuplicateFlag = "Y"
+      ELSE
+         // The duplicate is the same entity, so look for another entity.
+         SET CURSOR NEXT DOMAINTV.DomainValue 
+                    WHERE DOMAINTV.DomainValue.InternalStringValue = DOMAINTV.DomainValue.InternalStringValue 
+         IF RESULT >= zCURSOR_SET 
+            // We've found internal value at different position, so it's an error.
+            szDuplicateFlag = "Y"
+         END
+      END
+      IF szDuplicateFlag = "Y"
+         TraceLineI( "In accept domain value position: ", Position )
+         szDomain = DOMAINT.Domain.Name 
+         szExt1 = DOMAINT.DomainValue.ExternalDescription 
+         szExt2 = DOMAINTV.DomainValue.ExternalDescription 
+         szInternal = DOMAINT.DomainValue.InternalStringValue 
+         szMsg = "A Domain Value with the same Internal value already exists. Domain: "
+         szMsg = szMsg + szDomain
+         szMsg = szMsg + " has the same Internal value: " + szInternal
+         szMsg = szMsg + " for the following external values: " + szExt1 + ", " + szExt2
+         DropView( DOMAINTV )
+         MessageSend( DOMAINT, "DomainT001", "Accept Domain Value",
+                      szMsg,
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         //RETURN 2
+      END
+   END
+   
+   DropView( DOMAINTV )
+
+        /* end zECE_ACCEPT */
+   OF   zECE_CANCEL:
+
+        /* end zECE_CANCEL */
+   OF   zECE_CREATE:
+
+        /* end zECE_CREATE */
+   OF   zECE_DELETE:
+
+        /* end zECE_DELETE */
+   OF   zECE_EXCLUDE:
+
+        /* end zECE_EXCLUDE */
+   OF   zECE_INCLUDE:
+
+        /* end zECE_INCLUDE */
+   END  /* case */
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: ObjectConstraints
+**    
+*************************************************************************************************/
+OBJECT CONSTRAINT OPERATION
+ObjectConstraints( VIEW DOMAINT BASED ON LOD DomainT,
+                   SHORT Event,
+                   SHORT State )
+                   
+   VIEW DOMAINTV BASED ON LOD DOMAINT
+   STRING ( 1 ) szDuplicateFlag
+   STRING ( 256 )  szDomain
+   STRING ( 256 )  szExt1
+   STRING ( 256 )  szExt2
+   STRING ( 256 )  szInternal
+   STRING ( 1000 )  szMsg
+   INTEGER      Position
+   INTEGER      PositionTemp
+
+   CASE Event
+   OF   zOCE_ACTIVATE:
+
+        /* end zOCE_ACTIVATE */
+   OF   zOCE_ACTIVATE_EMPTY:
+
+        /* end zOCE_ACTIVATE_EMPTY */
+   OF   zOCE_COMMIT:
+
+   // Check that internal value is unique.
+   // Note that we may not have an ID yet so we will have to check position to determine if we are
+   // on same entity.
+   // KJS 07/02/20 - This used to be up on the entity constraint but everytime we go into the entity constraint, we
+   // are always pointing to the last DomainValue entity.
+   //TraceLineS("In accept domain value: ","1")
+   szDuplicateFlag = ""
+   CreateViewFromView( DOMAINTV, DOMAINT )
+   FOR EACH DOMAINT.DomainValue 
+      IF szDuplicateFlag = "" // If we find one duplicate, give error and don't worry about other duplicates at this time.         GetAbsolutePositionForEntity( Position, DOMAINT, "DomainValue" )
+         GetAbsolutePositionForEntity( Position, DOMAINT, "DomainValue" )
+         SET CURSOR FIRST DOMAINTV.DomainValue 
+                    WHERE DOMAINTV.DomainValue.InternalStringValue = DOMAINT.DomainValue.InternalStringValue 
+         IF RESULT >= zCURSOR_SET 
+            // We found a duplicate, but it could be the same entity.
+            GetAbsolutePositionForEntity( PositionTemp, DOMAINTV, "DomainValue" )
+            IF PositionTemp != Position
+               // We've found internal value at different position, so it's an error.
+               szDuplicateFlag = "Y"
+            ELSE
+               // The duplicate is the same entity, so look for another entity.
+               SET CURSOR NEXT DOMAINTV.DomainValue 
+                          WHERE DOMAINTV.DomainValue.InternalStringValue = DOMAINT.DomainValue.InternalStringValue 
+               IF RESULT >= zCURSOR_SET 
+                  // We've found internal value at different position, so it's an error.
+                  szDuplicateFlag = "Y"
+               END
+            END
+            IF szDuplicateFlag = "Y"
+               TraceLineI( "In accept domain value position: ", Position )
+               szDomain = DOMAINT.Domain.Name 
+               szExt1 = DOMAINT.DomainValue.ExternalDescription 
+               szExt2 = DOMAINTV.DomainValue.ExternalDescription 
+               szInternal = DOMAINT.DomainValue.InternalStringValue 
+               szMsg = "A Domain Value with the same Internal value already exists. Domain: "
+               szMsg = szMsg + szDomain
+               szMsg = szMsg + " has the same Internal value: " + szInternal
+               szMsg = szMsg + " for the following external values: " + szExt1 + ", " + szExt2
+               //RETURN 2
+            END
+         END
+      END
+   END
+   
+   IF szDuplicateFlag = "Y"
+      MessageSend( DOMAINT, "DomainT001", "Accept Domain Value",
+                   szMsg,
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+   END
+
+      
+   DropView( DOMAINTV )
+
+
+        /* end zOCE_COMMIT */
+   OF   zOCE_DROPOI:
+
+        /* end zOCE_DROPOI */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: ActivateDomain
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+ActivateDomain( VIEW DOMAINT BASED ON LOD DomainT,
+                STRING ( 32 ) szDomainName,
+                VIEW ViewToWindow )
+
+   VIEW vXDM
+   VIEW vDOMAINT BASED ON LOD DOMAINT
+   VIEW sHost    REGISTERED AS sHost
+   STRING ( 400 ) szFileName
+   STRING ( 1 )   szDefault
+   STRING ( 100 ) szJavaClass
+   STRING ( 100 ) szDynamicDomainName
+
+   // Initialze this domain, whether it is static or dynamic.
+
+   // Activate the XDM object.
+   GetApplDirectoryFromView( szFileName, ViewToWindow, zAPPL_DIR_OBJECT, 400 )
+   szFileName = szFileName + "/zeidon.xdm"
+   // 536870912 is ACTIVATE_SYSTEM in the following activate statement.
+   ActivateOI_FromFile( vXDM, "TZDMXGPO", ViewToWindow, szFileName,zSingle )
+   NAME VIEW vXDM "XDM"
+   SET CURSOR FIRST vXDM.Domain WHERE vXDM.Domain.Name = szDomainName
+
+   //GetLanguage( ViewToWindow )
+   
+   IF RESULT >= zCURSOR_SET
+      // Check the java class.
+      szJavaClass = vXDM.Domain.JavaClass
+      // It would be nice to have a different way of determining whether or not the domain
+      // is Static or Dynamic.
+      IF ZeidonStringFind( szJavaClass, 1, "Dynamic") >= 0
+         // Dynamic
+         // Don't look for activated dynamic domain, just load values from database.
+         szDynamicDomainName = "_DM_" + szDomainName + "_" + szDomainName
+         ACTIVATE DOMAINT WHERE DOMAINT.Domain.Name = szDomainName
+         // What about language?
+      ELSE
+         // Static
+         ACTIVATE  DOMAINT EMPTY
+         CREATE ENTITY DOMAINT.Domain 
+         DOMAINT.Domain.Name = szDomainName
+         szDefault = ""
+         FOR EACH vXDM.Context
+            IF vXDM.Context.IsDefault = "Y"
+               szDefault = "Y"
+            END
+         END
+         // If there is not default context, set first as default.
+         IF szDefault = ""
+            SET CURSOR FIRST vXDM.Context
+            IF RESULT >= zCURSOR_SET
+               vXDM.Context.IsDefault = "Y"
+            END  
+         END
+         FOR EACH vXDM.Context
+            IF vXDM.Context.IsDefault = "Y"
+               // Merge in any DomainValue entries that are not already there.
+               FOR EACH vXDM.TableEntry WHERE vXDM.TableEntry.InternalValue != ""
+                  SET CURSOR FIRST DOMAINT.DomainValue
+                             WHERE DOMAINT.DomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+                  IF RESULT < zCURSOR_SET
+                     SET CURSOR LAST DOMAINT.DomainValue
+                     CREATE ENTITY DOMAINT.DomainValue
+                     DOMAINT.DomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+                     DOMAINT.DomainValue.ExternalDescription = vXDM.TableEntry.ExternalValue
+                  END
+               END
+            ELSE
+               SET CURSOR FIRST DOMAINT.Context WHERE DOMAINT.Context.Name = vXDM.Context.Name
+               IF RESULT < zCURSOR_SET
+                  CREATE ENTITY DOMAINT.Context 
+                  DOMAINT.Context.Name = vXDM.Context.Name
+               END 
+               FOR EACH vXDM.TableEntry WHERE vXDM.TableEntry.InternalValue != ""
+                  SET CURSOR FIRST DOMAINT.ContextDomainValue
+                             WHERE DOMAINT.ContextDomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+                  IF RESULT < zCURSOR_SET
+                     SET CURSOR LAST DOMAINT.ContextDomainValue
+                     CREATE ENTITY DOMAINT.ContextDomainValue
+                     DOMAINT.ContextDomainValue.InternalStringValue = vXDM.TableEntry.InternalValue
+                     DOMAINT.ContextDomainValue.ExternalDescription = vXDM.TableEntry.ExternalValue
+                  END
+               END
+            END
+         END //FOR EACH vXDM.Context
+      END  // If Dynamic domain
+      SET CURSOR FIRST DOMAINT.DomainValue
+      DropObjectInstance( vXDM )
+   ELSE
+      DropObjectInstance( vXDM )
+      RETURN -1
+   END  // IF RESULT >= zCURSOR_SET
+   
+END

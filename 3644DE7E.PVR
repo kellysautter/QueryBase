@@ -1,0 +1,13 @@
+z1000-Zeidon    3644DE7E TZWDVORO 01/09/25   10:48:30 1.0a2    
+eViewObjRef 1
+aZKey      910483070
+aNextZKeyToAssign 910483070
+aName      zqFrame
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      910470060
+aName      zqFrame
+aDesc      Query frame for specifying query parameters
+aDLL_Name  LODOPS2
+

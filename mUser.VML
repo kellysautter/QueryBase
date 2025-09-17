@@ -1,0 +1,64 @@
+
+/*************************************************************************************************
+**    
+**    OPERATION: AccessAllowed
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+SectionAccessAllowed( VIEW mUser BASED ON LOD mUser,
+                      STRING ( 128 ) szAdminDiv,
+                      STRING ( 128 ) szArea,
+                      STRING ( 128 ) szSection,
+                      STRING ( 6 ) szPermissionString )
+
+   VIEW sHost REGISTERED AS sHost
+   
+   // This routine checks security access for the current User and only allows continuation if the User
+   // does have access.
+   // It currently always allows access.
+   
+   RETURN 0
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SubSectReadAccAllowed
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+SubSectReadAccAllowed( VIEW mUser BASED ON LOD mUser,
+                       STRING ( 128 ) szAdminDiv,
+                       STRING ( 128 ) szArea,
+                       STRING ( 128 ) szSection,
+                       STRING ( 50 )  szSubSectionName )
+
+   
+   RETURN 0
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SubSectAccessAllowed
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+SubSectAccessAllowed( VIEW mUser BASED ON LOD mUser,
+                      STRING ( 128 ) szAdminDiv,
+                      STRING ( 128 ) szArea,
+                      STRING ( 128 ) szSection,
+                      STRING ( 50 )  szSubSectionName )
+
+   VIEW mUser2 BASED ON LOD mUser
+   STRING ( 32 ) szDivision
+   INTEGER nRC 
+
+   // Always allow Admin.
+   IF mUser.User.ID = 1
+      RETURN 1 
+   END
+   
+   RETURN 1
+   
+END

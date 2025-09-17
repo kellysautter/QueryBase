@@ -1,0 +1,127 @@
+z1000-Zeidon    TZAPDMAA TZDGSRCO 01/09/25   10:46:58 1.0a2    
+eDomainGroup 1
+aZKey      910381606
+aNextZKeyToAssign 910381621
+aName      TZAPDMAA
+aExtension C
+
+eDomain    2
+aZKey      910381608
+aName      Integer
+aDesc      Integer numbers from -lots to +lots.
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.IntegerDomain
+aDataType  L
+aMaxStringLth 4
+aContextRestriction N
+aDecimalFormat 0
+
+eContext   3
+aZKey      910381609
+aDesc      0-F ( only Hex digits)
+aName      Hex
+
+eContext   3
+aZKey      910381610
+aName      hexAddress
+
+eContext   3
+aZKey      910381611
+aName      INTEGER
+aIsDefault Y
+aDIL_Text  Integer > 32K
+
+eSelectedOperation 3
+aName      zdmInteger
+aZKey      910381607
+aDesc      Integer Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      910381620
+aName      Password
+aDesc      Encrypted password
+aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.PasswordDomain
+aDataType  S
+aMaxStringLth 9
+aContextRestriction N
+
+eContext   3
+aZKey      910381621
+aName      Password
+aIsDefault Y
+
+eSelectedOperation 3
+
+eDomain    2
+aZKey      910381618
+aName      AlphaNumeric
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+aDecimalFormat 1234
+
+eContext   3
+aZKey      910381619
+aName      ALPHANUMERIC
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmInteger
+aZKey      910381617
+aDesc      Integer Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      910381615
+aName      Text
+aDesc      Any Character String
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eContext   3
+aZKey      910381616
+aName      TEXT
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmInteger
+aZKey      910381614
+aDesc      Integer Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      910381612
+aName      Note
+aDesc      10000 byte string
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 10000
+aContextRestriction N
+
+eContext   3
+aZKey      910381613
+aName      Note
+aIsDefault Y
+
+eOperation 2
+
+eOperation 2
+
+eOperation 2
+
+i8         5
+i17        5
+i18        14
+i19        11

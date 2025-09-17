@@ -1,0 +1,138 @@
+z1000-Zeidon    TEXTSA   TZDGSRCO 08/12/25   14:48:18 1.0a2    
+eDomainGroup 1
+aZKey      910382143
+aNextZKeyToAssign 910382162
+aName      TextsA
+aDesc      Initial grouping of simple Text data
+aExtension C
+
+eDomain    2
+aZKey      910382144
+aName      GeneralName_Address
+aDesc      General Text (names, streets, cities, etc.)
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 50
+aContextRestriction N
+
+eContext   3
+aZKey      910382145
+aName      GeneralName_Address
+aIsDefault Y
+
+eDomain    2
+aZKey      910382159
+aName      EmailSenderType
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      910382160
+aName      EmailSenderType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382161
+aExternalValue User
+aInternalValue U
+
+eTableEntry 4
+aZKey      910382162
+aExternalValue Host
+aInternalValue H
+
+eDomain    2
+aZKey      910382155
+aName      PhoneNumber
+aDesc      Any phone number.  Requires flexible format for foreign numbers.
+aDomainType F
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 30
+aContextRestriction N
+
+eContext   3
+aZKey      910382156
+aName      PhoneNumber
+aEditString 999-999-9999
+aJavaEditString (999) 999-9999
+
+eContext   3
+aZKey      910382157
+aName      PhoneNumberNoDashes
+aEditString 9999999999
+aJavaEditString 9999999999
+
+eContext   3
+aZKey      910382158
+aDesc      No Formatting for International Numbers
+aName      PhoneNumberNoFormatting
+aEditString 9999999999
+aJavaEditString 9999999999
+aIsDefault Y
+
+eDomain    2
+aZKey      910382151
+aName      Gender
+aDesc      (Male/Female)
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.DynamicTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      910382152
+aDesc      Gender
+aName      Gender
+aIsDefault Y
+
+eTableEntry 4
+aZKey      910382153
+aExternalValue Female
+aInternalValue F
+
+eTableEntry 4
+aZKey      910382154
+aExternalValue Male
+aInternalValue M
+
+eDomain    2
+aZKey      910382149
+aName      EMailAddress
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.EmailAddressDomain
+aDataType  S
+aMaxStringLth 128
+aContextRestriction N
+
+eContext   3
+aZKey      910382150
+aName      EMailAddress
+aIsDefault Y
+
+eDomain    2
+aZKey      910382146
+aName      ZipCode
+aDesc      US Zip Code
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 10
+aContextRestriction N
+
+eContext   3
+aZKey      910382147
+aName      ZipCode
+aEditString 99999
+aIsDefault Y
+
+eContext   3
+aZKey      910382148
+aName      ZipCode10
+aEditString 99999-9999
+

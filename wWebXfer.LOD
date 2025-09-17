@@ -1,0 +1,500 @@
+z1000-Zeidon    WWEBXFER TZZOLODO 01/09/25   10:46:56 1.0a2    
+eLOD       1
+aZKey      910465650
+aNextZKeyToAssign 910465690
+aName      wWebXfer
+aDesc      Web Transfer Work object
+aDLL_Name  LODOPS_W
+
+eLOD_EntityParent 2
+aName      Work
+aIndentName Work
+aIndentLvl 0
+aZKey      910465651
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      EmailListEntry
+aIndentName    EmailListEntry
+aIndentLvl 3
+aZKey      910465684
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      910465685
+aWork      Y
+
+eER_AttributeRec 5
+aName      ID
+aZKey      910465686
+aNotNull   Y
+aDesc      system generated key
+
+eDomainRec 6
+aZKey      910381608
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910465687
+aWork      Y
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      eMailAddress
+aZKey      910465688
+aDesc      email address
+
+eDomainRec 6
+aZKey      910382149
+aName      EMailAddress
+aDomainType E
+aDataType  S
+aMaxStringLth 128
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      910465689
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      PersonName
+aZKey      910465690
+
+eDomainRec 6
+aZKey      910381615
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910465652
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      UserEmailAddress
+aZKey      910465653
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465654
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      RecipientEmailAddress
+aZKey      910465655
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465656
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      EmailSubjectLine
+aZKey      910465657
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465658
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      EmailMessage
+aZKey      910465659
+aLth       10000
+
+eDomainRec 5
+aZKey      910381612
+aName      Note
+aDomainType E
+aDataType  S
+aMaxStringLth 10000
+aDesc      10000 byte string
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910465660
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      EmailAddressList
+aZKey      910465661
+aDesc      EmailAttachment will contain the full directory and uploaded file name (uploaded file contains date/time), EmailAddressList will contain the original name of the attached file without any directory.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465662
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      EmailAttachment
+aZKey      910465663
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465664
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      EmailAttachmentList
+aZKey      910465665
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465666
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wEmailAttachment
+aZKey      910465667
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465668
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      EmailAttachmentDirectory
+aZKey      910465669
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465670
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      NewContactListName
+aZKey      910465671
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465672
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      EmailCopySelf
+aZKey      910465673
+
+eDomainRec 5
+aZKey      910382007
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      910465674
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      NewContactListDescription
+aZKey      910465675
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465676
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ClientToServerFileTransferName
+aZKey      910465677
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465678
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      FunctionalArea
+aZKey      910465679
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465680
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      EmailServerNote
+aZKey      910465681
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      910465682
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      fromAttachment
+aZKey      910465683
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i14        11
+i17        11
+i20        11
+i26        23
+i29        23
+i32        11
+i35        11
+i38        11
+i41        11
+i47        23
+i50        11
+i53        11
+i56        23
+i59        44
+i60        1
+i61        12
+i62        13
+i63        11
+i64        15
+i65        16
+i66        11
+i67        18
+i68        19
+i69        11
+i70        21
+i71        22
+i72        23
+i73        24
+i74        25
+i75        23
+i76        27
+i77        28
+i78        23
+i79        30
+i80        31
+i81        11
+i82        33
+i83        34
+i84        11
+i85        36
+i86        37
+i87        11
+i88        39
+i89        40
+i90        11
+i91        42
+i92        43
+i93        44
+i94        45
+i95        46
+i96        23
+i97        48
+i98        49
+i99        11
+i100       51
+i101       52
+i102       11
+i103       54
+i104       55
+i105       23
+i106       57
+i107       58
+i108       44
+i109       2
+i110       3
+i111       4
+i112       5
+i113       6
+i114       7
+i115       8
+i116       9
+i117       10
+i118       11
